@@ -17,8 +17,8 @@
 :root {
   --color-fg: #1d2129; --color-fg-muted: #636b78; --color-bg: #f6f7f9; --color-panel: #ffffff;
   --color-border-line: #e2e5ea; --color-ok: #1f8a4c; --color-warn: #b7791f; --color-bad: #d14343;
-  --tpx-c1: #2f6fdf; --tpx-c2: #e0703a; --tpx-c3: #2a9d78; --tpx-c4: #c4458f;
-  --tpx-c5: #8a62d6; --tpx-c6: #c9961f; --tpx-c7: #2f9fc0; --tpx-c8: #7a8a33;
+  --tpx-c1: #7A4CF2; --tpx-c2: #8DBA1C; --tpx-c3: #E0569B; --tpx-c4: #2F9E8F;
+  --tpx-c5: #F29B30; --tpx-c6: #4F7CF0; --tpx-c7: #B07CF5; --tpx-c8: #6E7F1F;
   --font-anthropic-sans: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
   --font-anthropic-serif: "Noto Serif KR", "AppleMyungjo", "Batang", Georgia, serif;
   --cds-font-size-caption: 12px; --cds-font-size-body: 14px; --cds-font-size-heading: 16px; --cds-font-size-title: 28px;
@@ -34,8 +34,8 @@
   :root:not([data-theme="light"]) {
     --color-fg: #e8eaee; --color-fg-muted: #9aa1ad; --color-bg: #15171c; --color-panel: #1d2027;
     --color-border-line: #2e323b; --color-bad: #f07070;
-    --tpx-c1: #6d9bff; --tpx-c2: #f2905e; --tpx-c3: #4cc39b; --tpx-c4: #e36cb0;
-    --tpx-c5: #a98af0; --tpx-c6: #e3bb4c; --tpx-c7: #5cc3e3; --tpx-c8: #a6b55a;
+    --tpx-c1: #A685FF; --tpx-c2: #C9F24D; --tpx-c3: #F27DB5; --tpx-c4: #4FC4B3;
+    --tpx-c5: #F7B661; --tpx-c6: #7EA2FF; --tpx-c7: #C9A6FF; --tpx-c8: #A9BB45;
     --cds-chart-grid: #2a2e36; --cds-chart-muted: #59606c; --cds-chart-reference: #8a919c;
     --cds-surface-popover: #23262e; --cds-border: #353a44; --cds-shadow-popover: 0 6px 20px rgba(0, 0, 0, .45);
     --cds-text-secondary: #a3aab5; color-scheme: dark;
@@ -44,8 +44,8 @@
 :root[data-theme="dark"] {
   --color-fg: #e8eaee; --color-fg-muted: #9aa1ad; --color-bg: #15171c; --color-panel: #1d2027;
   --color-border-line: #2e323b; --color-bad: #f07070;
-  --tpx-c1: #6d9bff; --tpx-c2: #f2905e; --tpx-c3: #4cc39b; --tpx-c4: #e36cb0;
-  --tpx-c5: #a98af0; --tpx-c6: #e3bb4c; --tpx-c7: #5cc3e3; --tpx-c8: #a6b55a;
+  --tpx-c1: #A685FF; --tpx-c2: #C9F24D; --tpx-c3: #F27DB5; --tpx-c4: #4FC4B3;
+  --tpx-c5: #F7B661; --tpx-c6: #7EA2FF; --tpx-c7: #C9A6FF; --tpx-c8: #A9BB45;
   --cds-chart-grid: #2a2e36; --cds-chart-muted: #59606c; --cds-chart-reference: #8a919c;
   --cds-surface-popover: #23262e; --cds-border: #353a44; --cds-shadow-popover: 0 6px 20px rgba(0, 0, 0, .45);
   --cds-text-secondary: #a3aab5; color-scheme: dark;
@@ -158,7 +158,72 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
 @media(max-width:640px){.analysis-top{padding:10px 12px}.analysis-logo{font-size:16px;padding:7px 10px}.analysis-nav{gap:6px}.analysis-nav a{font-size:12px;padding:7px 10px}.analysis-hero-inner{padding:30px 16px 32px}.analysis-hero h1{font-size:28px}.analysis-hero p{font-size:14px}}
 </style>
 <header class="analysis-top"><a class="analysis-logo" href="./"><i>↖</i>TPICKS LABS</a><nav class="analysis-nav" aria-label="티픽스 연결 페이지"><a href="map.html">현재 등록된 메이커 강사풀</a><a href="./">메이커 강사 등록하기</a></nav></header>
-<section class="analysis-hero" aria-labelledby="analysis-title"><div class="analysis-hero-inner"><span class="analysis-pill">TRAINING REFERENCE</span><h1 id="analysis-title"><span>주요 연수원</span> <span>에듀테크·디지털 연수 분석</span></h1><p>주요 연수원과 교사 연구회의 공개 연수를 모았습니다. 분류별 연수 주제, 추천 커리큘럼, 기관별 운영 일정을 살펴보세요.</p></div></section>
+<section class="analysis-hero" aria-labelledby="analysis-title"><div class="analysis-hero-inner"><span class="analysis-pill">TRAINING REFERENCE</span><h1 id="analysis-title"><span>주요 연수원</span> <span>에듀테크·디지털 연수 분석</span></h1><p>주요 연수원과 교사 연구회의 공개 연수를 모았습니다. 분류별 연수 주제, 추천 커리큘럼, 기관별 운영 일정을 살펴보세요.</p><div class="wow"><div><div class="wow-num"><span id="wowN">0</span><small>건</small></div><p class="wow-sub">교사 연수 기록을 한 화면에 모았습니다. 오른쪽 점 하나가 연수 하나예요.</p><div class="wow-stats"><div class="wow-stat"><b data-wow="titles">0</b><span>서로 다른 연수명</span></div><div class="wow-stat"><b data-wow="cats">0</b><span>대분류</span></div><div class="wow-stat"><b data-wow="sources">0</b><span>연수 출처</span></div></div><p class="wow-hint">행성을 누르면 그 분류의 연수 지도로 바로 이동해요.</p></div><svg class="wow-svg" id="wowSvg" role="group" aria-label="대분류별 연수를 점으로 모은 버블 지도"></svg></div></div></section><style>
+.wow{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:24px;align-items:center;margin-top:26px}
+.wow-num{font-family:var(--font-anthropic-serif);font-size:clamp(56px,9vw,96px);line-height:1;font-weight:600;letter-spacing:-2px;color:#fff;font-variant-numeric:tabular-nums}
+.wow-num small{font-family:var(--font-anthropic-sans);font-size:20px;font-weight:800;letter-spacing:0;margin-left:6px;color:#C9F24D}
+.analysis-hero .wow-sub{margin:10px 0 18px;font-size:15px}
+.wow-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.wow-stat{background:rgba(255,255,255,.13);border-radius:14px;padding:12px 14px}
+.wow-stat b{display:block;font-family:var(--font-anthropic-serif);font-size:28px;line-height:1.2;color:#fff;font-variant-numeric:tabular-nums}
+.wow-stat span{font-size:12px;font-weight:700;color:rgba(255,255,255,.88)}
+.analysis-hero .wow-hint{margin-top:14px;font-size:13px}
+.wow-svg{width:100%;height:auto;display:block;overflow:hidden}
+.wow-cat{cursor:pointer;outline:none}
+.wow-cat circle{fill:rgba(255,255,255,.05);stroke:rgba(255,255,255,.38);stroke-width:1.2;transition:fill .2s,stroke .2s}
+.wow-cat:hover circle,.wow-cat:focus-visible circle{fill:rgba(255,255,255,.18);stroke:#fff;stroke-width:2}
+.wow-cat text{fill:#fff;font-family:var(--font-anthropic-sans);font-weight:800;pointer-events:none;paint-order:stroke;stroke:#5F33DD;stroke-width:4px;stroke-linejoin:round}
+@media(max-width:860px){.wow{grid-template-columns:1fr}.wow-stat b{font-size:22px}}
+</style><script>
+(() => {
+  const HP = ['#E2D6FF', '#C9F24D', '#FF9CCB', '#7FE3D2', '#FFC27A', '#B5CBFF', '#F0E2FF', '#DDEB8F'];
+  let done = false;
+  dash.onData(() => {
+    const BC = dash.data('by_cat'), T = dash.data('totals');
+    if (done || BC.status !== 'ok' || T.status !== 'ok') return;
+    done = true;
+    const tot = T.data[0], cats = BC.data, red = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const count = (el, to, ms) => {
+      if (red) { el.textContent = to.toLocaleString(); return; }
+      const t0 = performance.now();
+      const step = (t) => { const k = Math.min(1, (t - t0) / ms); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))).toLocaleString(); if (k < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    };
+    count(document.getElementById('wowN'), tot.records, 1600);
+    document.querySelectorAll('[data-wow]').forEach((el, i) => setTimeout(() => count(el, tot[el.dataset.wow], 1000), 300 + i * 150));
+    const W = 560, H = 420, svg = d3.select('#wowSvg').attr('viewBox', '0 0 ' + W + ' ' + H);
+    const root = d3.pack().size([W, H]).padding((d) => (d.depth === 0 ? 10 : 0.8))(
+      d3.hierarchy({ children: cats.map((c, i) => ({ cat: c.cat, n: c.n, i, children: d3.range(c.n).map(() => ({ v: 1 })) })) }).sum((d) => d.v || 0));
+    const dots = svg.append('g').attr('aria-hidden', 'true');
+    for (const l of root.leaves()) {
+      const c = l.parent.data;
+      dots.append('circle').attr('r', Math.max(1, l.r)).attr('fill', HP[c.i % HP.length]).attr('opacity', 0.92)
+        .attr('cx', red ? l.x : W / 2 + (Math.random() - 0.5) * W * 1.3).attr('cy', red ? l.y : H / 2 + (Math.random() - 0.5) * H * 1.3)
+        .transition().delay(red ? 0 : c.i * 120 + Math.random() * 500).duration(red ? 0 : 1200).ease(d3.easeCubicOut).attr('cx', l.x).attr('cy', l.y);
+    }
+    const cg = svg.append('g');
+    for (const n of root.children) {
+      const d = n.data, g = cg.append('g').attr('class', 'wow-cat').attr('tabindex', 0).attr('role', 'button')
+        .attr('aria-label', d.cat + ' ' + d.n.toLocaleString() + '건, 분류별 연수 지도로 이동');
+      g.append('circle').attr('cx', n.x).attr('cy', n.y).attr('r', n.r + 3);
+      g.append('title').text(d.cat + ' ' + d.n.toLocaleString() + '건');
+      if (n.r > 34) {
+        const f1 = Math.min(16, n.r / 4), f2 = Math.min(22, n.r / 3.2);
+        g.append('text').attr('x', n.x).attr('y', n.y - 2).attr('text-anchor', 'middle').attr('font-size', f1).text(d.cat.length > 9 ? d.cat.slice(0, 8) + '…' : d.cat);
+        g.append('text').attr('x', n.x).attr('y', n.y + f2).attr('text-anchor', 'middle').attr('font-size', f2).text(d.n.toLocaleString());
+      }
+      g.attr('opacity', red ? 1 : 0).transition().delay(red ? 0 : 1500 + d.i * 80).duration(500).attr('opacity', 1);
+      const go = () => {
+        const tab = document.querySelector('.sm-tab[data-tab="cats"]');
+        if (tab && tab.getAttribute('aria-selected') !== 'true') tab.click();
+        dash.setParams({ cat: d.cat, sub: null });
+        document.getElementById('cats').scrollIntoView({ behavior: red ? 'auto' : 'smooth', block: 'start' });
+      };
+      g.on('click', go).on('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    }
+  });
+})();
+</script>
 <div id="dash-root">
 <style>
 .sm { container: sm / inline-size; display: grid; gap: var(--cds-gap-lg); font-family: var(--font-anthropic-sans); color: var(--color-fg); }
