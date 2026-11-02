@@ -10,7 +10,21 @@ const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(m
 const runtime = scripts.find(s => s.includes('const DATA = JSON.parse('));
 const embedded = text => text.match(/<script\b[^>]*id="tpx-data"[^>]*>([\s\S]*?)<\/script>/)[1];
 const before = cp.execFileSync('git', ['show', 'HEAD:analysis.html'], {cwd: root, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024});
-assert.equal(embedded(html), embedded(before), '연수 원본 데이터는 바뀌지 않음');
+// 원본 데이터는 그대로 두되, 아래 정리만 허용: 연구회연수 시트 주소 삭제, 연구회연수·지식샘터 날짜는 「YYYY년 M월」
+{
+  const now = JSON.parse(embedded(html)), old = JSON.parse(embedded(before));
+  assert(!html.includes('docs.google.com'), '연구회연수 시트 주소가 페이지에 없음');
+  const MONTH = new Set(['연구회연수', '지식샘터']), ym = (v) => { const k = String(v || '').match(/^(\d{4})-(\d{2})/); return k ? `${k[1]}년 ${+k[2]}월` : v; };
+  const clean = (r) => {
+    const c = { ...r };
+    if (c.source === '연구회연수') c.link = null;
+    if (MONTH.has(c.source)) for (const k of ['date', 'run_start', 'run_end']) if (c[k]) c[k] = ym(c[k]);
+    return c;
+  };
+  for (const key of ['courses', 'curriculum']) assert.deepEqual(now[key], old[key].map(clean), key + ': 허용한 정리 외에는 그대로');
+  assert.deepEqual(now.orgs.map((o) => ({ ...o, basis: null })), old.orgs.map((o) => ({ ...o, basis: null })), 'orgs: 설명 문구 외에는 그대로');
+  for (const r of now.courses) if (MONTH.has(r.source)) for (const k of ['date', 'run_start', 'run_end']) assert(!r[k] || /^\d{4}년 \d{1,2}월$/.test(r[k]), r.source + ' 날짜는 연·월까지만');
+}
 const originalData = JSON.parse(embedded(html));
 assert.equal(originalData.courses.length, 2204);
 for (const script of scripts) if (script.trim() && script !== embedded(html)) new vm.Script(script);
