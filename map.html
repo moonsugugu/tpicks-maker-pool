@@ -13,6 +13,7 @@ svg{display:block;width:100%;height:auto;max-height:72vh}.rg{fill:#EFEAFB;stroke
 .dot circle,.rg,.mu{vector-effect:non-scaling-stroke}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}.chip{border:1.5px solid var(--b);background:#fff;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer}.chip:hover{border-color:var(--pb);background:var(--pl)}.chip.zero{color:#AAA6B8}.chip.on{background:var(--ll);border-color:var(--lb);color:var(--ld)}.chip b{color:var(--p);margin-left:3px}.chip.zero b{color:#C9C5D6}.chip.on b{color:var(--ld)}
 .side{position:sticky;top:16px}.side h2{margin:0 0 4px;font-size:22px;font-weight:900;letter-spacing:-.5px}.side h2 small{font-size:15px;color:var(--p);margin-left:6px}.muted{color:var(--m);font-size:14px;line-height:1.6;margin:0}
+.top-score{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin-top:22px;border:1.5px solid var(--lb);background:var(--ll);color:var(--ld);border-radius:14px;padding:15px 18px;font-size:16px;font-weight:900;cursor:pointer}.top-score:hover{background:#E8F8BC}.top-score:disabled{opacity:.55;cursor:wait}.top-score:focus-visible,.rank-item:focus-visible,.back:focus-visible{outline:3px solid var(--p);outline-offset:3px}.score-rule{margin-top:14px;font-size:12px;line-height:1.7;color:var(--m)}.ranking{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}.rank-item{display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:10px;width:100%;text-align:left;border:1.5px solid var(--b);border-radius:14px;background:#fff;padding:13px 12px;cursor:pointer}.rank-item:hover,.rank-item.on{background:var(--pl);border-color:var(--pb)}.rank-no{font-size:17px;font-weight:900;color:var(--p);text-align:center}.rank-main{min-width:0}.rank-main strong{display:block;font-size:15px;font-weight:900;overflow-wrap:anywhere}.rank-main small{display:block;margin-top:3px;font-size:12px;line-height:1.5;color:var(--m);overflow-wrap:anywhere}.rank-points{color:var(--p2);font-size:18px;font-weight:900;white-space:nowrap}.rank-points.pending{color:var(--m);font-size:12px}.score-breakdown{display:flex;flex-wrap:wrap;gap:6px}.score-breakdown span{background:var(--bg);border-radius:8px;padding:5px 9px;font-size:13px}.rank-back{margin-bottom:16px}
 .names{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}.name{border:1.5px solid var(--b);background:#fff;border-radius:12px;padding:10px 16px;font-size:15px;font-weight:800;cursor:pointer}.name small{display:block;font-size:11px;font-weight:700;color:var(--m);margin-top:2px}.name:hover{border-color:var(--pb);background:var(--pl)}.name.on{background:var(--p);border-color:var(--p);color:#fff}.name.on small{color:#E6DCFF}
 .who{margin-top:18px;border-top:1px solid var(--b);padding-top:18px}.who h3{margin:0 0 12px;font-size:20px;font-weight:900}.row{display:grid;grid-template-columns:84px 1fr;gap:8px;padding:8px 0;font-size:15px;line-height:1.6}.row>span{color:var(--m);font-weight:700;font-size:14px}.intro{white-space:pre-line}.cs{display:flex;flex-direction:column;gap:6px}.c{background:var(--bg);border-radius:10px;padding:8px 12px}.cb{display:inline-block;margin-left:6px;vertical-align:2px;background:var(--ll);color:var(--ld);border-radius:999px;font-size:11px;font-weight:800;padding:2px 8px}.name.on .cb{background:rgba(255,255,255,.22);color:#fff}.c strong{display:block;margin:6px 0 2px;font-weight:800}.c em{font-style:normal;color:var(--m);font-size:14px}.c b{display:inline-block;background:var(--ll);color:var(--ld);border-radius:999px;font-size:12px;padding:2px 9px;margin-right:6px}
 footer{text-align:center;color:var(--m);font-size:12px;padding:0 16px 40px}
@@ -23,7 +24,7 @@ footer{text-align:center;color:var(--m);font-size:12px;padding:0 16px 40px}
 <main><div class="card"><div class="mhead" id="mhead"></div><svg id="map" viewBox="0 0 520 548" role="group" aria-label="메이커 강사 지도"></svg><div class="chips" id="chips"></div></div>
 <div class="card side" id="side"></div></main>
 <footer>TPICKS 메이커 강사풀 · 연락처는 공개하지 않습니다.</footer>
-<script src="edu.js"></script><script src="map-geo.js"></script>
+<script src="edu.js"></script><script src="map-geo.js"></script><script src="collab-score.js"></script>
 <script>
 var API='https://script.google.com/macros/s/AKfycbzezb8Vh2q77N5Tl2nuxx0BVQhqDtFfZ7ujHkG5DAJs-15P7soKd8mrFaKS_1WZa7GduA/exec';
 var ETC='지역 미상',HQ='본청·직속기관',NOSUB='교육지원청 미상',NS='http://www.w3.org/2000/svg',VB0=[0,0,520,548];
@@ -31,7 +32,7 @@ var ETC='지역 미상',HQ='본청·직속기관',NOSUB='교육지원청 미상'
 var LONG={충북:'충청북',충남:'충청남',전북:'전라북',전남:'전라남',경북:'경상북',경남:'경상남'};
 // 시도 없이 써도 알아볼 수 있는 교육지원청 이름(두 시도 이상에 있는 '동부', '고성' 등은 뺌)
 var UNIQ={};EDU.forEach(function(e){e[4].forEach(function(s){s[3].forEach(function(w){UNIQ[w]=UNIQ.hasOwnProperty(w)&&(!UNIQ[w]||UNIQ[w][0]!==e)?null:[e,s[0]]})})});
-var by={},cur=null,sub=null;
+var by={},cur=null,sub=null,pool=[],loaded=false,view='intro';
 function first(s,words){var b=-1;words.forEach(function(w){var i=s.indexOf(w);if(i>=0&&(b<0||i<b))b=i});return b}
 // 소속 교육청·근무지 글자로 [시도, 교육지원청]을 정한다. 여러 개가 걸리면 글에서 가장 앞에 나온 것('경기도광주하남…'은 경기)
 function locate(t){var s=(t.office||'')+' '+(t.school||''),e=null,bi=-1;
@@ -61,21 +62,29 @@ function draw(){var svg=document.getElementById('map'),chips=document.getElement
  chip(chips,'전체',people(cur).length,!sub,function(){pickSub(null)});
  e[4].map(function(s){return [s[0]+'교육지원청',s[1],s[2]]}).concat([[HQ,e[2],e[3]],[NOSUB,e[2],e[3]]]).forEach(function(s){var n=people(cur,s[0]).length,go=function(){pickSub(s[0])};
   if(n||s[0]!==HQ&&s[0]!==NOSUB)chip(chips,short(s[0]),n,sub===s[0],go);if(n)dot(svg,s[1],s[2],n,short(s[0]),sub===s[0],u,go)})}
-function pick(k){cur=k;sub=null;draw();if(!k)intro();else list(k===ETC?ETC:edu(k)[1],people(k))}
-function pickSub(s){sub=s;draw();list(edu(cur)[1]+(s?' · '+short(s):''),people(cur,s));if(s&&innerWidth<=760)document.getElementById('side').scrollIntoView({behavior:'smooth'})}
-function intro(){var side=document.getElementById('side');side.textContent='';side.appendChild(el('h2',null,'시도를 골라 주세요'));side.appendChild(el('p','muted','지도의 점이나 시도 이름을 누르면 그 지역이 커지고, 교육지원청별로 메이커 강사 선생님을 볼 수 있습니다.'))}
+function pick(k){cur=k;sub=null;view=k?'region':'intro';draw();if(!k)intro();else list(k===ETC?ETC:edu(k)[1],people(k))}
+function pickSub(s){sub=s;view='region';draw();list(edu(cur)[1]+(s?' · '+short(s):''),people(cur,s));if(s&&innerWidth<=760)document.getElementById('side').scrollIntoView({behavior:'smooth'})}
+function intro(){view='intro';var side=document.getElementById('side');side.textContent='';side.appendChild(el('h2',null,'시도를 골라 주세요'));side.appendChild(el('p','muted','지도의 점이나 시도 이름을 누르면 그 지역이 커지고, 교육지원청별로 메이커 강사 선생님을 볼 수 있습니다.'));var b=el('button','top-score','TOP 협업 점수');b.type='button';b.disabled=!loaded;b.appendChild(el('span',null,'→'));b.onclick=showTop;side.appendChild(b)}
+function points(t){var n=CollabScore.summary(t).score;return n===null?'실적 확인 중':n.toLocaleString('ko-KR')+'점'}
+function countText(label,n,unit){return label+' '+(n===null?'확인 중':n+unit)}
+function breakdown(t){var s=CollabScore.summary(t);return [countText('콘텐츠 제작',s.content,'건'),countText('원격',s.remote,'회'),countText('대면',s.onsite,'회')]}
+function showTop(){view='top';cur=null;sub=null;draw();var side=document.getElementById('side');side.textContent='';var back=el('button','back rank-back','← 지역별로 보기');back.type='button';back.onclick=function(){pick(null)};side.appendChild(back);side.appendChild(el('h2',null,'TOP 협업 점수'));side.appendChild(el('p','muted','전국 메이커 강사의 티픽스 협업 이력입니다. 이름을 누르면 자세한 소개를 볼 수 있습니다.'));side.appendChild(el('p','score-rule','콘텐츠 제작: 연수 제작 1건·도서 출판 1권 각 100점. 원격·대면 강의: 1회 각 10점. 같은 점수는 공동 순위이며, 0점과 미확인 실적에는 순위를 매기지 않습니다.'));
+ var rows=CollabScore.rank(pool),ol=el('ol','ranking'),who=el('div','who');who.hidden=true;
+ if(!rows.length)side.appendChild(el('p','score-rule','아직 등록된 강사가 없습니다.'));else if(!rows.some(function(r){return r.rank!==null}))side.appendChild(el('p','score-rule','아직 협업 점수가 등록된 강사가 없습니다.'));
+ rows.forEach(function(r){var li=el('li'),b=el('button','rank-item'),main=el('span','rank-main');b.type='button';b.setAttribute('aria-pressed','false');b.appendChild(el('span','rank-no',r.rank===null?'—':r.rank));main.appendChild(el('strong',null,r.person.name+' 선생님'));main.appendChild(el('small',null,[r.person.office,r.person.school].filter(Boolean).join(' · ')));main.appendChild(el('small',null,breakdown(r.person).join(' · ')));b.appendChild(main);b.appendChild(el('span','rank-points'+(r.stats.score===null?' pending':''),points(r.person)));b.onclick=function(){ol.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',String(x===b))});show(who,r.person)};li.appendChild(b);ol.appendChild(li)});side.appendChild(ol);side.appendChild(who)}
 function list(title,ls){var side=document.getElementById('side');side.textContent='';var h=el('h2',null,title);h.appendChild(el('small',null,ls.length+'명'));side.appendChild(h);
  if(!ls.length){side.appendChild(el('p','muted','아직 이 지역에 등록된 메이커 강사가 없습니다.'));return}
  side.appendChild(el('p','muted','이름을 누르면 자세한 소개가 나옵니다.'));var ns=el('div','names'),who=el('div','who');who.hidden=true;
- ls.forEach(function(t){var b=el('button','name',t.name);b.type='button';b.appendChild(el('span','cb','협업 '+(t.collab||0)+'회'));if(cur!==ETC&&!sub&&t.sub)b.appendChild(el('small',null,short(t.sub)));b.onclick=function(){ns.querySelectorAll('.name').forEach(function(x){x.classList.toggle('on',x===b)});show(who,t)};ns.appendChild(b)});
+ ls.forEach(function(t){var b=el('button','name',t.name);b.type='button';b.appendChild(el('span','cb',points(t)));if(cur!==ETC&&!sub&&t.sub)b.appendChild(el('small',null,short(t.sub)));b.onclick=function(){ns.querySelectorAll('.name').forEach(function(x){x.classList.toggle('on',x===b)});show(who,t)};ns.appendChild(b)});
  side.appendChild(ns);side.appendChild(who);if(ls.length===1)ns.firstChild.click()}
-function show(who,t){who.hidden=false;who.textContent='';var h3=el('h3',null,t.name+' 선생님');h3.appendChild(el('span','cb','협업 '+(t.collab||0)+'회'));who.appendChild(h3);
+function show(who,t){who.hidden=false;who.textContent='';var h3=el('h3',null,t.name+' 선생님');h3.appendChild(el('span','cb',points(t)));who.appendChild(h3);var activity=el('div','row'),stats=el('div','score-breakdown');activity.appendChild(el('span',null,'협업 이력'));breakdown(t).forEach(function(text){stats.appendChild(el('span',null,text))});activity.appendChild(stats);who.appendChild(activity);var s=CollabScore.summary(t),detail=el('div','row');detail.appendChild(el('span',null,'제작 내역'));detail.appendChild(el('div',null,countText('연수 제작',s.production,'건')+' · '+countText('도서 출판',s.publication,'권')));who.appendChild(detail);
  [['소속 교육청',t.office],['근무지',t.school],['자기소개',t.intro]].forEach(function(r){var d=el('div','row');d.appendChild(el('span',null,r[0]));d.appendChild(el('div',r[0]==='자기소개'?'intro':null,r[1]||'—'));who.appendChild(d)});
  var d=el('div','row'),cs=el('div','cs');d.appendChild(el('span',null,'가능 연수'));(t.courses||[]).forEach(function(c){var x=el('div','c');x.appendChild(el('b',null,c.cat));x.appendChild(el('strong',null,c.title||''));x.appendChild(el('em',null,c.tool));cs.appendChild(x)});if(!cs.firstChild)cs.textContent='—';d.appendChild(cs);who.appendChild(d)}
 intro();draw();
 fetch(API+'?list=1').then(function(r){return r.json()}).then(function(ls){
+ if(!Array.isArray(ls))throw new Error('Invalid pool response');pool=ls;
  ls.forEach(function(t){var w=locate(t);t.sub=!w[1]||w[1]===HQ||w[1]===NOSUB?w[1]||'':w[1]+'교육지원청';(by[w[0]]=by[w[0]]||[]).push(t)});
  for(var k in by)by[k].sort(function(a,b){return a.name.localeCompare(b.name,'ko')});
- document.getElementById('total').textContent=ls.length?'지금까지 '+ls.length+'명의 선생님이 등록했습니다.':'아직 등록된 선생님이 없습니다. 첫 번째로 등록해 주세요!';draw()
+ loaded=true;document.getElementById('total').textContent=ls.length?'지금까지 '+ls.length+'명의 선생님이 등록했습니다.':'아직 등록된 선생님이 없습니다. 첫 번째로 등록해 주세요!';draw();if(view==='intro')intro();else if(view==='top')showTop();else list(edu(cur)?edu(cur)[1]+(sub?' · '+short(sub):''):ETC,people(cur,sub))
 }).catch(function(){document.getElementById('total').textContent='목록을 불러오지 못했습니다. 잠시 후 새로고침해 주세요.'});
 </script></body></html>
