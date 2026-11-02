@@ -162,7 +162,7 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
     <label class="sm-search"><span class="sm-vh">연수 검색</span><input id="sm-q" class="sm-q" type="search" placeholder="연수명·목차·분류 검색 (예: 캔바, 앱스스크립트, 생기부)" autocomplete="off"></label>
     <span class="sm-chips-k">출처 켜고 끄기</span>
     <div class="sm-chips dash-skeleton" id="sources" role="group" aria-label="출처 켜고 끄기" data-draw="chips" data-source="orgs"></div>
-  </div><div class="wow"><div><div class="wow-num"><span id="wowN">0</span><small>건</small></div><p class="wow-sub">교사 연수 기록을 한 화면에 모았습니다. 오른쪽 점 하나가 연수 하나예요.</p><div class="wow-stats"><div class="wow-stat"><b data-wow="titles">0</b><span>서로 다른 연수명</span></div><div class="wow-stat"><b data-wow="cats">0</b><span id="wowCatsK">대분류</span></div><div class="wow-stat"><b data-wow="sources">0</b><span>연수 출처</span></div></div><p class="wow-hint">행성을 누르면 중분류로 펼쳐지고, 중분류를 누르면 아래 목록에서 그 연수들을 볼 수 있어요. 검색하거나 출처를 끄면 점도 함께 줄어들어요.</p></div><div class="wow-viz"><div class="wow-bar"><button type="button" class="wow-back" id="wowBack" hidden>← 전체 분류</button><span class="wow-crumb" id="wowCrumb"></span></div><svg class="wow-svg" id="wowSvg" role="group" aria-label="대분류별 연수를 점으로 모은 버블 지도"></svg></div></div></div></section><style>
+  </div><div class="wow"><div><div class="wow-num"><span id="wowN">0</span><small id="wowUnit">건</small></div><p class="wow-sub">교사 연수 기록을 한 화면에 모았습니다. 오른쪽 점 하나가 연수 하나예요.</p><div class="wow-stats"><div class="wow-stat"><b data-wow="titles">0</b><span>서로 다른 연수명</span></div><div class="wow-stat"><b data-wow="cats">0</b><span id="wowCatsK">대분류</span></div><div class="wow-stat"><b data-wow="sources">0</b><span>연수 출처</span></div></div><p class="wow-hint" id="wowHint">행성을 누르면 중분류로 펼쳐지고, 중분류를 누르면 아래 목록에서 그 연수들을 볼 수 있어요. 검색하거나 출처를 끄면 점도 함께 줄어들어요.</p></div><div class="wow-viz"><div class="wow-bar"><button type="button" class="wow-back" id="wowBack" hidden>← 전체 분류</button><span class="wow-crumb" id="wowCrumb"></span><div class="wow-toggle" role="group" aria-label="세는 기준"><button type="button" data-u="n" aria-pressed="true">연수 개수</button><button type="button" data-u="h" aria-pressed="false">차시 합계</button></div></div><svg class="wow-svg" id="wowSvg" role="group" aria-label="대분류별 연수를 점으로 모은 버블 지도"></svg></div></div></div></section><style>
 .wow{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:24px;align-items:center;margin-top:26px}
 .wow-num{font-family:var(--font-anthropic-serif);font-size:clamp(56px,9vw,96px);line-height:1;font-weight:600;letter-spacing:-2px;color:#fff;font-variant-numeric:tabular-nums}
 .wow-num small{font-family:var(--font-anthropic-sans);font-size:20px;font-weight:800;letter-spacing:0;margin-left:6px;color:#C9F24D}
@@ -177,12 +177,24 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
 .wow-cat circle{fill:rgba(255,255,255,.05);stroke:rgba(255,255,255,.38);stroke-width:1.2;transition:fill .2s,stroke .2s}
 .wow-cat:hover circle,.wow-cat:focus-visible circle{fill:rgba(255,255,255,.18);stroke:#fff;stroke-width:2}
 .wow-cat text{fill:#fff;font-family:var(--font-anthropic-sans);font-weight:800;pointer-events:none;paint-order:stroke;stroke:#5F33DD;stroke-width:4px;stroke-linejoin:round}
-.analysis-hero .sm-filter{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:24px;padding:12px;border-radius:16px;background:rgba(255,255,255,.14);font-family:var(--font-anthropic-sans)}.analysis-hero .sm-search{flex:1 1 18rem;min-width:0}.analysis-hero .sm-q{background:#fff;color:#1D1B25;border:0;border-radius:12px;padding:11px 14px;font-size:15px}.analysis-hero .sm-q:focus{outline:3px solid #C9F24D;outline-offset:1px}.analysis-hero .sm-chips-k{color:#fff;font-size:13px;font-weight:800}.analysis-hero .sm-chipbtn{color:rgba(255,255,255,.88);border-color:rgba(255,255,255,.6);font-size:13px;font-weight:700;padding:5px 11px}.analysis-hero .sm-chipbtn:hover{color:#fff}.analysis-hero .sm-chipbtn[aria-pressed="true"]{color:#3B5700;background:#C9F24D;border-color:#C9F24D}.analysis-hero .sm-chipbtn[aria-pressed="true"] .sm-check{background:#3B5700;border-color:#3B5700}.analysis-hero .sm-chipbtn[aria-pressed="true"] .sm-check::after{border-color:#C9F24D}.analysis-hero .sm-allon{color:#fff;font-size:13px;font-weight:700}.wow-viz{min-width:0}.wow-bar{display:flex;align-items:center;gap:10px;min-height:34px;margin-bottom:4px}.wow-back{font:inherit;font-size:13px;font-weight:800;color:#5F33DD;background:#fff;border:0;border-radius:999px;padding:7px 14px;cursor:pointer}.wow-back:hover{background:#F1FBD5;color:#3B5700}.wow-back:focus-visible{outline:3px solid #C9F24D;outline-offset:2px}.wow-crumb{font-size:14px;font-weight:800;color:#fff}.wow-cat.is-picked circle{stroke:#C9F24D;stroke-width:3}.wow-empty{fill:#fff;font-size:16px;font-weight:700}@media(max-width:860px){.wow{grid-template-columns:1fr}.wow-stat b{font-size:22px}}
+.analysis-hero .sm-filter{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:24px;padding:12px;border-radius:16px;background:rgba(255,255,255,.14);font-family:var(--font-anthropic-sans)}.analysis-hero .sm-search{flex:1 1 18rem;min-width:0}.analysis-hero .sm-q{background:#fff;color:#1D1B25;border:0;border-radius:12px;padding:11px 14px;font-size:15px}.analysis-hero .sm-q:focus{outline:3px solid #C9F24D;outline-offset:1px}.analysis-hero .sm-chips-k{color:#fff;font-size:13px;font-weight:800}.analysis-hero .sm-chipbtn{color:rgba(255,255,255,.88);border-color:rgba(255,255,255,.6);font-size:13px;font-weight:700;padding:5px 11px}.analysis-hero .sm-chipbtn:hover{color:#fff}.analysis-hero .sm-chipbtn[aria-pressed="true"]{color:#3B5700;background:#C9F24D;border-color:#C9F24D}.analysis-hero .sm-chipbtn[aria-pressed="true"] .sm-check{background:#3B5700;border-color:#3B5700}.analysis-hero .sm-chipbtn[aria-pressed="true"] .sm-check::after{border-color:#C9F24D}.analysis-hero .sm-allon{color:#fff;font-size:13px;font-weight:700}.wow-viz{min-width:0}.wow-bar{display:flex;align-items:center;gap:10px;min-height:34px;margin-bottom:4px}.wow-back{font:inherit;font-size:13px;font-weight:800;color:#5F33DD;background:#fff;border:0;border-radius:999px;padding:7px 14px;cursor:pointer}.wow-back:hover{background:#F1FBD5;color:#3B5700}.wow-back:focus-visible{outline:3px solid #C9F24D;outline-offset:2px}.wow-crumb{font-size:14px;font-weight:800;color:#fff;min-width:0}.wow-toggle{margin-left:auto;display:inline-flex;flex:none;padding:3px;border-radius:999px;background:rgba(255,255,255,.16)}.wow-toggle button{font:inherit;font-size:13px;font-weight:800;color:#fff;background:none;border:0;border-radius:999px;padding:6px 12px;cursor:pointer}.wow-toggle button[aria-pressed="true"]{background:#C9F24D;color:#3B5700}.wow-toggle button:focus-visible{outline:3px solid #fff;outline-offset:1px}.wow-note{display:block;margin-top:2px;font-size:11px;font-weight:700;color:rgba(255,255,255,.75)}.wow-cat text.wow-out{font-size:11px;stroke-width:3px}.wow-cat.is-picked circle{stroke:#C9F24D;stroke-width:3}.wow-empty{fill:#fff;font-size:16px;font-weight:700}@media(max-width:860px){.wow{grid-template-columns:1fr}.wow-stat b{font-size:22px}}
 </style><script>
 (() => {
   const HP = ['#E2D6FF', '#C9F24D', '#FF9CCB', '#7FE3D2', '#FFC27A', '#B5CBFF', '#F0E2FF', '#DDEB8F'];
+  // 중분류 진하기의 시작 색(같은 대분류 색의 진한 쪽). 보라는 배경과 겹치지 않게 조금 밝게
+  const SP = ['#C4AEFF', '#B5E02F', '#F27DB5', '#4FC4B3', '#F7B661', '#7EA2FF', '#C9A6FF', '#A9BB45'];
   const W = 560, H = 420, red = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let svg, dots, rings, shown = {}, last = null;
+  let svg, dots, rings, last = null, unit = 'n';
+  // 차시: '2차시' 그대로, '2시간'·'36분'은 1시간=1차시로 환산(최소 1), '2차시 / 3차시'는 앞의 값, 비어 있으면 0
+  const hrs = (r) => {
+    const s = String(r.hours || '');
+    const c = s.match(/(\d+)\s*차시/);
+    if (c) return +c[1];
+    const h = s.match(/(\d+)\s*시간/), m = s.match(/(\d+)\s*분/);
+    if (!h && !m) return 0;
+    return Math.max(1, Math.round((h ? +h[1] : 0) + (m ? +m[1] / 60 : 0)));
+  };
+  const val = (r) => (unit === 'h' ? hrs(r) : 1);
   const count = (el, to, ms) => {
     const from = Number(String(el.textContent).replace(/,/g, '')) || 0;
     if (red || from === to) { el.textContent = to.toLocaleString(); return; }
@@ -193,13 +205,36 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
     };
     requestAnimationFrame(step);
   };
+  // 원 안 글자: 길면 '·'나 띄어쓰기에서 두 줄로. 원이 작으면 원 아래에 작은 글자로
+  const lines = (name, max) => {
+    if (name.length <= max) return [name];
+    let best = -1;
+    for (let i = 1; i < name.length - 1; i++) if (/[·\s]/.test(name[i]) && (best < 0 || Math.abs(i - name.length / 2) < Math.abs(best - name.length / 2))) best = i;
+    const a = best < 0 ? name.slice(0, max) : name.slice(0, name[best] === '·' ? best + 1 : best).trim();
+    const b = best < 0 ? name.slice(max) : name.slice(best + 1).trim();
+    const cut = (s) => (s.length > max ? s.slice(0, Math.max(1, max - 1)) + '…' : s);
+    return [cut(a), cut(b)].filter(Boolean);
+  };
+  const label = (g, n, name, v) => {
+    if (n.r > 40) {
+      const f1 = Math.max(11, Math.min(16, n.r / 4.2)), f2 = Math.max(13, Math.min(22, n.r / 3.2));
+      const L = lines(name, Math.max(3, Math.floor((n.r * 1.7) / f1)));
+      const top = n.y - ((L.length - 1) * f1 * 1.15 + f2 * 0.9) / 2;
+      L.forEach((t, i) => g.append('text').attr('x', n.x).attr('y', top + i * f1 * 1.15).attr('text-anchor', 'middle').attr('font-size', f1).text(t));
+      g.append('text').attr('x', n.x).attr('y', top + L.length * f1 * 1.15 + f2 * 0.35).attr('text-anchor', 'middle').attr('font-size', f2).text(v);
+    } else {
+      const below = n.y + n.r + 14 <= H - 2, y = below ? n.y + n.r + 12 : n.y - n.r - 6;
+      const short = name.length > 11 ? name.slice(0, 10) + '…' : name;
+      g.append('text').attr('class', 'wow-out').attr('x', n.x).attr('y', y).attr('text-anchor', 'middle').text(short + ' ' + v);
+    }
+  };
   const render = () => {
-    const C = dash.data('courses'), BC = dash.data('by_cat'), O = dash.data('orgs');
+    const C = dash.data('courses'), BC = dash.data('by_cat');
     if (C.status !== 'ok' || BC.status !== 'ok') return;
     const p = dash.params() || {}, { q, off } = filt();
     const order = new Map(BC.data.map((d, i) => [d.cat, i]));
     const focus = order.has(p.cat) ? p.cat : null;
-    const key = [q, off.join('|'), focus, p.sub || ''].join('\u0000');
+    const key = [q, off.join('|'), focus, p.sub || '', unit].join('\u0000');
     if (key === last) return;
     const first = last === null;
     last = key;
@@ -208,42 +243,40 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
       dots = svg.append('g').attr('aria-hidden', 'true');
       rings = svg.append('g');
     }
-    const rows = C.data.filter((r) => hit(r, q, off) && (!focus || r.cat === focus));
+    const rows = C.data.filter((r) => hit(r, q, off) && (!focus || r.cat === focus) && val(r) > 0);
     const groups = d3.groups(rows, (r) => (focus ? r.sub : r.cat))
-      .map(([name, list]) => ({ name, list, n: list.length }))
+      .map(([name, list]) => ({ name, list, n: d3.sum(list, val) }))
       .sort((a, b) => (focus ? b.n - a.n : order.get(a.name) - order.get(b.name)));
-    groups.forEach((g, j) => { g.color = HP[(focus ? j : order.get(g.name)) % HP.length]; });
-    const root = d3.pack().size([W, H]).padding((d) => (d.depth === 0 ? 10 : 0.8))(
-      d3.hierarchy({ children: groups.map((g) => ({ g, children: g.list.map((r) => ({ r })) })) }).sum((d) => (d.r ? 1 : 0)));
+    const ci = focus ? order.get(focus) % SP.length : 0;
+    groups.forEach((g, j) => {
+      g.color = focus ? d3.interpolateRgb(SP[ci], '#ffffff')(0.08 + 0.72 * (groups.length > 1 ? j / (groups.length - 1) : 0)) : HP[order.get(g.name) % HP.length];
+    });
+    const root = d3.pack().size([W, H]).padding((d) => (d.depth === 0 ? 12 : 0.8))(
+      d3.hierarchy({ children: groups.map((g) => ({ g, children: g.list.map((r) => ({ r })) })) }).sum((d) => (d.r ? val(d.r) : 0)));
     const leaves = rows.length ? root.leaves().filter((l) => l.data.r) : [];
     const dur = red ? 0 : 900;
 
-    // 점: 연수 하나 = 점 하나. 같은 연수는 같은 점이 움직임
     const sel = dots.selectAll('circle').data(leaves, (l) => l.data.r.no);
     sel.exit().transition().duration(red ? 0 : 400).attr('r', 0).attr('opacity', 0).remove();
     const add = sel.enter().append('circle').attr('r', 0).attr('opacity', 0)
       .attr('cx', (l) => (first && !red ? W / 2 + (Math.random() - 0.5) * W * 1.3 : l.x))
       .attr('cy', (l) => (first && !red ? H / 2 + (Math.random() - 0.5) * H * 1.3 : l.y));
     add.merge(sel).transition()
-      .delay((l) => (red ? 0 : first ? (focus ? 0 : order.get(l.data.r.cat)) * 120 + Math.random() * 500 : Math.random() * 200))
+      .delay((l) => (red ? 0 : first ? order.get(l.data.r.cat) * 120 + Math.random() * 500 : Math.random() * 200))
       .duration(first ? (red ? 0 : 1200) : dur).ease(d3.easeCubicOut)
       .attr('cx', (l) => l.x).attr('cy', (l) => l.y).attr('r', (l) => Math.max(0.9, l.r)).attr('opacity', 0.92)
       .attr('fill', (l) => l.parent.data.g.color);
 
-    // 행성: 대분류(전체) 또는 중분류(펼친 상태)
     rings.selectAll('*').interrupt().remove();
     if (!rows.length) rings.append('text').attr('class', 'wow-empty').attr('x', W / 2).attr('y', H / 2).attr('text-anchor', 'middle').text('조건에 맞는 연수가 없어요');
+    const u = unit === 'h' ? '차시' : '건';
     for (const n of root.children || []) {
       const g0 = n.data.g, picked = !!focus && p.sub === g0.name;
       const g = rings.append('g').attr('class', 'wow-cat' + (picked ? ' is-picked' : '')).attr('tabindex', 0).attr('role', 'button')
-        .attr('aria-label', (focus ? focus + ' · ' : '') + g0.name + ' ' + g0.n.toLocaleString() + '건' + (focus ? ', 아래 목록에서 보기' : ', 중분류 펼치기'));
+        .attr('aria-label', (focus ? focus + ' · ' : '') + g0.name + ' ' + g0.n.toLocaleString() + u + (focus ? ', 아래 목록에서 보기' : ', 중분류 펼치기'));
       g.append('circle').attr('cx', n.x).attr('cy', n.y).attr('r', n.r + 3);
-      g.append('title').text(g0.name + ' ' + g0.n.toLocaleString() + '건');
-      if (n.r > 30) {
-        const f1 = Math.min(16, n.r / 4), f2 = Math.min(22, n.r / 3.2), label = g0.name.length > 9 ? g0.name.slice(0, 8) + '…' : g0.name;
-        g.append('text').attr('x', n.x).attr('y', n.y - 2).attr('text-anchor', 'middle').attr('font-size', f1).text(label);
-        g.append('text').attr('x', n.x).attr('y', n.y + f2).attr('text-anchor', 'middle').attr('font-size', f2).text(g0.n.toLocaleString());
-      }
+      g.append('title').text(g0.name + ' ' + g0.n.toLocaleString() + u);
+      label(g, n, g0.name, g0.n.toLocaleString());
       g.attr('opacity', red ? 1 : 0).transition().delay(red ? 0 : first ? 1500 + (order.get(g0.name) || 0) * 80 : dur * 0.6).duration(400).attr('opacity', 1);
       const go = () => {
         if (!focus) { dash.setParams({ cat: g0.name, sub: null }); return; }
@@ -255,12 +288,14 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
       g.on('click', go).on('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
     }
 
-    // 숫자와 위치 표시
-    const back = document.getElementById('wowBack');
-    back.hidden = !focus;
+    document.getElementById('wowBack').hidden = !focus;
     document.getElementById('wowCrumb').textContent = focus ? focus + ' · 중분류 ' + groups.length + '개' : (q || off.length ? '조건에 맞는 연수' : '');
     document.getElementById('wowCatsK').textContent = focus ? '중분류' : '대분류';
-    count(document.getElementById('wowN'), rows.length, first ? 1600 : 600);
+    document.getElementById('wowUnit').textContent = u;
+    const sub = document.querySelector('.wow-sub');
+    sub.textContent = unit === 'h' ? '모든 연수의 차시를 더한 값이에요. 점 하나가 연수 하나이고, 점 크기가 차시예요.' : '교사 연수 기록을 한 화면에 모았습니다. 오른쪽 점 하나가 연수 하나예요.';
+    if (unit === 'h') sub.appendChild(Object.assign(document.createElement('span'), { className: 'wow-note', textContent: '1시간은 1차시로, 분은 시간으로 바꿔 셌어요. 「2차시 / 3차시」처럼 범위로 적힌 연수는 앞의 값으로 셌어요.' }));
+    count(document.getElementById('wowN'), d3.sum(rows, val), first ? 1600 : 600);
     const stat = { titles: new Set(rows.map((r) => r.title)).size, cats: groups.length, sources: new Set(rows.map((r) => r.source)).size };
     document.querySelectorAll('[data-wow]').forEach((el, i) => {
       const v = stat[el.dataset.wow];
@@ -268,6 +303,11 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
     });
   };
   document.getElementById('wowBack').addEventListener('click', () => dash.setParams({ cat: null, sub: null }));
+  document.querySelectorAll('.wow-toggle button').forEach((b) => b.addEventListener('click', () => {
+    unit = b.dataset.u;
+    document.querySelectorAll('.wow-toggle button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    render();
+  }));
   dash.onData(render);
 })();
 </script>
@@ -341,7 +381,7 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
 .sm-hint { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
 
 .sm-map { position: relative; }
-.sm-map.dash-skeleton { min-height: 320px; }
+.sm-map.dash-skeleton { min-height: 220px; }
 .sm-map-svg { display: block; overflow: hidden; border-radius: var(--cds-radius); }
 .sm-tm { cursor: pointer; outline: none; }
 .sm-tm rect { stroke-width: 1.25; }
@@ -867,7 +907,7 @@ dash.draw('map', {
     if (bad || wait) return;
     const W = el.clientWidth;
     if (!W) return;
-    const H = Math.round(Math.max(300, Math.min(500, W * 0.56)));
+    const H = Math.round(Math.max(200, Math.min(300, W * 0.26)));
     m.svg.attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
 
     const { q, off } = filt(), active = !!(q || off.length);
