@@ -31,7 +31,7 @@ class Sheet {
       getDisplayValues() { return this.getValues().map(r => r.map(String)); },
       setValues(values) { values.forEach((r, i) => { sheet.values[row - 1 + i] ||= []; r.forEach((v, j) => sheet.values[row - 1 + i][col - 1 + j] = v); }); return this; },
       setFormulasR1C1(values) { values.forEach((r, i) => r.forEach((v, j) => sheet.formulas.set((row + i) + ':' + (col + j), v))); return this; },
-      setFontWeight() { return this; }, setBackground() { return this; }, setNumberFormat() { return this; }, setNote() { return this; }, setDataValidation() { return this; }
+      setFontWeight() { return this; }, setBackground() { return this; }, setNumberFormat() { return this; }, setNote() { return this; }, setDataValidation() { return this; }, getA1Notation() { let n = col, s = ""; while (n) { s = String.fromCharCode(65 + (n - 1) % 26) + s; n = Math.floor((n - 1) / 26); } return s + row; }
     };
   }
 }

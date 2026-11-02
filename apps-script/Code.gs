@@ -23,7 +23,7 @@ function listPool_() {
     return v.map(r => { const o = {}; h.forEach((k, i) => o[k] = r[i]); return o; });
   };
   const courses = Object.create(null), activity = Object.create(null), by = Object.create(null);
-  rows('가능 연수').forEach(r => (courses[r['응답 ID']] = courses[r['응답 ID']] || []).push({cat: r['대분류'], tool: r['핵심 도구'], title: r['연수명(가제)']}));
+  rows('가능 연수').forEach(r => (courses[r['응답 ID']] = courses[r['응답 ID']] || []).push({cat: r['대분류'], tool: r['핵심 도구'], title: r['연수명(가제)'], target: r['강의 대상'] || '', mode: r['강의 방식'] || '', diff: r['난이도'] || ''}));
   rows('협업 횟수').forEach(r => {
     const key = String(r['이메일'] || '').trim().toLowerCase() || 'name:' + String(r['성함'] || '').trim();
     activity[key] = r;
@@ -86,7 +86,7 @@ function setupCollab() {
       const formula = '=IFERROR(IF(AND(' + valid.join(',') + '),(' + refs[0] + '+' + refs[1] + ')*100+' + refs[2] + '*10+' + refs[3] + '*10,"확인 중"),"확인 중")';
       s.getRange(2, col('협업 점수') + 1, n, 1).setFormulasR1C1(Array.from({length: n}, () => [formula])).setNumberFormat('0');
       countNames.forEach(name => {
-        const c = col(name) + 1, ref = 'INDIRECT(ADDRESS(ROW(),' + c + '))';
+        const c = col(name) + 1, ref = s.getRange(2, c).getA1Notation();
         const rule = SpreadsheetApp.newDataValidation().requireFormulaSatisfied('=OR(' + ref + '="",AND(ISNUMBER(' + ref + '),' + ref + '>=0,MOD(' + ref + ',1)=0))').setAllowInvalid(false).setHelpText('0 이상의 정수를 입력하세요. 미확인 실적은 빈칸으로 둡니다.').build();
         s.getRange(2, c, Math.max(n, 100), 1).setNumberFormat('0').setDataValidation(rule);
       });
@@ -116,4 +116,4 @@ function who_(token){const e=CacheService.getScriptCache().get("tok:"+String(tok
 function save_(d){d=d||{};const email=String(d.email||"").trim().toLowerCase(),ss=SpreadsheetApp.openById(SS_ID),old=mine_(ss,email).rows.length;if(old){if(!d.token)throw new Error("이미 등록된 이메일입니다. 위쪽 ‘이미 제출하셨나요?’에서 이메일 인증을 한 뒤 고쳐 주세요.");if(who_(d.token)!==email)throw new Error("인증한 이메일과 제출하는 이메일이 다릅니다.")}const id=submitPool(d);if(old){const l=LockService.getScriptLock();l.waitLock(20000);try{drop_(ss,mine_(ss,email),id)}finally{l.releaseLock()}}return id}
 function delete_(token){const email=who_(token),ss=SpreadsheetApp.openById(SS_ID),l=LockService.getScriptLock();l.waitLock(20000);try{const m=mine_(ss,email);drop_(ss,m,null);CacheService.getScriptCache().remove("tok:"+token);return m.rows.length}finally{l.releaseLock()}}
 function mailQuota(){Logger.log("오늘 더 보낼 수 있는 메일: "+MailApp.getRemainingDailyQuota()+"통")}
-function orderCollab(){const s=SpreadsheetApp.openById(SS_ID).getSheetByName("협업 횟수"),want=["협업 점수","연수 제작","도서 출판","원격 강의","대면 강의","메모","성함","이메일"];want.forEach((n,i)=>{const h=s.getRange(1,1,1,s.getLastColumn()).getValues()[0],j=h.indexOf(n);if(j>i)s.moveColumns(s.getRange(1,j+1),i+1)});s.setFrozenColumns(0);Logger.log(s.getRange(1,1,1,s.getLastColumn()).getValues()[0].join(" | "))}
+function orderCollab(){const s=SpreadsheetApp.openById(SS_ID).getSheetByName("협업 횟수"),want=["협업 점수","연수 제작","도서 출판","원격 강의","대면 강의","메모","성함","이메일"];want.forEach((n,i)=>{const h=s.getRange(1,1,1,s.getLastColumn()).getValues()[0],j=h.indexOf(n);if(j>i)s.moveColumns(s.getRange(1,j+1),i+1)});const h2=s.getRange(1,1,1,s.getLastColumn()).getValues()[0];["연수 제작","도서 출판","원격 강의","대면 강의"].forEach(n=>{const c=h2.indexOf(n)+1;if(!c)return;const a=s.getRange(2,c).getA1Notation();s.getRange(2,c,Math.max(s.getLastRow()-1,100),1).setDataValidation(SpreadsheetApp.newDataValidation().requireFormulaSatisfied("=OR("+a+"=\"\",AND(ISNUMBER("+a+"),"+a+">=0,MOD("+a+",1)=0))").setAllowInvalid(false).setHelpText("0 이상의 정수를 입력하세요. 미확인 실적은 빈칸으로 둡니다.").build())});s.setFrozenColumns(0);Logger.log(s.getRange(1,1,1,s.getLastColumn()).getValues()[0].join(" | "))}
