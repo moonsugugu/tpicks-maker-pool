@@ -534,15 +534,15 @@ details[open] > summary > .sm-chev { transform: rotate(90deg); }
   <section class="sm-sec" id="cats" role="tabpanel" aria-labelledby="cats-h">
     <div class="sm-sec-head">
       <h2 id="cats-h">분류별 연수 지도</h2>
-      <p class="sm-note">칸 넓이가 연수 수예요. 대분류 칸을 누르면 확대되고, 확대한 뒤 중분류 칸을 누르면 아래 목록에서 그 연수들이 펼쳐져요. 검색하면 지도가 결과에 맞게 바뀌어요.</p>
+      <p class="sm-note">대분류를 누르면 중분류가, 중분류를 누르면 그 연수들이 펼쳐져요. 위쪽 버블에서 골라도 이 목록이 함께 바뀌어요.</p>
     </div>
     <div class="sm-crumb">
       <button class="sm-home" type="button" disabled>전체 분류</button>
       <span class="sm-crumb-path" data-draw="crumb"></span>
-      <span class="sm-hint">칸을 눌러 들어가 보세요</span>
+      
     </div>
     <p class="sm-result" hidden>조건에 맞는 연수 <b data-draw="match" data-source="courses">—</b>건 <button class="sm-clear" type="button">검색·출처 지우기</button></p>
-    <div class="sm-map dash-skeleton" id="cats-map" data-draw="map" data-source="by_sub by_cat courses"></div>
+    
     <div class="sm-acc dash-skeleton" id="cats-list" data-draw="cats" data-source="courses by_cat by_sub"></div>
   </section>
 
@@ -842,7 +842,7 @@ dash.draw('ribbon', (el) => {
       showTab('cats');
       dash.setLink('cats');
       dash.setParams({ cat: d.cat, sub: null });
-      document.getElementById('cats-map')?.scrollIntoView({ behavior: reduce() ? 'auto' : 'smooth', block: 'nearest' });
+      document.getElementById('cats-list')?.scrollIntoView({ behavior: reduce() ? 'auto' : 'smooth', block: 'nearest' });
     };
     legend.append(b);
   });
