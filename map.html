@@ -13,11 +13,11 @@ svg{display:block;width:100%;height:auto;max-height:72vh}.rg{fill:#EFEAFB;stroke
 .side{position:sticky;top:16px}.side h2{margin:0 0 4px;font-size:22px;font-weight:900;letter-spacing:-.5px}.side h2 small{font-size:15px;color:var(--p);margin-left:6px}.muted{color:var(--m);font-size:14px;line-height:1.6;margin:0}
 .names{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}.name{border:1.5px solid var(--b);background:#fff;border-radius:12px;padding:10px 16px;font-size:15px;font-weight:800;cursor:pointer}.name:hover{border-color:var(--pb);background:var(--pl)}.name.on{background:var(--p);border-color:var(--p);color:#fff}
 .who{margin-top:18px;border-top:1px solid var(--b);padding-top:18px}.who h3{margin:0 0 12px;font-size:20px;font-weight:900}.row{display:grid;grid-template-columns:84px 1fr;gap:8px;padding:8px 0;font-size:15px;line-height:1.6}.row>span{color:var(--m);font-weight:700;font-size:14px}.intro{white-space:pre-line}.cs{display:flex;flex-direction:column;gap:6px}.c{background:var(--bg);border-radius:10px;padding:8px 12px}.c b{display:inline-block;background:var(--ll);color:var(--ld);border-radius:999px;font-size:12px;padding:2px 9px;margin-right:6px}
-footer{text-align:center;color:var(--m);font-size:12px;padding:0 16px 40px}
+footer{}.hlink{display:inline-block;margin-top:16px;background:rgba(255,255,255,.16);color:#fff;border-radius:999px;padding:10px 18px;font-weight:800;font-size:14px}.hlink:hover{background:rgba(255,255,255,.26)}footer{text-align:center;color:var(--m);font-size:12px;padding:0 16px 40px}
 @media(max-width:760px){main{grid-template-columns:1fr}.side{position:static}.top{padding:0 12px}.logo{font-size:16px;padding:7px 10px}.tnav{font-size:13px;padding:7px 11px}}
 </style></head>
 <body><header class="top"><a class="logo" href="./"><i>↖</i>TPICKS LABS</a><a class="tnav" href="./">메이커 강사 등록하기</a></header>
-<div class="hero"><div class="hin"><span class="pill">MAKER POOL MAP</span><h1>현재 등록된 메이커 강사풀</h1><p id="total">등록된 선생님을 불러오는 중입니다…</p></div></div>
+<div class="hero"><div class="hin"><span class="pill">MAKER POOL MAP</span><h1>현재 등록된 메이커 강사풀</h1><p id="total">등록된 선생님을 불러오는 중입니다…</p><a class="hlink" href="analysis.html">티픽스랩스 교사 연수데이터분석 보기 →</a></div></div>
 <main><div class="card"><svg id="map" viewBox="0 0 520 548" role="group" aria-label="시도별 메이커 강사 지도"></svg><div class="chips" id="chips"></div></div>
 <div class="card side" id="side"><h2>시도를 골라 주세요</h2><p class="muted">지도의 점이나 아래 지역 이름을 누르면 그 지역 메이커 강사 선생님이 나옵니다.</p></div></main>
 <footer>TPICKS 메이커 강사풀 · 연락처는 공개하지 않습니다.</footer>
