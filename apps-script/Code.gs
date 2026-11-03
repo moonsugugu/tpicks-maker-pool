@@ -22,20 +22,14 @@ function listPool_() {
     const v = s.getDataRange().getDisplayValues(), h = v.shift();
     return v.map(r => { const o = {}; h.forEach((k, i) => o[k] = r[i]); return o; });
   };
-  const courses = Object.create(null), activity = Object.create(null), by = Object.create(null);
+  const courses = Object.create(null), by = Object.create(null);
   rows('가능 연수').forEach(r => (courses[r['응답 ID']] = courses[r['응답 ID']] || []).push({cat: r['대분류'], tool: r['핵심 도구'], title: r['연수명(가제)'], target: r['강의 대상'] || '', mode: r['강의 방식'] || '', diff: r['난이도'] || ''}));
-  rows('협업 횟수').forEach(r => {
-    const key = String(r['이메일'] || '').trim().toLowerCase() || 'name:' + String(r['성함'] || '').trim();
-    activity[key] = r;
-  });
   rows('강사').forEach(r => {
     if (!r['성함']) return;
     const email = String(r['이메일'] || '').trim().toLowerCase();
-    const row = (email && activity[email]) || activity['name:' + String(r['성함']).trim()] || {};
     by[email || r['응답 ID']] = {
       name: r['성함'], office: r['소속 교육청'], school: r['근무지'], intro: r['자기소개 (2문장)'],
-      courses: courses[r['응답 ID']] || [], collab: collabCount_(row['협업 횟수']) || 0,
-      collaboration: collabStats_(row)
+      courses: courses[r['응답 ID']] || []
     };
   });
   return Object.keys(by).map(k => by[k]);

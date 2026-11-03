@@ -73,11 +73,8 @@ const publicRows = JSON.parse(vm.runInContext('JSON.stringify(listPool_())', con
 assert.equal(publicRows.length, 3);
 assert.equal(publicRows[0].school, '새학교');
 assert.equal(publicRows[0].courses[0].title, '새 과정');
-assert.equal(publicRows[0].collaboration.score, 380);
-assert.equal(score.summary(publicRows[0]).score, 380, '시트 조회와 화면 배점 일치');
-assert.equal(publicRows[1].collaboration.score, 0);
 for (const row of publicRows) {
-  assert.deepEqual(Object.keys(row).sort(), ['collab', 'collaboration', 'courses', 'intro', 'name', 'office', 'school']);
+  assert.deepEqual(Object.keys(row).sort(), ['courses', 'intro', 'name', 'office', 'school'], '공개 데이터에 협업 숫자 없음');
 }
 assert.equal(JSON.stringify(activity.values), before, '공개 조회는 시트를 수정하지 않음');
 assert.ok(!JSON.stringify(publicRows).includes('@example.com'));
@@ -93,5 +90,5 @@ assert.equal(data['협업 횟수'].values[0][8], '도서 출판');
 assert.deepEqual(data['협업 횟수'].values[1].slice(3, 7), ['기존 메모', 2, 5, 3]);
 assert.equal(data['협업 횟수'].values[1][8], 0);
 data['협업 횟수'].values[1][8] = 1;
-assert.equal(JSON.parse(vm.runInContext('JSON.stringify(listPool_())', context))[0].collaboration.score, 380);
-console.log('협업 점수 계산·공동 순위·기존 시트 이관·재실행·공개 필드 검증 통과');
+assert.ok(!JSON.stringify(JSON.parse(vm.runInContext('JSON.stringify(listPool_())', context))).includes('collab'), '실적을 입력해도 공개 데이터에 협업 숫자 없음');
+console.log('협업 점수 계산·공동 순위·기존 시트 이관·재실행·공개 필드(협업 숫자 제외) 검증 통과');
