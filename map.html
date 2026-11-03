@@ -68,7 +68,7 @@ function intro(){view='intro';var side=document.getElementById('side');side.text
 function list(title,ls){var side=document.getElementById('side');side.textContent='';var h=el('h2',null,title);h.appendChild(el('small',null,ls.length+'명'));side.appendChild(h);
  if(!ls.length){side.appendChild(el('p','muted','아직 이 지역에 등록된 메이커 강사가 없습니다.'));return}
  side.appendChild(el('p','muted','이름을 누르면 자세한 소개가 나옵니다.'));var ns=el('div','names'),who=el('div','who');who.hidden=true;
- ls.forEach(function(t){var b=el('button','name',t.name);b.type='button';if(cur!==ETC&&!sub&&t.sub)b.appendChild(el('small',null,short(t.sub)));b.onclick=function(){ns.querySelectorAll('.name').forEach(function(x){x.classList.toggle('on',x===b)});show(who,t)};ns.appendChild(b)});
+ ls.forEach(function(t){var b=el('button','name',t.name+' 선생님');b.type='button';if(cur!==ETC&&!sub&&t.sub)b.appendChild(el('small',null,short(t.sub)));b.onclick=function(){ns.querySelectorAll('.name').forEach(function(x){x.classList.toggle('on',x===b)});show(who,t)};ns.appendChild(b)});
  side.appendChild(ns);side.appendChild(who);if(ls.length===1)ns.firstChild.click()}
 function show(who,t){who.hidden=false;who.textContent='';var h3=el('h3',null,t.name+' 선생님');who.appendChild(h3);
  [['소속 교육청',t.office],['근무지',t.school],['자기소개',t.intro]].forEach(function(r){var d=el('div','row');d.appendChild(el('span',null,r[0]));d.appendChild(el('div',r[0]==='자기소개'?'intro':null,r[1]||'—'));who.appendChild(d)});
