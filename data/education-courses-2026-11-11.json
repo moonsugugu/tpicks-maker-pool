@@ -1,0 +1,1058 @@
+{
+  "source": "교총사제동행",
+  "checked": "2026-11-11",
+  "catalog": "https://www.education.or.kr/studyjob/include/_Roadmap1.asp",
+  "aiCatalog": "https://www.education.or.kr/aiDigital/aiDigital_info.asp",
+  "scope": "공개 전체 과정표의 교육정보화, AI·디지털 안내 및 관련 교과 과정 중 에듀테크·디지털 관련 과정. 기수별 분반은 과정별로 통합하며 합본·분할 과정은 공식 과정 ID별로 구분. 전체 연수원 과정 수 또는 연간 운영 실적이 아님.",
+  "classification": "분류·요약·추천 단계는 공식 개요·목차를 근거로 편집했으며 공식 난이도가 아님. 학점을 시간으로 환산하지 않고 공식 목차에서 확인한 차시와 학점을 병기. 한글 2010 과정은 차시 미확인.",
+  "courses": [
+    {
+      "key": 89,
+      "title": "창의, 융합, 진로를 키우는 교과통합 SW교육",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=89",
+      "credit": "4학점",
+      "cat": "AI·SW 융합",
+      "sub": "컴퓨팅 사고",
+      "tag": "스크래치·엔트리·피지컬 컴퓨팅",
+      "topic": "블록코딩·컴퓨팅 사고",
+      "step": "2단계",
+      "summary": "SW교육 원리와 교과통합 활동 설계",
+      "sessions": [
+        {
+          "start": "2026-11-10",
+          "end": "2026-12-14"
+        },
+        {
+          "start": "2026-12-22",
+          "end": "2027-02-01"
+        }
+      ],
+      "lessonCount": 60,
+      "hours": "60차시 (4학점)"
+    },
+    {
+      "key": 134,
+      "title": "중요한 요점만 쏙쏙 알려주는 한글2010(1학점)",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=134",
+      "credit": "1학점",
+      "cat": "학급경영·업무 자동화",
+      "sub": "학교 업무",
+      "tag": "한글 2010",
+      "topic": "엑셀·한글·학교 업무",
+      "step": "1단계",
+      "summary": "한글 2010의 문서 편집과 학교 업무 적용",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": null,
+      "hours": "1학점 (차시 미확인)"
+    },
+    {
+      "key": 210,
+      "title": "[거꾸로교실]플립러닝 미래를 열다 (1학점)",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=210",
+      "credit": "1학점",
+      "cat": "수업·평가",
+      "sub": "수업 설계",
+      "tag": "플립러닝·파워포인트",
+      "topic": "수업 설계·교과 에듀테크",
+      "step": "2단계",
+      "summary": "사전 학습 콘텐츠와 교실 활동을 연결하는 플립러닝 설계",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 268,
+      "title": "쉽고 재미있게 풀어가는 SW교육 핵심 콕콕",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=268",
+      "credit": "1학점",
+      "cat": "AI·SW 융합",
+      "sub": "컴퓨팅 사고",
+      "tag": "스크래치·엔트리·메이키메이키",
+      "topic": "블록코딩·컴퓨팅 사고",
+      "step": "1단계",
+      "summary": "언플러그드·블록코딩·피지컬 컴퓨팅의 기본 이해",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 281,
+      "title": "SW교육 수업활용, 언플러그드＆교과통합 프로그래밍",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=281",
+      "credit": "2학점",
+      "cat": "AI·SW 융합",
+      "sub": "컴퓨팅 사고",
+      "tag": "언플러그드·스크래치·엔트리",
+      "topic": "블록코딩·컴퓨팅 사고",
+      "step": "2단계",
+      "summary": "알고리즘 활동과 교과통합 블록코딩 수업 구성",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 30,
+      "hours": "30차시 (2학점)"
+    },
+    {
+      "key": 282,
+      "title": "상상을 현실로, SW교육 이해와 피지컬컴퓨팅",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=282",
+      "credit": "2학점",
+      "cat": "AI·SW 융합",
+      "sub": "피지컬 AI·STEAM",
+      "tag": "메이키메이키·레고 WeDo·3D 프린터",
+      "topic": "로봇·피지컬 AI·STEAM",
+      "step": "2단계",
+      "summary": "센서·로봇·3D 제작을 연결하는 피지컬 컴퓨팅 수업",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 30,
+      "hours": "30차시 (2학점)"
+    },
+    {
+      "key": 323,
+      "title": "4차 산업혁명과 우리 아이들이 만날 미래",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=323",
+      "credit": "1학점",
+      "cat": "AI·디지털 기초 소양",
+      "sub": "AI 기초 이해",
+      "tag": "4차 산업혁명·미래사회",
+      "topic": "AI·디지털 소양·윤리",
+      "step": "1단계",
+      "summary": "기술 변화와 미래사회의 교육 과제 탐색",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 342,
+      "title": "파워포인트, 어렵지 않아요!",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=342",
+      "credit": "1학점",
+      "cat": "디자인·미디어",
+      "sub": "프레젠테이션",
+      "tag": "파워포인트",
+      "topic": "PPT·프레젠테이션",
+      "step": "1단계",
+      "summary": "텍스트·도형·멀티미디어를 활용한 발표 자료 제작",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 352,
+      "title": "선생님이 유튜브 해도 되나요?(유튜브 사용설명서)",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=352",
+      "credit": "2학점",
+      "cat": "디자인·미디어",
+      "sub": "영상",
+      "tag": "유튜브",
+      "topic": "영상 제작·편집",
+      "step": "2단계",
+      "summary": "교사 유튜브 활동의 운영 절차와 촬영·편집 실습",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 30,
+      "hours": "30차시 (2학점)"
+    },
+    {
+      "key": 361,
+      "title": "유튜브 사용설명서-기본편",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=361",
+      "credit": "1학점",
+      "cat": "디자인·미디어",
+      "sub": "영상",
+      "tag": "유튜브",
+      "topic": "영상 제작·편집",
+      "step": "1단계",
+      "summary": "유튜브 활동의 기본 규칙과 영상 촬영·편집 이해",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 362,
+      "title": "유튜브 사용설명서-실제편",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=362",
+      "credit": "1학점",
+      "cat": "디자인·미디어",
+      "sub": "영상",
+      "tag": "유튜브",
+      "topic": "영상 제작·편집",
+      "step": "2단계",
+      "summary": "채널 설정과 운영 사례를 활용한 유튜브 콘텐츠 구성",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 364,
+      "title": "생각하기, 만들기, 코딩하기",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=364",
+      "credit": "2학점",
+      "cat": "AI·SW 융합",
+      "sub": "프로그래밍",
+      "tag": "스크래치·모디",
+      "topic": "블록코딩·컴퓨팅 사고",
+      "step": "2단계",
+      "summary": "블록코딩과 모바일 제어를 연결한 제작 활동",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 30,
+      "hours": "30차시 (2학점)"
+    },
+    {
+      "key": 371,
+      "title": "생각하기, 만들기, 코딩하기 - 웹",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=371",
+      "credit": "1학점",
+      "cat": "AI·SW 융합",
+      "sub": "프로그래밍",
+      "tag": "스크래치",
+      "topic": "블록코딩·컴퓨팅 사고",
+      "step": "1단계",
+      "summary": "순차·반복·조건 구조를 활용한 스크래치 프로그래밍",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 372,
+      "title": "생각하기, 만들기, 코딩하기 - 모바일",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=372",
+      "credit": "1학점",
+      "cat": "AI·SW 융합",
+      "sub": "피지컬 AI·STEAM",
+      "tag": "모디",
+      "topic": "로봇·피지컬 AI·STEAM",
+      "step": "2단계",
+      "summary": "모바일을 활용한 모디 모듈 제어와 작품 제작",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 373,
+      "title": "손쉽고 재미있는 인공지능, 교실속으로!",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=373",
+      "credit": "1학점",
+      "cat": "AI·디지털 기초 소양",
+      "sub": "AI 기초 이해",
+      "tag": "인공지능·기계학습",
+      "topic": "AI·디지털 소양·윤리",
+      "step": "1단계",
+      "summary": "기계학습의 기본 개념과 학교 수업 적용",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 376,
+      "title": "종이없는 미래 교실의 시작, 구글 클래스룸",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=376",
+      "credit": "2학점",
+      "cat": "구글 협업·데이터",
+      "sub": "웹사이트·학습 관리",
+      "tag": "구글 클래스룸",
+      "topic": "구글 협업 도구",
+      "step": "1단계",
+      "summary": "클래스룸의 학습 자료·과제 관리와 온라인 수업 운영",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 30,
+      "hours": "30차시 (2학점)"
+    },
+    {
+      "key": 378,
+      "title": "나도 소셜 미디어 작가",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=378",
+      "credit": "2학점",
+      "cat": "디자인·미디어",
+      "sub": "창작 콘텐츠",
+      "tag": "SNS·유튜브",
+      "topic": "교사 콘텐츠·전문성",
+      "step": "2단계",
+      "summary": "글·그림·영상을 활용한 소셜 미디어 콘텐츠 기획",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 30,
+      "hours": "30차시 (2학점)"
+    },
+    {
+      "key": 398,
+      "title": "봉봉샘과 함께하는 쌍방향 원격수업, 어디까지 가능할까?",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=398",
+      "credit": "2학점",
+      "cat": "수업·평가",
+      "sub": "수업 설계",
+      "tag": "미리캔버스·파워포인트·화상 수업",
+      "topic": "수업 설계·교과 에듀테크",
+      "step": "2단계",
+      "summary": "쌍방향 원격수업 자료 제작과 상호작용 활동 구성",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 30,
+      "hours": "30차시 (2학점)"
+    },
+    {
+      "key": 482,
+      "title": "교실 속에서 만나는 현장성 높은 메타버스",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=482",
+      "credit": "1학점",
+      "cat": "AI·SW 융합",
+      "sub": "가상공간·3D·XR",
+      "tag": "개더타운·메타버스",
+      "topic": "메타버스·3D·XR",
+      "step": "2단계",
+      "summary": "가상공간 도구의 기본 기능과 교실 활용 사례",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 488,
+      "title": "학교 실전용! 백발백중 IT 백서",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=488",
+      "credit": "1학점",
+      "cat": "학급경영·업무 자동화",
+      "sub": "학교 업무",
+      "tag": "한글·IT 도구",
+      "topic": "엑셀·한글·학교 업무",
+      "step": "1단계",
+      "summary": "학교 현장의 문서 편집과 IT 문제 해결",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 513,
+      "title": "미래교육에 에듀테크를 더하다",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=513",
+      "credit": "1학점",
+      "cat": "AI·디지털 기초 소양",
+      "sub": "디지털 소양",
+      "tag": "에듀테크·디지털 리터러시",
+      "topic": "AI·디지털 소양·윤리",
+      "step": "1단계",
+      "summary": "미래교육 역량과 디지털 도구의 교육적 활용",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 519,
+      "title": "바로 알고, 적용할 수 있는 나만의 에듀테크",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=519",
+      "credit": "1학점",
+      "cat": "수업·평가",
+      "sub": "수업 설계",
+      "tag": "캔바·에듀테크",
+      "topic": "수업 설계·교과 에듀테크",
+      "step": "2단계",
+      "summary": "캔바 등 디지털 도구를 활용한 수업 아이디어 구성",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 525,
+      "title": "바로 알고, 실습할 수 있는 나만의 에듀테크",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=525",
+      "credit": "1학점",
+      "cat": "수업·평가",
+      "sub": "수업 설계",
+      "tag": "굿노트·슬랙·노션·에이닷",
+      "topic": "수업 설계·교과 에듀테크",
+      "step": "2단계",
+      "summary": "협업·기록·AI 도구를 활용한 학교 활동 실습",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 527,
+      "title": "적용하고, 실습할 수 있는 나만의 에듀테크",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=527",
+      "credit": "2학점",
+      "cat": "수업·평가",
+      "sub": "수업 설계",
+      "tag": "캔바·노션·ChatGPT·에듀테크",
+      "topic": "수업 설계·교과 에듀테크",
+      "step": "2단계",
+      "summary": "콘텐츠 제작·협업·AI 도구의 수업 적용과 실습",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 30,
+      "hours": "30차시 (2학점)"
+    },
+    {
+      "key": 532,
+      "title": "AI 수업을 위한 나만의 준비과정",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=532",
+      "credit": "1학점",
+      "cat": "AI·디지털 기초 소양",
+      "sub": "생성형 AI",
+      "tag": "뤼튼·투닝·NotebookLM·Gamma",
+      "topic": "ChatGPT·생성형 AI·프롬프트",
+      "step": "2단계",
+      "summary": "생성형 AI로 이미지·영상·문서·수업 자료 제작",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 533,
+      "title": "수업에서 디지털교과서 활용하기",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=533",
+      "credit": "1학점",
+      "cat": "수업·평가",
+      "sub": "학습 지원",
+      "tag": "AI 디지털교과서·알지오매스·Nearpod",
+      "topic": "AI 코스웨어·맞춤형 학습",
+      "step": "2단계",
+      "summary": "디지털교과서와 교과 도구를 활용한 맞춤형 수업",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 534,
+      "title": "교사가 PICK하는 하이터치! 학생이 UP하는 하이테크!",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=534",
+      "credit": "1학점",
+      "cat": "수업·평가",
+      "sub": "수업 설계",
+      "tag": "AI 디지털교과서·학습데이터",
+      "topic": "수업 설계·교과 에듀테크",
+      "step": "2단계",
+      "summary": "사람 중심 AI 수업과 학습데이터·평가의 연결",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 535,
+      "title": "AI 수업 준비와 디지털교과서 활용하기",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=535",
+      "credit": "2학점",
+      "cat": "수업·평가",
+      "sub": "수업 설계",
+      "tag": "생성형 AI·AI 디지털교과서",
+      "topic": "수업 설계·교과 에듀테크",
+      "step": "2단계",
+      "summary": "AI 콘텐츠 제작과 디지털교과서 기반 수업 설계",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 30,
+      "hours": "30차시 (2학점)"
+    },
+    {
+      "key": 538,
+      "title": "디지털 전환 시대 과정 중심 평가, 끝이 아닌 시작",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=538",
+      "credit": "1학점",
+      "cat": "수업·평가",
+      "sub": "평가·피드백",
+      "tag": "에듀테크·루브릭",
+      "topic": "평가·학생 기록",
+      "step": "2단계",
+      "summary": "교과별 과정 중심 평가와 디지털 도구의 활용",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 554,
+      "title": "디지털 도구 활용 성교육, 더 쉽고 유익하게",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=554",
+      "credit": "1학점",
+      "cat": "수업·평가",
+      "sub": "교과 수업",
+      "tag": "디지털 도구·성교육",
+      "topic": "수업 설계·교과 에듀테크",
+      "step": "2단계",
+      "summary": "디지털 환경의 안전과 존중을 반영한 성교육 수업",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 576,
+      "title": "한방에 끝나는 ICT 활용툴",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=576",
+      "credit": "1학점",
+      "cat": "학급경영·업무 자동화",
+      "sub": "학교 업무",
+      "tag": "Canva AI·Notion·Padlet·Brisk Teaching",
+      "topic": "AI 에이전트·업무 자동화",
+      "step": "2단계",
+      "summary": "AI 자료 제작과 협업·기록 도구를 활용한 수업·업무 개선",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 581,
+      "title": "생성형 AI를 활용한 나만의 수업 자료&행정 업무 치트키",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=581",
+      "credit": "1학점",
+      "cat": "학급경영·업무 자동화",
+      "sub": "학교 업무",
+      "tag": "ChatGPT·Gemini·Claude·NotebookLM",
+      "topic": "ChatGPT·생성형 AI·프롬프트",
+      "step": "2단계",
+      "summary": "생성형 AI로 수업 자료·교육 문서·학급 운영 자료 구성",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    },
+    {
+      "key": 588,
+      "title": "누구나 수학을 알지오, 가장 쉬운 알지오매스(키즈)",
+      "url": "https://www.education.or.kr/studyjob/course_view.asp?classKey=588",
+      "credit": "1학점",
+      "cat": "수업·평가",
+      "sub": "교과 수업",
+      "tag": "알지오매스 키즈",
+      "topic": "수업 설계·교과 에듀테크",
+      "step": "2단계",
+      "summary": "작도·블록코딩·3D 기능을 활용한 탐구 수학 수업",
+      "sessions": [
+        {
+          "start": "2026-11-04",
+          "end": "2026-11-25"
+        },
+        {
+          "start": "2026-11-11",
+          "end": "2026-12-02"
+        },
+        {
+          "start": "2026-11-18",
+          "end": "2026-12-09"
+        },
+        {
+          "start": "2026-11-25",
+          "end": "2026-12-16"
+        }
+      ],
+      "lessonCount": 15,
+      "hours": "15차시 (1학점)"
+    }
+  ]
+}
