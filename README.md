@@ -49,3 +49,5 @@ Apps Script 원본은 `apps-script/Code.gs`입니다. 편집기에 반영한 뒤
 로고: `tpicks-3d/`는 TPICKS 3D 로고 패키지에서 사이트 실행에 필요한 파일만 옮긴 것입니다(Three.js r180, MIT). 메인·전문가 모집 첫 화면은 `<tpicks-logo-3d>` 입체 로고를, 네 페이지 상단 로고는 `tpicks-3d/assets/tpicks-logo-traced.svg`를 씁니다. WebGL이 안 되면 `logo-fallback.webp`가 대신 보입니다.
 
 카카오톡 공유: `window.TPICKS_KAKAO_JS_KEY`가 있으면 카카오 SDK로 보냅니다. 키가 없으면 안드로이드는 카카오톡 공유 화면(intent)을 바로 열고, 아이폰 등은 휴대폰 공유 메뉴를 엽니다. 공유 메뉴가 없는 기기에서는 공고 링크를 복사합니다.
+
+배포 주소: GitHub Pages(https://moonsugugu.github.io/tpicks-maker-pool/)와 Vercel(https://tpicks-makerpool.vercel.app/, 팀 kikukas-projects·프로젝트 tpicks-makerpool)에 같은 저장소가 올라갑니다. Vercel은 GitHub에 push하면 자동 배포됩니다. Apps Script의 인증 메일과 웹 앱 안내 링크는 Vercel 주소를 씁니다.

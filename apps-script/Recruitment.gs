@@ -110,7 +110,7 @@ function recruitCode_(email) {
   cache.put('recruit:code:' + email, JSON.stringify({code:code, attempts:0, expiresAt:Date.now() + 600000}), 600);
   cache.put(waitKey, '1', 60); cache.put(bucket, String(sent + 1), 65);
   MailApp.sendEmail(email, '[티픽스 전문가 모집] 인증 코드 ' + code,
-    '인증 코드: ' + code + '\n\n10분 안에 전문가 모집 페이지에 입력해 주세요.\nhttps://moonsugugu.github.io/tpicks-maker-pool/experts.html\n\n직접 요청하지 않았다면 이 메일은 무시하셔도 됩니다.');
+    '인증 코드: ' + code + '\n\n10분 안에 전문가 모집 페이지에 입력해 주세요.\nhttps://tpicks-makerpool.vercel.app/experts.html\n\n직접 요청하지 않았다면 이 메일은 무시하셔도 됩니다.');
   return {sent: true};
 }
 function recruitVerify_(email, code) {
