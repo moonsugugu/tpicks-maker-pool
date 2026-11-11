@@ -22,7 +22,7 @@ const embedded = text => text.match(/<script\b[^>]*id="tpx-data"[^>]*>([\s\S]*?)
     if (c.source === '연구회연수') {
       delete c.title;
       delete c.reason;
-      for (const k of ['date', 'run_start', 'run_end']) if (c[k]) c[k] = `${String(c[k]).match(/\d{4}/)[0]}년`;
+      for (const k of ['date', 'run_start', 'run_end']) delete c[k];
     }
     return c;
   };
@@ -41,16 +41,16 @@ const embedded = text => text.match(/<script\b[^>]*id="tpx-data"[^>]*>([\s\S]*?)
     assert.equal(r.title, publicTitles[r.id]);
     assert.notEqual(hash(r.title), baseline.researchOriginalTitleHashes[r.id], `${r.id}: 원제목을 공개용 제목으로 변경`);
     assert.equal(r.link, null);
-    for (const k of ['date', 'run_start', 'run_end']) assert(!r[k] || /^\d{4}년$/.test(r[k]), `${r.id}: 날짜는 연도만 공개`);
+    for (const k of ['date', 'run_start', 'run_end']) assert.equal(r[k], null, `${r.id}: 운영일 비공개`);
   }
   for (const r of now.curriculum.filter(r => r.source === '연구회연수')) {
     for (const id of r.ref.trim().split(/\s+/)) assert.equal(r.title, publicTitles[id], '추천 커리큘럼에도 공개용 제목 사용');
     assert.equal(r.link, null);
   }
   const org = now.orgs.find(r => r.source === '연구회연수');
-  assert.equal(org.precision, 'year');
-  assert.match(org.start, /^\d{4}$/);
-  assert.match(org.end, /^\d{4}$/);
+  assert.equal(org.privateSchedule, true);
+  assert.equal(org.start, null);
+  assert.equal(org.end, null);
   for (const r of now.courses.filter(r => r.source === '지식샘터')) for (const k of ['date', 'run_start', 'run_end']) assert(!r[k] || /^\d{4}년 \d{1,2}월$/.test(r[k]), '지식샘터 날짜 정밀도 보존');
   assert.equal(official.courses.length, 33);
   assert.equal(new Set(official.courses.map(r => r.key)).size, 33);
@@ -135,4 +135,4 @@ mutation([{oldValue: null, target: {matches: selector => selector === '.sm-sec',
 assert.equal(mapDraws, 2, '같은 숨김 상태를 다시 설정할 때는 재생성하지 않음');
 dash.setParams({q: '캔바'});
 assert.equal(mapDraws, 3, '검색 조건 변경은 지도를 갱신함');
-console.log('분석 페이지 문법·기존 데이터 보존·교총 33개·출처 순서·연구회 241개 공개 제목과 연도·말풍선·탭·검색 검증 통과');
+console.log('분석 페이지 문법·기존 데이터 보존·교총 33개·출처 순서·연구회 241개 공개 제목과 날짜 비공개·말풍선·탭·검색 검증 통과');

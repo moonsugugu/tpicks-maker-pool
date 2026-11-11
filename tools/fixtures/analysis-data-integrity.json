@@ -1,6 +1,6 @@
 {
-  "description": "2026-11-11 변경 전 자료의 보호 대상 필드. 연구회 제목·날짜 정밀도·배치 설명의 공개용 변경만 제외.",
-  "courses": "554d3436381a596b8a779c6529bc8c0bcec6745f8d4d724beb0c52a42fa11767",
+  "description": "2026-11-11 변경 전 자료의 보호 대상 필드. 연구회 제목·비공개 날짜·배치 설명만 제외.",
+  "courses": "2e2bcbdf686da96c08789a9044e74ab3acfa3a5cf68d4ce3d07b9def61284001",
   "curriculum": "efc1582a4a793185bfa72b4310550a45a50063b4e7001541f4b91bf768b50a04",
   "orgs": [
     {
