@@ -143,7 +143,7 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
 .analysis-top{min-height:64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:10px 20px;background:#fff;border-bottom:1px solid #ECE9F3;font-family:var(--font-anthropic-sans)}
 .analysis-top a{text-decoration:none}
 .analysis-logo{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;background:#fff;box-shadow:0 2px 12px rgba(30,20,60,.1);color:#1D1B25;font-size:19px;font-weight:900;letter-spacing:-.3px}
-.analysis-logo i{color:#4E9A06;font-style:normal}
+.analysis-logo i{color:#4E9A06;font-style:normal}.logo-img{height:22px;width:auto;display:block}@media(max-width:760px){.logo-img{height:18px}}
 .analysis-nav{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
 .analysis-nav a{padding:8px 14px;border-radius:999px;background:#F2EDFF;color:#5F33DD;font-size:14px;font-weight:800}
 .analysis-nav a:first-child{background:#F1FBD5;color:#3B5700}
@@ -157,7 +157,7 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
 .analysis-hero p{margin:0;max-width:860px;font-size:15px;line-height:1.75;word-break:keep-all;color:rgba(255,255,255,.92)}
 @media(max-width:640px){.analysis-top{padding:10px 12px}.analysis-logo{font-size:16px;padding:7px 10px}.analysis-nav{gap:6px}.analysis-nav a{font-size:12px;padding:7px 10px}.analysis-hero-inner{padding:30px 16px 32px}.analysis-hero h1{font-size:28px}.analysis-hero p{font-size:14px}}
 </style>
-<header class="analysis-top"><a class="analysis-logo" href="./"><i>↖</i>TPICKS LABS</a><nav class="analysis-nav" aria-label="티픽스 연결 페이지"><a href="map.html">현재 등록된 메이커 강사풀</a><a href="./">메이커 강사 등록하기</a></nav></header>
+<header class="analysis-top"><a class="analysis-logo" href="./"><i>↖</i><img class="logo-img" src="tpicks-3d/assets/tpicks-logo-traced.svg" alt="TPICKS" width="68" height="22">LABS</a><nav class="analysis-nav" aria-label="티픽스 연결 페이지"><a href="map.html">현재 등록된 메이커 강사풀</a><a href="./">메이커 강사 등록하기</a></nav></header>
 <section class="analysis-hero" aria-labelledby="analysis-title"><div class="analysis-hero-inner"><span class="analysis-pill">COURSE REFERENCE ANALYSIS</span><h1 id="analysis-title"><span>주요 연수원</span> <span>에듀테크·디지털 연수 분석</span></h1><p>주요 연수원과 교사 연구회의 공개 연수를 모았습니다. 분류별 연수 주제, 추천 커리큘럼, 기관별 운영 일정을 살펴보세요.</p><div class="sm-filter" id="filter">
     <label class="sm-search"><span class="sm-vh">연수 검색</span><input id="sm-q" class="sm-q" type="search" placeholder="연수명·목차·분류 검색 (예: 캔바, 앱스스크립트, 생기부)" autocomplete="off"></label>
     <span class="sm-chips-k">출처 켜고 끄기</span>

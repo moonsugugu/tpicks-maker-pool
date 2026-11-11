@@ -45,3 +45,7 @@ Apps Script 원본은 `apps-script/Code.gs`입니다. 편집기에 반영한 뒤
 배포 코드는 `node tools/build-apps-script.js <임시 파일 절대 경로>`로 `apps-script/Code.gs`와 `apps-script/Recruitment.gs`를 합칩니다. 기존 프로젝트의 Code.gs에 반영하고 운영자 이메일 속성을 설정한 다음 `setupRecruitment`를 한 번 실행한 뒤, 기존 웹 앱 배포를 새 버전으로 갱신합니다. `setupRecruitment`는 재실행해도 기존 공고·지원서를 덮어쓰지 않습니다. 검증 명령: `node tools/test-recruitment.js`, `node tools/test-pool.js`, `node tools/test-collab.js`. 실제 시트 연결 검사는 편집기에서 `testRecruitmentConnection`을 실행하며 검사로 생성한 요청 행만 정리합니다.
 
 2026-11-11 운영 반영: 기존 웹 앱 주소의 버전 12에 배포했습니다. 운영 시트의 요청 저장·조회·수정 검사가 통과했고, 익명 공개 API·인증 없는 쓰기 거절·기존 강사풀 17건 응답 보존을 확인했습니다. 실제 메일 발송 검사는 수행하지 않았으며 인증 로직은 가짜 메일을 사용하는 자동·브라우저 검사로 확인했습니다.
+
+로고: `tpicks-3d/`는 TPICKS 3D 로고 패키지에서 사이트 실행에 필요한 파일만 옮긴 것입니다(Three.js r180, MIT). 메인·전문가 모집 첫 화면은 `<tpicks-logo-3d>` 입체 로고를, 네 페이지 상단 로고는 `tpicks-3d/assets/tpicks-logo-traced.svg`를 씁니다. WebGL이 안 되면 `logo-fallback.webp`가 대신 보입니다.
+
+카카오톡 공유: `window.TPICKS_KAKAO_JS_KEY`가 있으면 카카오 SDK로 보냅니다. 키가 없으면 안드로이드는 카카오톡 공유 화면(intent)을 바로 열고, 아이폰 등은 휴대폰 공유 메뉴를 엽니다. 공유 메뉴가 없는 기기에서는 공고 링크를 복사합니다.
