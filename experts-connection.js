@@ -69,12 +69,12 @@ function showRecruitLogin(next) {
   const message = el('recruitLoginMessage');
   el('recruitCloseLogin').onclick = closeModal;
   googleButton(el('recruitGoogleBtn'), async credential => {
-    message.textContent = '로그인을 확인하고 있습니다.';
+    message.textContent = '로그인을 확인하고 있습니다.'; loginWait(true);
     try {
       const result = await recruitCall('googleLogin', {credential});
       recruitSession = {token:result.token, expiresAt:result.expiresAt}; sessionStorage.setItem(RECRUIT_SESSION, JSON.stringify(recruitSession)); recruitAccept(result.data);
       closeModal({force:true, skipHistory:true}); render(); if (typeof next === 'function') next(); toast('로그인했습니다.');
-    } catch (error) { message.textContent = error.message; }
+    } catch (error) { message.textContent = error.message; } finally { loginWait(false); }
   }).catch(error => { message.textContent = error.message; });
 }
 
