@@ -1,5 +1,5 @@
 // 기존 비공개 응답 시트 하나를 사용한다. 인증 정보는 Script Cache에만 보관한다.
-const RECRUIT_VERSION = '2026-11-11.1';
+const RECRUIT_VERSION = '2026-11-12.1';
 const RECRUIT_SHEETS = {
   jobs: ['모집 공고', ['공고 ID', '담당자 이메일', '공개 상태', '등록 요청 ID', '최종 수정', '공고 JSON']],
   requests: ['모집 요청', ['요청 ID', '담당자 이메일', '검토 상태', '최종 수정', '공고 JSON']],
@@ -36,9 +36,9 @@ function recruitOwner_() {
 function recruitUser_(token, optional) {
   if (!token && optional) return null;
   const raw = CacheService.getScriptCache().get('recruit:session:' + String(token || ''));
-  if (!raw) recruitError_('이메일 인증이 만료되었습니다. 다시 인증해 주세요.', 'AUTH');
+  if (!raw) recruitError_('로그인이 만료되었습니다. 다시 로그인해 주세요.', 'AUTH');
   const session = JSON.parse(raw);
-  if (session.expiresAt <= Date.now()) recruitError_('이메일 인증이 만료되었습니다. 다시 인증해 주세요.', 'AUTH');
+  if (session.expiresAt <= Date.now()) recruitError_('로그인이 만료되었습니다. 다시 로그인해 주세요.', 'AUTH');
   return {email: session.email, admin: recruitAdmin_(session.email), expiresAt: session.expiresAt};
 }
 function recruitStore_(kind) {
@@ -100,33 +100,10 @@ function recruitSnapshot_(user) {
     profile: {name: last.name || '', level: last.level || '', phone: last.phone || '', email: user.email},
     history: mine.map(a => ({activity:a.activity,description:a.description})), user: user};
 }
-function recruitCode_(email) {
-  email = recruitEmail_(email);
-  const cache = CacheService.getScriptCache(), waitKey = 'recruit:wait:' + email;
-  if (cache.get(waitKey)) recruitError_('인증 메일을 방금 보냈습니다. 1분 뒤 다시 요청해 주세요.');
-  const bucket = 'recruit:mail:' + Math.floor(Date.now() / 60000), sent = Number(cache.get(bucket) || 0);
-  if (sent >= 10 || MailApp.getRemainingDailyQuota() < 1) recruitError_('지금은 인증 메일 요청이 많습니다. 잠시 후 다시 시도해 주세요.');
-  const code = String(100000 + parseInt(Utilities.getUuid().replace(/-/g, '').slice(0,12), 16) % 900000);
-  cache.put('recruit:code:' + email, JSON.stringify({code:code, attempts:0, expiresAt:Date.now() + 600000}), 600);
-  cache.put(waitKey, '1', 60); cache.put(bucket, String(sent + 1), 65);
-  MailApp.sendEmail(email, '[티픽스 전문가 모집] 인증 코드 ' + code,
-    '인증 코드: ' + code + '\n\n10분 안에 전문가 모집 페이지에 입력해 주세요.\nhttps://tpicks-makerpool.vercel.app/experts.html\n\n직접 요청하지 않았다면 이 메일은 무시하셔도 됩니다.');
-  return {sent: true};
-}
-function recruitVerify_(email, code) {
-  email = recruitEmail_(email);
-  const cache = CacheService.getScriptCache(), key = 'recruit:code:' + email, raw = cache.get(key);
-  if (!raw) recruitError_('인증 코드가 없거나 만료되었습니다. 코드를 다시 받아 주세요.');
-  const record = JSON.parse(raw), seconds = Math.floor((record.expiresAt - Date.now()) / 1000);
-  if (seconds <= 0) { cache.remove(key); recruitError_('인증 코드가 만료되었습니다.'); }
-  if (record.code !== String(code || '').trim()) {
-    record.attempts++;
-    if (record.attempts >= 5) cache.remove(key); else cache.put(key, JSON.stringify(record), seconds);
-    recruitError_(record.attempts >= 5 ? '5번 틀려서 코드가 취소되었습니다. 다시 받아 주세요.' : '인증 코드가 맞지 않습니다.');
-  }
-  cache.remove(key);
+function recruitGoogle_(credential) {
+  const email = recruitEmail_(googleEmail_(credential));
   const token = Utilities.getUuid() + Utilities.getUuid(), session = {email:email, expiresAt:Date.now() + 1800000};
-  cache.put('recruit:session:' + token, JSON.stringify(session), 1800);
+  CacheService.getScriptCache().put('recruit:session:' + token, JSON.stringify(session), 1800);
   return {token:token, expiresAt:session.expiresAt, data:recruitSnapshot_(recruitUser_(token))};
 }
 function recruitQuestions_(d) {
@@ -221,10 +198,9 @@ function recruitApplication_(d,user) {
 function recruitHandle_(d) {
   const op = d.op;
   if (op === 'snapshot') return {data:recruitSnapshot_(recruitUser_(d.token,true)),version:RECRUIT_VERSION};
+  if (op === 'googleLogin') return recruitGoogle_(d.credential);
   const lock = LockService.getScriptLock(); lock.waitLock(20000);
   try {
-    if (op === 'requestCode') return recruitCode_(d.email);
-    if (op === 'verifyCode') return recruitVerify_(d.email,d.code);
     const user = recruitUser_(d.token);
     if (op === 'logout') { CacheService.getScriptCache().remove('recruit:session:' + d.token); return {}; }
     if (op === 'saveRequest') recruitRequest_(d,user);

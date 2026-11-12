@@ -5,7 +5,7 @@ const vm = require('node:vm');
 
 function createHarness() {
   let time = Date.parse('2026-11-11T09:00:00Z'), serial = 0, locked = false;
-  const sheets = {}, cache = new Map(), properties = new Map(), mails = [], logs = [];
+  const sheets = {}, cache = new Map(), properties = new Map(), logs = [], tokens = new Map();
   properties.set('RECRUIT_ADMIN_EMAILS','admin@example.com');
   class Clock extends Date { constructor(...args) { super(...(args.length ? args:[time])); } static now() { return time; } }
   class Sheet {
@@ -35,7 +35,7 @@ function createHarness() {
     PropertiesService:{getScriptProperties:()=>({getProperty:k=>properties.get(k)||null})},
     Session:{getEffectiveUser:()=>({getEmail:()=>'admin@example.com'})},
     Utilities:{getUuid:()=>`12345678-1234-4321-a123-${String(++serial).padStart(12,'0')}`,formatDate:d=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(d),newBlob:s=>({getBytes:()=>Buffer.from(s)})},
-    MailApp:{getRemainingDailyQuota:()=>100-mails.length,sendEmail:(to,subject,body)=>mails.push({to,subject,body})},
+    UrlFetchApp:{fetch:url=>{const t=tokens.get(decodeURIComponent(url.split('id_token=')[1]));return {getResponseCode:()=>t?200:400,getContentText:()=>JSON.stringify(t||{error:'invalid_token'})};}},
     LockService:{getScriptLock:()=>({waitLock(){assert(!locked,'중첩 잠금 금지');locked=true;},releaseLock(){assert(locked);locked=false;}})},
     ContentService:{MimeType:{JSON:'json'},createTextOutput:text=>({setMimeType:()=>text})},
     HtmlService:{createHtmlOutput:()=>({setTitle:()=>''})}
@@ -43,8 +43,11 @@ function createHarness() {
   const root = path.join(__dirname,'..');
   vm.runInContext(fs.readFileSync(path.join(root,'apps-script/Code.gs'),'utf8')+'\n'+fs.readFileSync(path.join(root,'apps-script/Recruitment.gs'),'utf8'),ctx);
   const call = value => JSON.parse(ctx.doPost({postData:{contents:JSON.stringify({action:'recruit',...value})}}));
-  const login = email => {const sent=call({op:'requestCode',email});assert(sent.ok,sent.error);const code=mails.at(-1).subject.match(/\d{6}/)[0];const result=call({op:'verifyCode',email,code});assert(result.ok,result.error);return result;};
-  return {ctx,sheets,cache,properties,mails,logs,call,login,advance:ms=>time+=ms,clock:()=>time};
+  const clientId = vm.runInContext('GOOGLE_CLIENT_ID',ctx);
+  // 가짜 구글: 증표 문자열 → 구글이 돌려줄 tokeninfo 내용
+  const google = (email,over={}) => {const id='h.b.'+String(tokens.size+1).padStart(120,'x');tokens.set(id,{aud:clientId,iss:'https://accounts.google.com',email,email_verified:'true',exp:String(Math.floor(time/1000)+3600),...over});return id;};
+  const login = email => {const result=call({op:'googleLogin',credential:google(email)});assert(result.ok,result.error);return result;};
+  return {ctx,sheets,cache,properties,logs,call,login,google,advance:ms=>time+=ms,clock:()=>time};
 }
 
 function run() {
@@ -126,13 +129,19 @@ function run() {
 
   h.advance(31*60*1000);
   assert.equal(as(teacher,'snapshot').code,'AUTH','세션 만료 검사');
-  const otp=createHarness();otp.ctx.setupRecruitment();ok(otp.call({op:'requestCode',email:'code@example.com'}));
-  denied(otp.call({op:'requestCode',email:'code@example.com'}));
-  const actual=otp.mails[0].subject.match(/\d{6}/)[0], wrong=actual==='000000'?'111111':'000000';
-  for(let i=0;i<5;i++)denied(otp.call({op:'verifyCode',email:'code@example.com',code:wrong}));
-  denied(otp.call({op:'verifyCode',email:'code@example.com',code:actual}));
-  otp.advance(61000);ok(otp.call({op:'requestCode',email:'code@example.com'}));otp.advance(600001);
-  denied(otp.call({op:'verifyCode',email:'code@example.com',code:actual}));
+  const g=createHarness();g.ctx.setupRecruitment();
+  const gl=credential=>g.call({op:'googleLogin',credential});
+  assert.equal(ok(gl(g.google('Code@Example.com'))).data.user.email,'code@example.com','구글 이메일은 소문자로 맞춤');
+  assert(ok(gl(g.google('admin@example.com'))).data.user.admin,'운영자 이메일은 구글 로그인에서도 운영자');
+  g.properties.set('RECRUIT_ADMIN_EMAILS','admin@example.com,ai.lab@keipa.kr');
+  assert(ok(gl(g.google('AI.Lab@keipa.kr'))).data.user.admin,'운영자 이메일을 쉼표로 여럿 지정할 수 있음');
+  assert(!ok(gl(g.google('teacher@example.com'))).data.user.admin,'목록에 없는 이메일은 운영자가 아님');
+  denied(gl(g.google('a@example.com',{aud:'other.apps.googleusercontent.com'})));
+  denied(gl(g.google('a@example.com',{email_verified:'false'})));
+  denied(gl(g.google('a@example.com',{iss:'https://evil.example'})));
+  denied(gl(g.google('a@example.com',{exp:String(Math.floor(g.clock()/1000)-5)})));
+  denied(gl('not-a-token')); denied(gl('')); denied(gl('a.b.'+'y'.repeat(150)));
+  denied(g.call({op:'requestCode',email:'a@example.com'})); denied(g.call({op:'verifyCode',email:'a@example.com',code:'123456'}));
 
   const root=path.join(__dirname,'..');
   const html=fs.readFileSync(path.join(root,'experts.html'),'utf8');

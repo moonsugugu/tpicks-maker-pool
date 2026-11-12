@@ -54,7 +54,7 @@ function requireRecruitAuth(next) {
 }
 function recruitHeader() {
   const head = el('recruitHeader');
-  head.innerHTML = `<a href="./" class="recruit-brand">↖ <img class="logo-img" src="tpicks-3d/assets/tpicks-logo-traced.svg" alt="TPICKS" width="68" height="22"> LABS</a><div>${recruitUser ? `<span class="recruit-email">${esc(recruitUser.email)}</span><button class="btn small" id="recruitLogout">로그아웃</button>${recruitUser.admin ? '<a class="btn small" href="#admin" id="recruitAdminLink">운영자 관리</a>':''}`:'<button class="btn small" id="recruitLogin">이메일 인증</button>'}</div>`;
+  head.innerHTML = `<a href="./" class="recruit-brand">↖ <img class="logo-img" src="tpicks-3d/assets/tpicks-logo-traced.svg" alt="TPICKS" width="68" height="22"> LABS</a><div>${recruitUser ? `<span class="recruit-email">${esc(recruitUser.email)}</span><button class="btn small" id="recruitLogout">로그아웃</button>${recruitUser.admin ? '<a class="btn small" href="#admin" id="recruitAdminLink">운영자 관리</a>':''}`:'<button class="btn small" id="recruitLogin">구글 로그인</button>'}</div>`;
   el('recruitLogin')?.addEventListener('click',()=>showRecruitLogin());
   el('recruitLogout')?.addEventListener('click',async()=>{
     if (recruitBusy) { toast('저장이 끝난 뒤 로그아웃해 주세요.'); return; }
@@ -65,25 +65,17 @@ function recruitHeader() {
   el('recruitAdminLink')?.addEventListener('click',e=>{e.preventDefault();navigate('admin');});
 }
 function showRecruitLogin(next) {
-  if (!modal(`<h2>이메일로 본인 확인</h2><p class="form-help">지원서와 모집 내역을 안전하게 확인할 수 있도록 인증해 주세요.</p><form id="recruitLoginForm"><div class="form-group"><label for="recruitEmail">이메일</label><input class="field" type="email" id="recruitEmail" required maxlength="120" autocomplete="email"></div><button class="btn primary" type="button" id="recruitSendCode">인증 코드 받기</button><div id="recruitCodeSection" hidden><div class="form-group"><label for="recruitCode">6자리 인증 코드</label><input class="field" id="recruitCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}"></div><button class="btn primary" type="submit">인증하고 계속하기</button></div><p id="recruitLoginMessage" role="status" class="form-help"></p><button type="button" class="btn" id="recruitCloseLogin">닫기</button></form>`)) return;
-  const form = el('recruitLoginForm'), email = el('recruitEmail'), send = el('recruitSendCode'), message = el('recruitLoginMessage');
-  el('recruitCloseLogin').onclick=closeModal;
-  send.onclick=async()=>{
-    if (!email.reportValidity()) return;
-    send.disabled=true; message.textContent='인증 메일을 보내고 있습니다.';
-    try { await recruitCall('requestCode',{email:email.value.trim()}); el('recruitCodeSection').hidden=false; el('recruitCode').required=true; email.readOnly=true; message.textContent='인증 메일을 보냈습니다. 10분 안에 입력해 주세요. 재요청은 1분 뒤 가능합니다.'; el('recruitCode').focus(); }
-    catch(error) { message.textContent=error.message; }
-    finally { send.disabled=false; }
-  };
-  form.onsubmit=async e=>{
-    e.preventDefault(); if (el('recruitCodeSection').hidden || !form.reportValidity()) return;
-    const buttons=[...form.querySelectorAll('button')]; buttons.forEach(b=>b.disabled=true);
+  if (!modal(`<h2>구글로 로그인</h2><p class="form-help">지원서와 모집 내역을 안전하게 확인할 수 있도록 구글 계정으로 로그인해 주세요. 이메일 주소만 확인하며, 비밀번호는 구글 창에서만 입력합니다.</p><div id="recruitGoogleBtn" style="min-height:44px;margin:14px 0"></div><p id="recruitLoginMessage" role="status" class="form-help"></p><button type="button" class="btn" id="recruitCloseLogin">닫기</button>`)) return;
+  const message = el('recruitLoginMessage');
+  el('recruitCloseLogin').onclick = closeModal;
+  googleButton(el('recruitGoogleBtn'), async credential => {
+    message.textContent = '로그인을 확인하고 있습니다.';
     try {
-      const result=await recruitCall('verifyCode',{email:email.value.trim(),code:el('recruitCode').value.trim()});
-      recruitSession={token:result.token,expiresAt:result.expiresAt}; sessionStorage.setItem(RECRUIT_SESSION,JSON.stringify(recruitSession)); recruitAccept(result.data);
-      closeModal({force:true,skipHistory:true}); render(); if (typeof next==='function') next(); toast('이메일 인증이 완료되었습니다.');
-    } catch(error) { message.textContent=error.message; buttons.forEach(b=>b.disabled=false); }
-  };
+      const result = await recruitCall('googleLogin', {credential});
+      recruitSession = {token:result.token, expiresAt:result.expiresAt}; sessionStorage.setItem(RECRUIT_SESSION, JSON.stringify(recruitSession)); recruitAccept(result.data);
+      closeModal({force:true, skipHistory:true}); render(); if (typeof next === 'function') next(); toast('로그인했습니다.');
+    } catch (error) { message.textContent = error.message; }
+  }).catch(error => { message.textContent = error.message; });
 }
 
 const localRender = render;
@@ -92,7 +84,7 @@ render = function() {
   if (!recruitReady) { el('root').innerHTML='<div class="content-wrap"><div class="panel empty" role="status">모집 공고를 불러오고 있습니다.</div></div>'; return; }
   const privatePage=['mine','company','partner','admin'].includes(page);
   if (privatePage && !recruitUser) {
-    el('root').innerHTML=spaceNav()+`<div class="content-wrap"><div class="panel empty"><h2>이메일 인증이 필요합니다</h2><p>본인의 지원서와 모집 내역만 확인할 수 있습니다.</p><button class="btn primary" id="recruitPageLogin">이메일 인증하기</button></div></div>`;
+    el('root').innerHTML=spaceNav()+`<div class="content-wrap"><div class="panel empty"><h2>로그인이 필요합니다</h2><p>본인의 지원서와 모집 내역만 확인할 수 있습니다.</p><button class="btn primary" id="recruitPageLogin">구글로 로그인하기</button></div></div>`;
     document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=e=>{e.preventDefault();navigate(b.dataset.nav);});
     el('recruitPageLogin').onclick=()=>showRecruitLogin(()=>render()); return;
   }

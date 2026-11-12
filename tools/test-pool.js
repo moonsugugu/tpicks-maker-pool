@@ -5,7 +5,10 @@ const src = fs.readFileSync(path.join(root, 'apps-script/Code.gs'), 'utf8');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 
 // 가짜 시트: rows[r][c]
-const sheets = {}, cache = new Map(), mails = [];
+const sheets = {}, cache = new Map();
+// 가짜 구글: 증표(credential) 문자열 → 구글이 돌려줄 tokeninfo 내용
+const CLIENT_ID = src.match(/const GOOGLE_CLIENT_ID="([^"]+)"/)[1], tokens = new Map();
+const google = (email, over = {}) => { const id = 'h.b.' + String(tokens.size + 1).padStart(120, 'x'); tokens.set(id, { aud: CLIENT_ID, iss: 'https://accounts.google.com', email, email_verified: 'true', exp: String(Math.floor(Date.now() / 1000) + 3600), ...over }); return id; };
 const mkSheet = () => {
   const rows = [];
   const s = {
@@ -22,11 +25,11 @@ const mkSheet = () => {
 };
 const ctx = {
   HtmlService: { createHtmlOutput: () => ({ setTitle: () => "html" }) }, ContentService: { MimeType: { JSON: 1 }, createTextOutput: s => ({ setMimeType: () => s }) }, Logger: { log() {} }, Utilities: { getUuid: (() => { let u = 0; return () => (u++ ? (0xa0000000 + u).toString(16) : 'abcdef12') + '-xxxx'; })() },
-  CacheService: { getScriptCache: () => ({ get: k => cache.has(k) ? cache.get(k) : null, put: (k, v) => cache.set(k, v), remove: k => cache.delete(k) }) }, MailApp: { sendEmail: (to, sub, body) => mails.push({ to, sub, body }) }, LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
+  CacheService: { getScriptCache: () => ({ get: k => cache.has(k) ? cache.get(k) : null, put: (k, v) => cache.set(k, v), remove: k => cache.delete(k) }) }, UrlFetchApp: { fetch: url => { const t = tokens.get(decodeURIComponent(url.split('id_token=')[1])); return { getResponseCode: () => t ? 200 : 400, getContentText: () => JSON.stringify(t || { error: 'invalid_token' }) }; } }, LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
   SpreadsheetApp: { openById: () => ({ getSheetByName: n => sheets[n], insertSheet: n => (sheets[n] = mkSheet()) }) },
 };
 vm.createContext(ctx);
-vm.runInContext(src + '\n;this.submitPool=submitPool;this.listPool_=listPool_;this.doGet=doGet;this.setupCollab=setupCollab;this.save_=save_;this.sendCode_=sendCode_;this.verify_=verify_;this.delete_=delete_;this.doPost=doPost;this.clean_=clean_;this.FIELDS=FIELDS;', ctx);
+vm.runInContext(src + '\n;this.submitPool=submitPool;this.listPool_=listPool_;this.doGet=doGet;this.setupCollab=setupCollab;this.save_=save_;this.googleLogin_=googleLogin_;this.delete_=delete_;this.doPost=doPost;this.clean_=clean_;this.FIELDS=FIELDS;', ctx);
 // 연수별 강의 대상
 const base = { name: '김하늘', phone: '01012345678', email: 'a@b.co', office: '경기도교육청 의정부교육지원청', school: '○○초', level: '초등학교',
   line: '한 줄', intro: '소개', field: ['AI 활용 수업'], p1n: '앱', agree: true };
@@ -39,8 +42,16 @@ const id = ctx.submitPool({ ...base, target: ['초등 교사', '학부모', '기
 const C = sheets['가능 연수'].rows; assert.strictEqual(C[0][10], '강의 대상');
 assert.deepStrictEqual(C.slice(1).map(r => r[10]), ['초등 교사, 학부모', '기타: 예비교사']);
 const T = sheets['강사'].rows; assert.strictEqual(T[1][T[0].indexOf('강의 가능 대상')], '초등 교사, 학부모, 기타: 예비교사');
-ctx.sendCode_('a@b.co'); const code = mails.at(-1).sub.match(/[0-9]{6}/)[0];
-const vr = JSON.parse(JSON.stringify(ctx.verify_('a@b.co', code)));
+const vr = JSON.parse(JSON.stringify(ctx.googleLogin_(google('A@b.co'))));
+assert.strictEqual(vr.email, 'a@b.co', '구글 이메일은 소문자로 맞춤');
+thr(() => ctx.googleLogin_(google('a@b.co', { aud: 'other.apps.googleusercontent.com' })), '확인할 수 없습니다');
+thr(() => ctx.googleLogin_(google('a@b.co', { email_verified: 'false' })), '확인할 수 없습니다');
+thr(() => ctx.googleLogin_(google('a@b.co', { iss: 'https://evil.example' })), '확인할 수 없습니다');
+thr(() => ctx.googleLogin_(google('a@b.co', { exp: String(Math.floor(Date.now() / 1000) - 5) })), '확인할 수 없습니다');
+thr(() => ctx.googleLogin_('not-a-token'), '확인하지 못했습니다');
+thr(() => ctx.googleLogin_('a.b.' + 'y'.repeat(150)), '올바르지 않습니다');
+thr(() => ctx.googleLogin_(google('nobody@b.co')), '제출한 내용이 없습니다');
+assert.strictEqual(JSON.parse(ctx.doPost({ postData: { contents: JSON.stringify({ action: 'code', email: 'a@b.co' }) } })).ok, false, '이메일 코드 방식은 없어졌음(저장 요청으로 처리되지 않음)');
 assert.deepStrictEqual(vr.data.courses.map(c => c.target), [['초등 교사', '학부모'], ['기타: 예비교사']]);
 // 화면: 강의 정보 칸에서 대상이 빠지고 연수 칸에 들어감, 화면 항목 = 서버 항목(target은 연수에서 모아 보냄)
 const js = html.slice(html.indexOf('<script>') + 8, html.indexOf('</script>', html.indexOf('<script>')));
@@ -56,8 +67,7 @@ assert.strictEqual(me.book, '책 제목'); assert.strictEqual(me.award, '상 이
 assert(!('career' in me) && !('history' in me) && !('sns' in me), '고르지 않은 정보는 공개하지 않음');
 assert(!JSON.stringify(pub).includes('open@x.co') && !JSON.stringify(pub).includes('01012345678'), '연락처 비공개');
 const other = pub.find(t => !t.book); assert.deepStrictEqual(Object.keys(other).sort(), ['courses', 'intro', 'name', 'office', 'school'], '공개 항목을 고르지 않으면 기본 정보만');
-ctx.sendCode_('open@x.co'); const code2 = mails.at(-1).sub.match(/[0-9]{6}/)[0];
-const vr2 = JSON.parse(JSON.stringify(ctx.verify_('open@x.co', code2)));
+const vr2 = JSON.parse(JSON.stringify(ctx.googleLogin_(google('open@x.co'))));
 assert.deepStrictEqual(vr2.data.open, ['대표 프로그램', '대표 저서', '수상'], '수정할 때 공개 항목을 다시 불러옴');
 assert.strictEqual(vr2.data.courses[0].tool, '캔바, 챗GPT');
 
