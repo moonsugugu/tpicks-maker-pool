@@ -26,6 +26,7 @@ const mkSheet = () => {
 const ctx = {
   HtmlService: { createHtmlOutput: () => ({ setTitle: () => "html" }) }, ContentService: { MimeType: { JSON: 1 }, createTextOutput: s => ({ setMimeType: () => s }) }, Logger: { log() {} }, Utilities: { getUuid: (() => { let u = 0; return () => (u++ ? (0xa0000000 + u).toString(16) : 'abcdef12') + '-xxxx'; })() },
   CacheService: { getScriptCache: () => ({ get: k => cache.has(k) ? cache.get(k) : null, put: (k, v) => cache.set(k, v), remove: k => cache.delete(k) }) }, UrlFetchApp: { fetch: url => { const t = tokens.get(decodeURIComponent(url.split('id_token=')[1])); return { getResponseCode: () => t ? 200 : 400, getContentText: () => JSON.stringify(t || { error: 'invalid_token' }) }; } }, LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
+  recruitAdmin_: e => e === 'boss@x.co',
   SpreadsheetApp: { openById: () => ({ getSheetByName: n => sheets[n], insertSheet: n => (sheets[n] = mkSheet()) }) },
 };
 vm.createContext(ctx);
@@ -53,6 +54,17 @@ thr(() => ctx.googleLogin_('a.b.' + 'y'.repeat(150)), '올바르지 않습니다
 thr(() => ctx.googleLogin_(google('nobody@b.co')), '제출한 내용이 없습니다');
 assert.strictEqual(JSON.parse(ctx.doPost({ postData: { contents: JSON.stringify({ action: 'code', email: 'a@b.co' }) } })).ok, false, '이메일 코드 방식은 없어졌음(저장 요청으로 처리되지 않음)');
 assert.deepStrictEqual(vr.data.courses.map(c => c.target), [['초등 교사', '학부모'], ['기타: 예비교사']]);
+// 강사풀 관리자: 관리자 구글 계정만 전체(연락처 포함) 조회, 토큰으로 다시 조회
+const adm = q => JSON.parse(ctx.doPost({ postData: { contents: JSON.stringify({ action: 'admin', ...q }) } }));
+assert.strictEqual(adm({ credential: google('a@b.co') }).ok, false, '일반 제출자는 관리자 로그인 불가');
+const al = adm({ credential: google('Boss@x.co') });
+assert.ok(al.ok && al.token && al.email === 'boss@x.co', '관리자 로그인');
+assert.strictEqual(al.data.head[al.data.head.indexOf('전화번호')], '전화번호');
+assert.ok(al.data.rows.some(r => r.includes('01012345678')), '관리자는 전화번호까지 봄');
+assert.strictEqual(al.data.courses.length, 2);
+assert.strictEqual(adm({ token: al.token }).data.rows.length, al.data.rows.length, '토큰으로 다시 조회');
+const bad = adm({ token: 'nope' }); assert.ok(!bad.ok && bad.code === 'AUTH', '가짜 토큰 거절');
+assert.strictEqual(adm({ token: vr.token }).ok, false, '제출자 토큰으로 관리자 조회 불가');
 // 화면: 강의 정보 칸에서 대상이 빠지고 연수 칸에 들어감, 화면 항목 = 서버 항목(target은 연수에서 모아 보냄)
 const js = html.slice(html.indexOf('<script>') + 8, html.indexOf('</script>', html.indexOf('<script>')));
 new vm.Script(js);

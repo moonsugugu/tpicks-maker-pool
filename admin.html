@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>티픽스 메이커 강사풀 관리자</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--p:#7A4CF2;--p2:#5F33DD;--pl:#F2EDFF;--t:#1D1B25;--m:#6E6A7C;--b:#ECE9F3;--bg:#F7F6FB;--r:#E5484D}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font-family:Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;-webkit-font-smoothing:antialiased;word-break:keep-all}
+button,input{font:inherit}a{color:var(--p2)}
+.top{min-height:64px;background:#fff;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:10px 20px}
+.logo{display:flex;align-items:center;gap:6px;font-weight:900;font-size:19px;color:var(--t);text-decoration:none;padding:8px 14px;border-radius:12px;background:#fff;box-shadow:0 2px 12px rgba(30,20,60,.1)}
+.who{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--m)}
+.btn{border:1px solid var(--b);background:#fff;color:var(--t);border-radius:10px;padding:8px 14px;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none}
+main{max-width:1080px;margin:0 auto;padding:28px 20px 60px}
+h1{font-size:26px;letter-spacing:-.6px;margin:0 0 6px}.lead{color:var(--m);font-size:14px;margin:0 0 22px;line-height:1.6}
+.panel{background:#fff;border:1px solid var(--b);border-radius:16px;padding:26px}
+.login{max-width:440px;margin:40px auto}.login p{color:var(--m);font-size:14px;line-height:1.6}
+#msg{font-size:14px;color:var(--m);min-height:20px}#msg.bad{color:var(--r)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.bar input{flex:1;min-width:200px;border:1px solid var(--b);border-radius:10px;padding:10px 14px;background:#fff}
+.stat{font-size:14px;color:var(--m);margin:0 0 12px}.stat b{color:var(--t)}
+.card{background:#fff;border:1px solid var(--b);border-radius:14px;margin-bottom:10px}
+.card summary{list-style:none;cursor:pointer;padding:16px 18px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.4fr) minmax(0,1fr) auto;gap:6px 16px;align-items:center}
+.card summary::-webkit-details-marker{display:none}
+.nm{font-weight:800;font-size:16px}.sub{font-size:13px;color:var(--m)}.ct{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.tag{font-size:12px;font-weight:700;background:var(--pl);color:var(--p2);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.card[open] summary{border-bottom:1px solid var(--b)}
+.body{padding:16px 18px 20px}
+dl{display:grid;grid-template-columns:150px minmax(0,1fr);gap:8px 14px;margin:0 0 18px;font-size:14px;line-height:1.6}
+dt{color:var(--m);font-weight:600}dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+h3{font-size:15px;margin:0 0 8px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px;min-width:640px}
+th,td{border-bottom:1px solid var(--b);padding:8px 10px;text-align:left;vertical-align:top}th{color:var(--m);font-weight:700;background:var(--bg)}
+.empty{text-align:center;color:var(--m);padding:40px}
+footer{text-align:center;font-size:12px;color:var(--m);padding:24px}
+@media(max-width:720px){.card summary{grid-template-columns:1fr auto}.card summary .ct{grid-column:1/-1}dl{grid-template-columns:1fr;gap:2px}dd{margin-bottom:8px}.top{padding:10px 12px}.logo{font-size:16px;padding:7px 10px}}
+</style>
+</head>
+<body>
+<header class="top"><a class="logo" href="./"><span>↖</span><img src="tpicks-3d/assets/tpicks-logo-traced.svg" alt="TPICKS" width="68" height="22">LABS</a><div class="who" id="who"></div></header>
+<main>
+  <h1>메이커 강사풀 관리자</h1>
+  <p class="lead">조사 페이지로 제출된 강사 정보와 가능 연수를 모두 봅니다. 관리자로 등록된 구글 계정만 볼 수 있고, 로그인은 30분 동안 유지됩니다.</p>
+  <section class="panel login" id="loginBox">
+    <h2 style="margin:0 0 6px;font-size:19px">관리자 로그인</h2>
+    <p>관리자 구글 계정으로 로그인해 주세요. 비밀번호는 구글 창에서만 입력합니다.</p>
+    <div id="gBtn" style="min-height:44px;margin:16px 0"></div>
+    <p id="msg" role="status"></p>
+  </section>
+  <section id="view" hidden>
+    <div class="bar"><input id="q" type="search" placeholder="이름, 이메일, 학교, 교육청, 연수명으로 찾기" aria-label="강사 찾기"><button class="btn" id="all">모두 펼치기</button><button class="btn" id="reload">새로고침</button><a class="btn" href="experts.html#admin">전문가 모집 운영자 관리 →</a></div>
+    <p class="stat" id="stat"></p>
+    <div id="list"></div>
+  </section>
+</main>
+<footer><a href="privacy.html">개인정보 처리방침</a> · 이 화면의 연락처는 섭외 연락에만 사용합니다.</footer>
+<script src="google-login.js"></script>
+<script>
+'use strict';
+const API = 'https://script.google.com/macros/s/AKfycbzezb8Vh2q77N5Tl2nuxx0BVQhqDtFfZ7ujHkG5DAJs-15P7soKd8mrFaKS_1WZa7GduA/exec', KEY = 'tpicks-pool-admin';
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const val = s => /^https?:\/\/\S+$/.test(s) ? `<a href="${esc(s)}" target="_blank" rel="noopener noreferrer">${esc(s)}</a>` : esc(s);
+let session = null, people = [];
+try { session = JSON.parse(sessionStorage.getItem(KEY)); } catch (_) {}
+
+async function post(body) {
+  const r = await (await fetch(API, {method: 'POST', body: JSON.stringify({action: 'admin', ...body})})).json();
+  if (!r.ok) throw Object.assign(new Error(r.error || '요청을 처리하지 못했습니다.'), {code: r.code});
+  return r;
+}
+function msg(s, bad) { $('msg').textContent = s || ''; $('msg').className = bad ? 'bad' : ''; }
+function showLogin(text) {
+  sessionStorage.removeItem(KEY); session = null; people = [];
+  $('loginBox').hidden = false; $('view').hidden = true; $('who').innerHTML = ''; $('list').innerHTML = '';
+  msg(text, !!text);
+  googleButton($('gBtn'), async credential => {
+    msg('로그인을 확인하고 있습니다.'); loginWait(true);
+    try {
+      const r = await post({credential});
+      session = {token: r.token, email: r.email, exp: Date.now() + 1800000};
+      sessionStorage.setItem(KEY, JSON.stringify(session));
+      msg(''); show(r.data);
+    } catch (e) { msg(e.message, true); } finally { loginWait(false); }
+  }).catch(e => msg(e.message, true));
+}
+// 시트 그대로(머리글+행)를 강사별로 묶는다. 가능 연수는 응답 ID로 연결한다.
+function show(d) {
+  const h = d.head || [], ch = d.courseHead || [], idI = h.indexOf('응답 ID'), cIdI = ch.indexOf('응답 ID');
+  people = (d.rows || []).map(row => {
+    const o = {}; h.forEach((k, i) => o[k] = row[i] || '');
+    o.courses = (d.courses || []).filter(c => c[cIdI] === row[idI]).map(c => { const x = {}; ch.forEach((k, i) => x[k] = c[i] || ''); return x; });
+    o.text = (row.join(' ') + ' ' + o.courses.map(c => Object.values(c).join(' ')).join(' ')).toLowerCase();
+    return o;
+  }).reverse();
+  $('loginBox').hidden = true; $('view').hidden = false;
+  $('who').innerHTML = `<span>${esc(session.email)}</span><button class="btn" id="out">로그아웃</button>`;
+  $('out').onclick = () => showLogin('');
+  render();
+}
+const SKIP = ['제출 시각', '성함', '전화번호', '이메일', '소속 교육청', '근무지', '근무 학교급', '응답 ID', 'courses', 'text'];
+const CCOLS = ['연수명(가제)', '대분류', '핵심 도구', '가능 차시', '강의 방식', '난이도', '강의 대상'];
+function render() {
+  const q = $('q').value.trim().toLowerCase(), list = q ? people.filter(p => p.text.includes(q)) : people;
+  $('stat').innerHTML = `등록 강사 <b>${people.length}명</b> · 가능 연수 <b>${people.reduce((n, p) => n + p.courses.length, 0)}개</b>${q ? ` · 찾은 결과 <b>${list.length}명</b>` : ''}`;
+  $('list').innerHTML = list.length ? list.map(p => `<details class="card"><summary>
+    <div><div class="nm">${esc(p['성함'])}</div><div class="sub">${esc(p['근무 학교급'])} · 제출 ${esc(p['제출 시각'])}</div></div>
+    <div class="ct">${esc(p['소속 교육청'])}<br><span class="sub">${esc(p['근무지'])}</span></div>
+    <div class="ct">${esc(p['전화번호'])}<br><a href="mailto:${esc(p['이메일'])}">${esc(p['이메일'])}</a></div>
+    <span class="tag">연수 ${p.courses.length}개</span></summary>
+    <div class="body"><dl>${Object.keys(p).filter(k => !SKIP.includes(k) && p[k]).map(k => `<dt>${esc(k)}</dt><dd>${val(p[k])}</dd>`).join('')}</dl>
+    <h3>가능 연수</h3>${p.courses.length ? `<div class="tw"><table><thead><tr>${CCOLS.map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${p.courses.map(c => `<tr>${CCOLS.map(k => `<td>${esc(c[k])}</td>`).join('')}</tr>`).join('')}</tbody></table></div>` : '<p class="sub">등록한 연수가 없습니다.</p>'}</div></details>`).join('')
+    : `<div class="panel empty">${people.length ? '찾는 강사가 없습니다.' : '아직 제출된 강사 정보가 없습니다.'}</div>`;
+  $('all').textContent = '모두 펼치기';
+}
+async function reload() {
+  $('reload').disabled = true; loginWait(true);
+  try { show((await post({token: session.token})).data); }
+  catch (e) { if (e.code === 'AUTH') showLogin(e.message); else { $('view').hidden = false; alert(e.message); } }
+  finally { $('reload').disabled = false; loginWait(false); }
+}
+$('q').oninput = render;
+$('reload').onclick = reload;
+$('all').onclick = () => { const cards = [...document.querySelectorAll('#list details')], open = !cards.every(c => c.open); cards.forEach(c => c.open = open); $('all').textContent = open ? '모두 접기' : '모두 펼치기'; };
+if (session?.token && session.exp > Date.now()) { $('loginBox').hidden = true; reload(); } else showLogin('');
+</script>
+</body>
+</html>
