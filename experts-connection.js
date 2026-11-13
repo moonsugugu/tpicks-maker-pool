@@ -5,6 +5,10 @@ const RECRUIT_SESSION = 'tpicks-recruit-session-v1';
 let recruitSession = null, recruitReady = false, recruitBusy = false;
 try { const saved = JSON.parse(sessionStorage.getItem(RECRUIT_SESSION) || 'null'); if (saved?.expiresAt > Date.now()) recruitSession = saved; } catch (_) {}
 let recruitUser = null;
+// 공고는 Apps Script 응답에 1~6초가 걸린다. 지난번에 받은 공개 공고를 먼저 보여 주고, 응답이 오면 목록만 새로 바꾼다.
+const RECRUIT_JOBS_CACHE = 'tpicks-recruit-jobs-v1';
+const publicJobs = jobs => jobs.filter(j=>j.published).map(({ownerEmail,sourceRequestId,...j})=>j);
+try { const cached = JSON.parse(localStorage.getItem(RECRUIT_JOBS_CACHE) || '[]'); if (Array.isArray(cached)) db.jobs = cached; } catch (_) {}
 const myApplications = () => db.apps.filter(a => a.email?.toLowerCase() === recruitUser?.email);
 const newRecordId = prefix => prefix + '-' + crypto.randomUUID();
 
@@ -27,12 +31,13 @@ async function recruitCall(op, values = {}) {
 function recruitAccept(data) {
   db = {jobs:data.jobs || [],apps:data.apps || [],requests:data.requests || [],profile:data.profile || {},history:data.history || []};
   recruitUser = data.user || null; recruitReady = true;
+  try { localStorage.setItem(RECRUIT_JOBS_CACHE, JSON.stringify(publicJobs(db.jobs))); } catch (_) {}
 }
 function recruitClearSession(clearDrafts = false) {
   recruitSession = null; recruitUser = null;
   sessionStorage.removeItem(RECRUIT_SESSION);
   if (clearDrafts) for (const key of Object.keys(sessionStorage)) if (key.startsWith(DRAFT_PREFIX)) sessionStorage.removeItem(key);
-  db = {jobs:db.jobs.filter(j=>j.published).map(({ownerEmail,sourceRequestId,...j})=>j),apps:[],requests:[],profile:{},history:[]};
+  db = {jobs:publicJobs(db.jobs),apps:[],requests:[],profile:{},history:[]};
 }
 async function recruitMutation(op, values, message) {
   if (recruitBusy) { toast('저장 중입니다. 잠시 기다려 주세요.'); return false; }
@@ -81,8 +86,13 @@ function showRecruitLogin(next) {
 const localRender = render;
 render = function() {
   recruitHeader();
-  if (!recruitReady) { el('root').innerHTML='<div class="content-wrap"><div class="panel empty" role="status">모집 공고를 불러오고 있습니다.</div></div>'; return; }
   const privatePage=['mine','company','partner','admin'].includes(page);
+  if (!recruitReady) {
+    // 공개 화면(첫 화면·공고 찾기)은 빈 화면으로 기다리게 하지 않는다. 틀은 바로 그리고 목록 자리만 기다린다.
+    if (privatePage) el('root').innerHTML='<div class="content-wrap"><div class="panel empty" role="status">모집 정보를 불러오고 있습니다.</div></div>';
+    else { localRender(); if (!db.jobs.length) el('jobResults').innerHTML='<div class="listing-header"><strong>모집 공고</strong><span>불러오는 중</span></div><div class="panel empty" role="status">모집 공고를 불러오고 있습니다.</div>'; }
+    return;
+  }
   if (privatePage && !recruitUser) {
     el('root').innerHTML=spaceNav()+`<div class="content-wrap"><div class="panel empty"><h2>로그인이 필요합니다</h2><p>본인의 지원서와 모집 내역만 확인할 수 있습니다.</p><button class="btn primary" id="recruitPageLogin">구글로 로그인하기</button></div></div>`;
     document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=e=>{e.preventDefault();navigate(b.dataset.nav);});
@@ -94,6 +104,7 @@ render = function() {
 
 const localOpenApply = openApply;
 openApply = function(id, appId=null) {
+  if (!recruitReady) { toast('모집 정보를 확인하고 있습니다. 잠시 후 다시 눌러 주세요.'); return; }
   if (!requireRecruitAuth(()=>openApply(id,appId))) return;
   localOpenApply(id,appId);
   const form=el('appForm'), job=db.jobs.find(j=>j.id===id);
@@ -171,6 +182,7 @@ bind = function() {
 };
 
 async function bootRecruitment() {
+  if (location.hash.startsWith('#job-')) page='jobs';
   render();
   try {
     let result;
@@ -178,6 +190,7 @@ async function bootRecruitment() {
     catch(error) { if (!recruitSession) result=await recruitCall('snapshot'); else throw error; }
     recruitAccept(result.data);
     if (location.hash.startsWith('#job-')) { const id=decodeURIComponent(location.hash.slice(5)); history.replaceState({page:'jobs'},'','#jobs');page='jobs';render();openJobDetails(id); }
+    else if (el('jobResults')) { recruitHeader(); updateJobResults(); }
     else render();
   } catch(error) {
     recruitHeader(); el('root').innerHTML=`<div class="content-wrap"><div class="panel empty" role="alert"><h2>모집 정보를 불러오지 못했습니다</h2><p>${esc(error.message)}</p><button class="btn" id="recruitRetry">다시 불러오기</button></div></div>`; el('recruitRetry').onclick=bootRecruitment;
