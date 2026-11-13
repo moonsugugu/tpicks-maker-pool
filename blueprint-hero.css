@@ -35,6 +35,7 @@ body{background-color:var(--bp-paper);background-image:linear-gradient(var(--bp-
 .hero .bp-object,.hero .hero-logo-side{grid-column:3;grid-row:1;align-self:center;position:relative;z-index:2;min-width:0;padding:0}
 .bp-dim{display:flex;align-items:center;gap:8px;color:var(--bp);font:9px/1 Consolas,monospace;letter-spacing:.1em}
 .bp-dim i{flex:1;height:1px;background:var(--bp-line)}
+.bp-logo-link{display:block}
 .hero .brand,.hero .hero-3d{display:block;width:100%;max-width:none;height:clamp(120px,13vw,172px);min-height:0;margin:4px 0 0;color:var(--bp)}
 .hero .hero-logo-caption{padding:2px 0 0;text-align:center;font-size:9px;letter-spacing:.2em;color:var(--bp)}
 

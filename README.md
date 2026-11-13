@@ -46,7 +46,7 @@ Apps Script 원본은 `apps-script/Code.gs`입니다. 편집기에 반영한 뒤
 
 2026-11-11 운영 반영: 기존 웹 앱 주소의 버전 12에 배포했습니다. 운영 시트의 요청 저장·조회·수정 검사가 통과했고, 익명 공개 API·인증 없는 쓰기 거절·기존 강사풀 17건 응답 보존을 확인했습니다. 실제 메일 발송 검사는 수행하지 않았으며 인증 로직은 가짜 메일을 사용하는 자동·브라우저 검사로 확인했습니다.
 
-로고: `tpicks-3d/`는 TPICKS 3D 로고 패키지에서 사이트 실행에 필요한 파일만 옮긴 것입니다(Three.js r180, MIT). 메인·전문가 모집 첫 화면은 `<tpicks-logo-3d>` 입체 로고를 씁니다. 다섯 페이지의 왼쪽 위 로고는 TPICKS LAB 워드마크 `img/tpicks-lab-logo.svg`이고, 누르면 TPICKS LAB 첫 화면(https://tpickslab.vercel.app/)으로 갑니다(2026-11-13, 예전 `tpicks-logo-traced.svg` + LABS 글자에서 바꿈).
+로고: `tpicks-3d/`는 TPICKS 3D 로고 패키지에서 사이트 실행에 필요한 파일만 옮긴 것입니다(Three.js r180, MIT). 메인·전문가 모집 첫 화면은 `<tpicks-logo-3d>` 입체 로고를 쓰고, 누르면 티픽스 누리집(https://tpicks.kr/)으로 갑니다. 다섯 페이지의 왼쪽 위 로고는 TPICKS LAB 워드마크 `img/tpicks-lab-logo.svg`이고, 누르면 TPICKS LAB 첫 화면(https://tpickslab.vercel.app/)으로 갑니다(2026-11-13, 예전 `tpicks-logo-traced.svg` + LABS 글자에서 바꿈).
 
 첫 화면 구성(2026-11-13): 메인과 전문가 모집의 히어로를 교육앱 안전 점검기와 같은 구성으로 바꿨습니다. 왼쪽 인물 사진, 가운데 제목, 오른쪽 입체 로고, 옅은 격자 바탕과 치수선입니다. 색은 페이지마다 다릅니다(메인·지도·연수 레퍼런스·관리자는 초록, 전문가 모집은 주황). 예전 보라 계열 색을 밝기는 그대로 두고 색상만 옮긴 값입니다. 모양은 두 페이지가 함께 쓰는 `blueprint-hero.css`에 있고 각 페이지의 `<style>` 뒤에 불러 예전 히어로 규칙을 덮습니다. 히어로의 색 톤은 `<body class="tone-pool">`·`tone-recruit`에 맞춰 그 파일 맨 위 `--bp` 값으로 정합니다. 인물 사진 `img/maker-teacher.webp`·`img/recruit-teacher.webp`는 점검기 사진을 화풍 참고로 넣어 Codex `image_gen`으로 만든 투명 바탕 그림입니다(실제 인물이 아님). WebGL이 안 되면 `logo-fallback.webp`가 대신 보입니다.
 

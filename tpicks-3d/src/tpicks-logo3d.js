@@ -99,7 +99,7 @@ export async function mountTPICKSLogo(host, options = {}) {
     start();
   };
   const setPaused = value => { paused = Boolean(value); updateButton(); stopFrames(); start(); };
-  const toggle = () => setPaused(!paused);
+  const toggle = event => { event?.preventDefault(); setPaused(!paused); };  // 로고가 링크 안에 있어도 버튼은 멈춤만 한다
   button.addEventListener('click', toggle);
   viewport.addEventListener('pointermove', pointerMove);
   viewport.addEventListener('pointerleave', pointerLeave);
