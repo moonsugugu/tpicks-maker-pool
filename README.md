@@ -34,7 +34,7 @@ Apps Script 원본은 `apps-script/Code.gs`입니다. 편집기에 반영한 뒤
 
 강사가 고른 정보만 공개: 등록 페이지 「강사풀 지도에 함께 공개할 정보」(대표 프로그램·대표 저서·연수 이력·SNS·커뮤니티·수상·이력)를 「강사」 탭 「공개 항목」 열에 저장하고, 공개 데이터(listPool_ → openExtra_)에는 고른 항목만 넣습니다. 핵심 도구 이름은 `tools.js`의 목록으로 통일합니다(새 도구는 거기에 한 줄 추가). 검사: `node tools/test-pool.js`.
 
-메인 상단 「전문가 모집 공고 보기」는 `experts.html`로 연결합니다. 사용자가 제공한 「교사 숨고 페이지 v6-1.html」의 화면을 유지하고, `experts-connection.js`에서 기존 Apps Script 웹 앱에 연결합니다.
+전문가 모집(`experts.html`)은 TPICKS LAB 첫 화면의 카드에서 들어갑니다. 메인 상단의 「전문가 모집 공고 보기」 버튼은 2026-11-13에 뺐습니다. 사용자가 제공한 「교사 숨고 페이지 v6-1.html」의 화면을 유지하고, `experts-connection.js`에서 기존 Apps Script 웹 앱에 연결합니다.
 
 전문가 모집은 같은 비공개 응답 시트의 「모집 공고」·「모집 요청」·「모집 지원」 탭을 사용합니다. 저장이 필요한 영구 데이터이며 별도 DB·홈서버·공개 시트를 만들지 않습니다. 기존 「강사」·「가능 연수」 탭과 분리합니다. 초기 공고는 제공된 보훈교육 공고 하나이며 예시 공고는 저장하지 않습니다.
 
@@ -46,7 +46,9 @@ Apps Script 원본은 `apps-script/Code.gs`입니다. 편집기에 반영한 뒤
 
 2026-11-11 운영 반영: 기존 웹 앱 주소의 버전 12에 배포했습니다. 운영 시트의 요청 저장·조회·수정 검사가 통과했고, 익명 공개 API·인증 없는 쓰기 거절·기존 강사풀 17건 응답 보존을 확인했습니다. 실제 메일 발송 검사는 수행하지 않았으며 인증 로직은 가짜 메일을 사용하는 자동·브라우저 검사로 확인했습니다.
 
-로고: `tpicks-3d/`는 TPICKS 3D 로고 패키지에서 사이트 실행에 필요한 파일만 옮긴 것입니다(Three.js r180, MIT). 메인·전문가 모집 첫 화면은 `<tpicks-logo-3d>` 입체 로고를, 네 페이지 상단 로고는 `tpicks-3d/assets/tpicks-logo-traced.svg`를 씁니다. WebGL이 안 되면 `logo-fallback.webp`가 대신 보입니다.
+로고: `tpicks-3d/`는 TPICKS 3D 로고 패키지에서 사이트 실행에 필요한 파일만 옮긴 것입니다(Three.js r180, MIT). 메인·전문가 모집 첫 화면은 `<tpicks-logo-3d>` 입체 로고를 씁니다. 다섯 페이지의 왼쪽 위 로고는 TPICKS LAB 워드마크 `img/tpicks-lab-logo.svg`이고, 누르면 TPICKS LAB 첫 화면(https://tpickslab.vercel.app/)으로 갑니다(2026-11-13, 예전 `tpicks-logo-traced.svg` + LABS 글자에서 바꿈).
+
+첫 화면 구성(2026-11-13): 메인과 전문가 모집의 히어로를 교육앱 안전 점검기와 같은 구성으로 바꿨습니다. 왼쪽 인물 사진, 가운데 제목, 오른쪽 입체 로고, 옅은 격자 바탕과 치수선입니다. 색은 페이지마다 다릅니다(메인·지도·연수 레퍼런스·관리자는 초록, 전문가 모집은 주황). 예전 보라 계열 색을 밝기는 그대로 두고 색상만 옮긴 값입니다. 모양은 두 페이지가 함께 쓰는 `blueprint-hero.css`에 있고 각 페이지의 `<style>` 뒤에 불러 예전 히어로 규칙을 덮습니다. 히어로의 색 톤은 `<body class="tone-pool">`·`tone-recruit`에 맞춰 그 파일 맨 위 `--bp` 값으로 정합니다. 인물 사진 `img/maker-teacher.webp`·`img/recruit-teacher.webp`는 점검기 사진을 화풍 참고로 넣어 Codex `image_gen`으로 만든 투명 바탕 그림입니다(실제 인물이 아님). WebGL이 안 되면 `logo-fallback.webp`가 대신 보입니다.
 
 카카오톡 공유: `window.TPICKS_KAKAO_JS_KEY`가 있으면 카카오 SDK로 보냅니다. 키가 없으면 안드로이드는 카카오톡 공유 화면(intent)을 바로 열고, 아이폰 등은 휴대폰 공유 메뉴를 엽니다. 공유 메뉴가 없는 기기에서는 공고 링크를 복사합니다.
 

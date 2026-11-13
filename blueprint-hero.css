@@ -1,0 +1,72 @@
+/* 점검기와 같은 구성의 첫 화면: 왼쪽 인물 사진 · 가운데 제목 · 오른쪽 입체 로고, 바탕은 옅은 격자.
+   메이커풀(index.html)과 전문가 모집(experts.html)이 함께 쓴다. 각 페이지의 <style> 뒤에 불러서 예전 히어로 규칙을 덮는다.
+   색 톤은 <body class="tone-…">에 맞춰 아래 --bp 값으로 정한다. */
+/* 메이커풀은 초록, 전문가 모집은 보라. 초록은 보라 값에서 밝기는 그대로 두고 색상만 옮긴 것이다. */
+body.tone-pool{--bp:#007e56;--bp-deep:#006745;--bp-line:#4fc593;--bp-soft:#b5e2ca;--bp-ink:#00190d;--bp-paper:#f8fcfa;--bp-tint:#e1f5ea;--bp-rule:#c5e8d5;--bp-grid:#007e5607;--bp-grid2:#007e560a;--bp-shadow:#00573a0a;--bp-shadow2:#00573a1f;--bp-photo:#003c2610;--bp-btn1:#00875b;--bp-btn2:#00724c;--bp-sub:#66706c}
+body.tone-recruit{--bp:#7a4cf2;--bp-deep:#5f33dd;--bp-line:#b9a3ff;--bp-soft:#dcd2fb;--bp-ink:#150f2e;--bp-paper:#fcfbff;--bp-tint:#f2edff;--bp-rule:#e3dbfb;--bp-grid:#7a4cf207;--bp-grid2:#7a4cf20a;--bp-shadow:#5b30aa0a;--bp-shadow2:#5b30aa1f;--bp-photo:#3b1d8010;--bp-btn1:#8255f5;--bp-btn2:#6c3fe8;--bp-sub:#6e6a7c}
+body{background-color:var(--bp-paper);background-image:linear-gradient(var(--bp-grid) 1px,transparent 1px),linear-gradient(90deg,var(--bp-grid) 1px,transparent 1px),linear-gradient(var(--bp-grid2) 1px,transparent 1px),linear-gradient(90deg,var(--bp-grid2) 1px,transparent 1px);background-size:16px 16px,16px 16px,80px 80px,80px 80px}
+
+/* 머리글: 세 사이트 공통(왼쪽 로고 · 오른쪽 작은 버튼). 메뉴 탭은 두지 않는다. */
+.top,.recruit-top{position:relative;min-height:50px;padding:0 max(24px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:12px;background:#ffffffeb;border-bottom:1px solid var(--bp-soft);backdrop-filter:blur(12px)}
+.top .logo,.recruit-top .recruit-brand{flex:none;padding:0;border-radius:0;background:none;box-shadow:none}
+.top .admin-link{padding:6px 12px;font-size:12px}
+
+.hero{position:relative;overflow:visible;background:linear-gradient(180deg,var(--bp-tint),transparent 72%);color:var(--bp-ink);border-bottom:1px solid var(--bp-rule)}
+.hero .hin,.hero .hero-inner{position:relative;max-width:1180px;min-height:0;margin:0 auto;padding:0 24px 30px;display:grid;grid-template-columns:27% minmax(0,1fr) 30%;gap:0 30px;align-content:start;align-items:stretch}
+
+/* 왼쪽: 인물 사진과 치수선 */
+.bp-measure{grid-column:1;grid-row:1;align-self:start;position:relative;height:150px;margin-top:34px;border-top:1px solid var(--bp-line);border-left:1px solid var(--bp-line);color:var(--bp);font:9px/1.4 Consolas,monospace}
+.bp-measure::before{content:'280';position:absolute;top:-7px;left:78%;padding:0 8px;background:var(--bp-paper)}
+.bp-measure::after{content:'';position:absolute;left:12%;top:24px;width:min(200px,76%);aspect-ratio:1;border:1px dashed var(--bp-soft);border-radius:50%}
+.bp-measure span{position:absolute;left:8px;top:36px;font-size:7px;letter-spacing:.08em}
+.bp-portrait{grid-column:1;grid-row:1;align-self:end;position:relative;z-index:1;height:clamp(300px,31vw,410px);margin-top:22px;pointer-events:none}
+/* 사진은 오른쪽 끝을 기준으로 놓아 제목을 가리지 않게 하고, 잘린 왼쪽 끝은 흐리게 지운다 */
+.bp-portrait img{position:absolute;right:-4%;bottom:0;height:100%;width:auto;max-width:none;filter:drop-shadow(0 5px 8px var(--bp-photo));-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%);mask-image:linear-gradient(90deg,transparent,#000 8%)}
+
+/* 가운데: 작은 영문 줄, 큰 제목, 설명 */
+.hero .hx,.hero .hero-copy{grid-column:2;grid-row:1;align-self:center;position:relative;z-index:2;max-width:none;padding:46px 0 36px}
+.hero .eyebrow,.hero .hero-label{display:block;margin:0 0 14px;padding:0;border-radius:0;background:none;color:var(--bp);font-size:11px;font-weight:600;line-height:1.4;letter-spacing:.12em}
+.hero .hx h1,.hero .hero-heading{margin:0;font-size:clamp(30px,4vw,54px);font-weight:900;line-height:1.1;letter-spacing:-.055em;color:var(--bp-ink)}
+.hero .hx h1 .register-time{margin-left:8px;font-size:14px;font-weight:700;letter-spacing:0;color:var(--bp);opacity:1}
+.hero .hx p,.hero .hero-copy p{margin:16px 0 0;max-width:480px;font-size:clamp(13px,1.25vw,16px);line-height:1.65;font-weight:500;color:var(--bp-sub);opacity:1}
+.hero .hx p::after,.hero .hero-copy p::after{content:'';display:block;width:24px;height:3px;margin-top:14px;background:var(--bp)}
+
+/* 오른쪽: 입체 TPICKS 로고 */
+.hero .bp-object,.hero .hero-logo-side{grid-column:3;grid-row:1;align-self:center;position:relative;z-index:2;min-width:0;padding:0}
+.bp-dim{display:flex;align-items:center;gap:8px;color:var(--bp);font:9px/1 Consolas,monospace;letter-spacing:.1em}
+.bp-dim i{flex:1;height:1px;background:var(--bp-line)}
+.hero .brand,.hero .hero-3d{display:block;width:100%;max-width:none;height:clamp(120px,13vw,172px);min-height:0;margin:4px 0 0;color:var(--bp)}
+.hero .hero-logo-caption{padding:2px 0 0;text-align:center;font-size:9px;letter-spacing:.2em;color:var(--bp)}
+
+/* 아래: 버튼 줄 */
+.hero .hero-nav,.hero .hero-actions{grid-column:1/-1;position:relative;z-index:3;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:auto;margin:0}
+.hero .hero-nav .tnav,.hero .hero-action{min-height:60px;border:1px solid var(--bp-soft);border-radius:8px;background:#ffffffed;color:var(--bp-deep);box-shadow:0 4px 18px var(--bp-shadow);transition:border-color .15s,box-shadow .15s}
+.hero .hero-nav .tnav{padding:13px 18px;font-size:15px}
+.hero .hero-action{padding:12px 22px}
+.hero .hero-nav .tnav.ref,.hero .hero-action.lime{border-color:#cfe58a;background:#f1fbd5;color:#34490f}
+/* 주 버튼은 페이지 색으로 채운다(점검기의 파란 "점검 시작"과 같은 역할) */
+.hero .hero-nav .tnav:not(.ref),.hero .hero-action.white{border-color:transparent;background:linear-gradient(var(--bp-btn1),var(--bp-btn2));color:#fff}
+.hero .hero-nav .tnav:hover,.hero .hero-action:hover{transform:none;border-color:var(--bp);box-shadow:0 6px 20px var(--bp-shadow2)}
+.hero .hero-nav .tnav:focus-visible,.hero .hero-action:focus-visible{outline:3px solid var(--bp);outline-offset:3px}
+
+@media(max-width:760px){
+  .top,.recruit-top{padding:0 14px}
+}
+@media(max-width:900px){
+  .hero .hin,.hero .hero-inner{grid-template-columns:30% minmax(0,1fr);gap:0 18px}
+  .bp-portrait{height:300px}
+  .hero .bp-object,.hero .hero-logo-side{grid-column:1/-1;grid-row:2;width:100%;max-width:420px;margin:0 auto 14px}
+}
+@media(max-width:640px){
+  .hero .hin,.hero .hero-inner{grid-template-columns:36% minmax(0,1fr);gap:0 12px;padding:0 14px 22px}
+  .bp-measure{display:none}
+  .bp-portrait{height:200px;margin-top:16px}
+  .bp-portrait img{right:auto;left:50%;transform:translateX(-50%)}
+  .hero .hx,.hero .hero-copy{padding:26px 0 18px}
+  .hero .hx h1,.hero .hero-heading{font-size:clamp(24px,6.6vw,32px)}
+  .hero .hx h1 .register-time{margin-left:0;font-size:12px}
+  .hero .brand,.hero .hero-3d{height:110px}
+  .hero .hero-nav,.hero .hero-actions{grid-template-columns:1fr;gap:10px}
+  .hero .hero-nav .tnav,.hero .hero-action{min-height:54px}
+  .hero .hero-nav .tnav{font-size:14px}
+}

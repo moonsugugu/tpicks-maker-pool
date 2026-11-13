@@ -17,8 +17,8 @@
 :root {
   --color-fg: #1d2129; --color-fg-muted: #636b78; --color-bg: #f6f7f9; --color-panel: #ffffff;
   --color-border-line: #e2e5ea; --color-ok: #1f8a4c; --color-warn: #b7791f; --color-bad: #d14343;
-  --tpx-c1: #7A4CF2; --tpx-c2: #8DBA1C; --tpx-c3: #E0569B; --tpx-c4: #2F9E8F;
-  --tpx-c5: #F29B30; --tpx-c6: #4F7CF0; --tpx-c7: #B07CF5; --tpx-c8: #6E7F1F;
+  --tpx-c1: #007e56; --tpx-c2: #8DBA1C; --tpx-c3: #E0569B; --tpx-c4: #2F9E8F;
+  --tpx-c5: #F29B30; --tpx-c6: #4F7CF0; --tpx-c7: #00ab75; --tpx-c8: #6E7F1F;
   --font-anthropic-sans: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
   --font-anthropic-serif: "Noto Serif KR", "AppleMyungjo", "Batang", Georgia, serif;
   --cds-font-size-caption: 12px; --cds-font-size-body: 14px; --cds-font-size-heading: 16px; --cds-font-size-title: 28px;
@@ -34,8 +34,8 @@
   :root:not([data-theme="light"]) {
     --color-fg: #e8eaee; --color-fg-muted: #9aa1ad; --color-bg: #15171c; --color-panel: #1d2027;
     --color-border-line: #2e323b; --color-bad: #f07070;
-    --tpx-c1: #A685FF; --tpx-c2: #C9F24D; --tpx-c3: #F27DB5; --tpx-c4: #4FC4B3;
-    --tpx-c5: #F7B661; --tpx-c6: #7EA2FF; --tpx-c7: #C9A6FF; --tpx-c8: #A9BB45;
+    --tpx-c1: #00b078; --tpx-c2: #C9F24D; --tpx-c3: #F27DB5; --tpx-c4: #4FC4B3;
+    --tpx-c5: #F7B661; --tpx-c6: #7EA2FF; --tpx-c7: #58cb98; --tpx-c8: #A9BB45;
     --cds-chart-grid: #2a2e36; --cds-chart-muted: #59606c; --cds-chart-reference: #8a919c;
     --cds-surface-popover: #23262e; --cds-border: #353a44; --cds-shadow-popover: 0 6px 20px rgba(0, 0, 0, .45);
     --cds-text-secondary: #a3aab5; color-scheme: dark;
@@ -44,8 +44,8 @@
 :root[data-theme="dark"] {
   --color-fg: #e8eaee; --color-fg-muted: #9aa1ad; --color-bg: #15171c; --color-panel: #1d2027;
   --color-border-line: #2e323b; --color-bad: #f07070;
-  --tpx-c1: #A685FF; --tpx-c2: #C9F24D; --tpx-c3: #F27DB5; --tpx-c4: #4FC4B3;
-  --tpx-c5: #F7B661; --tpx-c6: #7EA2FF; --tpx-c7: #C9A6FF; --tpx-c8: #A9BB45;
+  --tpx-c1: #00b078; --tpx-c2: #C9F24D; --tpx-c3: #F27DB5; --tpx-c4: #4FC4B3;
+  --tpx-c5: #F7B661; --tpx-c6: #7EA2FF; --tpx-c7: #58cb98; --tpx-c8: #A9BB45;
   --cds-chart-grid: #2a2e36; --cds-chart-muted: #59606c; --cds-chart-reference: #8a919c;
   --cds-surface-popover: #23262e; --cds-border: #353a44; --cds-shadow-popover: 0 6px 20px rgba(0, 0, 0, .45);
   --cds-text-secondary: #a3aab5; color-scheme: dark;
@@ -140,16 +140,16 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
 <body>
 <style>
 .analysis-top,.analysis-hero,.analysis-top *,.analysis-hero *{box-sizing:border-box}
-.analysis-top{min-height:64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:10px 20px;background:#fff;border-bottom:1px solid #ECE9F3;font-family:var(--font-anthropic-sans)}
+.analysis-top{min-height:64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:10px 20px;background:#fff;border-bottom:1px solid #e2ede7;font-family:var(--font-anthropic-sans)}
 .analysis-top a{text-decoration:none}
-.analysis-logo{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;background:#fff;box-shadow:0 2px 12px rgba(30,20,60,.1);color:#1D1B25;font-size:19px;font-weight:900;letter-spacing:-.3px}
-.analysis-logo i{color:#4E9A06;font-style:normal}.logo-img{height:22px;width:auto;display:block}@media(max-width:760px){.logo-img{height:18px}}
+.analysis-logo{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;background:#fff;box-shadow:0 2px 12px rgba(0,32,19,.1);color:#131e19;font-size:19px;font-weight:900;letter-spacing:-.3px}
+.logo-img{height:18px;width:auto;display:block}@media(max-width:760px){.logo-img{height:18px}}
 .analysis-nav{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
-.analysis-nav a{padding:8px 14px;border-radius:999px;background:#F2EDFF;color:#5F33DD;font-size:14px;font-weight:800}
+.analysis-nav a{padding:8px 14px;border-radius:999px;background:#e1f5ea;color:#006745;font-size:14px;font-weight:800}
 .analysis-nav a:first-child{background:#F1FBD5;color:#3B5700}
 .analysis-nav a:hover{filter:brightness(.97)}
-.analysis-top a:focus-visible{outline:3px solid #7A4CF2;outline-offset:3px}
-.analysis-hero{background-color:#7A4CF2;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:68px 68px;color:#fff;font-family:var(--font-anthropic-sans)}
+.analysis-top a:focus-visible{outline:3px solid #007e56;outline-offset:3px}
+.analysis-hero{background-color:#007e56;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:68px 68px;color:#fff;font-family:var(--font-anthropic-sans)}
 .analysis-hero-inner{max-width:1180px;margin:0 auto;padding:38px 20px 40px}
 .analysis-pill{display:inline-block;padding:5px 11px;border-radius:999px;background:#C9F24D;color:#3B5700;font-size:11px;font-weight:900;letter-spacing:.8px}
 .analysis-hero h1{margin:14px 0 12px;font-size:clamp(28px,4.4vw,42px);line-height:1.3;letter-spacing:-1px;font-weight:900;word-break:keep-all}
@@ -157,7 +157,7 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
 .analysis-hero p{margin:0;max-width:860px;font-size:15px;line-height:1.75;word-break:keep-all;color:rgba(255,255,255,.92)}
 @media(max-width:640px){.analysis-top{padding:10px 12px}.analysis-logo{font-size:16px;padding:7px 10px}.analysis-nav{gap:6px}.analysis-nav a{font-size:12px;padding:7px 10px}.analysis-hero-inner{padding:30px 16px 32px}.analysis-hero h1{font-size:28px}.analysis-hero p{font-size:14px}}
 </style>
-<header class="analysis-top"><a class="analysis-logo" href="./"><i>↖</i><img class="logo-img" src="tpicks-3d/assets/tpicks-logo-traced.svg" alt="TPICKS" width="68" height="22">LABS</a><nav class="analysis-nav" aria-label="티픽스 연결 페이지"><a href="map.html">현재 등록된 메이커 강사풀</a><a href="./">메이커 강사 등록하기</a></nav></header>
+<header class="analysis-top"><a class="analysis-logo" href="https://tpickslab.vercel.app/" aria-label="TPICKS LAB 첫 화면으로"><img class="logo-img" src="img/tpicks-lab-logo.svg" alt="TPICKS LAB" width="130" height="18"></a><nav class="analysis-nav" aria-label="티픽스 연결 페이지"><a href="map.html">현재 등록된 메이커 강사풀</a><a href="./">메이커 강사 등록하기</a></nav></header>
 <section class="analysis-hero" aria-labelledby="analysis-title"><div class="analysis-hero-inner"><span class="analysis-pill">COURSE REFERENCE ANALYSIS</span><h1 id="analysis-title"><span>주요 연수원</span> <span>에듀테크·디지털 연수 분석</span></h1><p>주요 연수원과 교사 연구회의 공개 연수를 모았습니다. 분류별 연수 주제, 추천 커리큘럼, 기관별 운영 일정을 살펴보세요.</p><div class="sm-filter" id="filter">
     <label class="sm-search"><span class="sm-vh">연수 검색</span><input id="sm-q" class="sm-q" type="search" placeholder="연수명·목차·분류 검색 (예: 캔바, 앱스스크립트, 생기부)" autocomplete="off"></label>
     <span class="sm-chips-k">출처 켜고 끄기</span>
@@ -176,13 +176,13 @@ body { background: var(--color-bg); color: var(--color-fg); font-family: var(--f
 .wow-cat{cursor:pointer;outline:none}
 .wow-cat circle{fill:rgba(255,255,255,.05);stroke:rgba(255,255,255,.38);stroke-width:1.2;transition:fill .2s,stroke .2s}
 .wow-cat:hover circle,.wow-cat:focus-visible circle{fill:rgba(255,255,255,.18);stroke:#fff;stroke-width:2}
-.wow-cat text{fill:#fff;font-family:var(--font-anthropic-sans);font-weight:800;pointer-events:none;paint-order:stroke;stroke:#5F33DD;stroke-width:4px;stroke-linejoin:round}
-.analysis-hero .sm-filter{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:24px;padding:12px;border-radius:16px;background:rgba(255,255,255,.14);font-family:var(--font-anthropic-sans)}.analysis-hero .sm-search{flex:1 1 18rem;min-width:0}.analysis-hero .sm-q{background:#fff;color:#1D1B25;border:0;border-radius:12px;padding:11px 14px;font-size:15px}.analysis-hero .sm-q:focus{outline:3px solid #C9F24D;outline-offset:1px}.analysis-hero .sm-chips-k{color:#fff;font-size:13px;font-weight:800}.analysis-hero .sm-chipbtn{color:rgba(255,255,255,.88);border-color:rgba(255,255,255,.6);font-size:13px;font-weight:700;padding:5px 11px}.analysis-hero .sm-chipbtn:hover{color:#fff}.analysis-hero .sm-chipbtn[aria-pressed="true"]{color:#3B5700;background:#C9F24D;border-color:#C9F24D}.analysis-hero .sm-chipbtn[aria-pressed="true"] .sm-check{background:#3B5700;border-color:#3B5700}.analysis-hero .sm-chipbtn[aria-pressed="true"] .sm-check::after{border-color:#C9F24D}.analysis-hero .sm-allon{color:#fff;font-size:13px;font-weight:700}.wow-viz{min-width:0}.wow-bar{display:flex;align-items:center;gap:10px;min-height:34px;margin-bottom:4px}.wow-back{font:inherit;font-size:13px;font-weight:800;color:#5F33DD;background:#fff;border:0;border-radius:999px;padding:7px 14px;cursor:pointer}.wow-back:hover{background:#F1FBD5;color:#3B5700}.wow-back:focus-visible{outline:3px solid #C9F24D;outline-offset:2px}.wow-crumb{font-size:14px;font-weight:800;color:#fff;min-width:0}.wow-toggle{margin-left:auto;display:inline-flex;flex:none;padding:3px;border-radius:999px;background:rgba(255,255,255,.16)}.wow-toggle button{font:inherit;font-size:13px;font-weight:800;color:#fff;background:none;border:0;border-radius:999px;padding:6px 12px;cursor:pointer}.wow-toggle button[aria-pressed="true"]{background:#C9F24D;color:#3B5700}.wow-toggle button:focus-visible{outline:3px solid #fff;outline-offset:1px}.wow-note{display:block;margin-top:2px;font-size:11px;font-weight:700;color:rgba(255,255,255,.75)}.wow-cat text.wow-out{font-size:11px;stroke-width:3px}.wow-cat.is-picked circle{stroke:#C9F24D;stroke-width:3}.wow-empty{fill:#fff;font-size:16px;font-weight:700}@media(max-width:860px){.wow{grid-template-columns:1fr}.wow-stat b{font-size:22px}}
+.wow-cat text{fill:#fff;font-family:var(--font-anthropic-sans);font-weight:800;pointer-events:none;paint-order:stroke;stroke:#006745;stroke-width:4px;stroke-linejoin:round}
+.analysis-hero .sm-filter{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:24px;padding:12px;border-radius:16px;background:rgba(255,255,255,.14);font-family:var(--font-anthropic-sans)}.analysis-hero .sm-search{flex:1 1 18rem;min-width:0}.analysis-hero .sm-q{background:#fff;color:#131e19;border:0;border-radius:12px;padding:11px 14px;font-size:15px}.analysis-hero .sm-q:focus{outline:3px solid #C9F24D;outline-offset:1px}.analysis-hero .sm-chips-k{color:#fff;font-size:13px;font-weight:800}.analysis-hero .sm-chipbtn{color:rgba(255,255,255,.88);border-color:rgba(255,255,255,.6);font-size:13px;font-weight:700;padding:5px 11px}.analysis-hero .sm-chipbtn:hover{color:#fff}.analysis-hero .sm-chipbtn[aria-pressed="true"]{color:#3B5700;background:#C9F24D;border-color:#C9F24D}.analysis-hero .sm-chipbtn[aria-pressed="true"] .sm-check{background:#3B5700;border-color:#3B5700}.analysis-hero .sm-chipbtn[aria-pressed="true"] .sm-check::after{border-color:#C9F24D}.analysis-hero .sm-allon{color:#fff;font-size:13px;font-weight:700}.wow-viz{min-width:0}.wow-bar{display:flex;align-items:center;gap:10px;min-height:34px;margin-bottom:4px}.wow-back{font:inherit;font-size:13px;font-weight:800;color:#006745;background:#fff;border:0;border-radius:999px;padding:7px 14px;cursor:pointer}.wow-back:hover{background:#F1FBD5;color:#3B5700}.wow-back:focus-visible{outline:3px solid #C9F24D;outline-offset:2px}.wow-crumb{font-size:14px;font-weight:800;color:#fff;min-width:0}.wow-toggle{margin-left:auto;display:inline-flex;flex:none;padding:3px;border-radius:999px;background:rgba(255,255,255,.16)}.wow-toggle button{font:inherit;font-size:13px;font-weight:800;color:#fff;background:none;border:0;border-radius:999px;padding:6px 12px;cursor:pointer}.wow-toggle button[aria-pressed="true"]{background:#C9F24D;color:#3B5700}.wow-toggle button:focus-visible{outline:3px solid #fff;outline-offset:1px}.wow-note{display:block;margin-top:2px;font-size:11px;font-weight:700;color:rgba(255,255,255,.75)}.wow-cat text.wow-out{font-size:11px;stroke-width:3px}.wow-cat.is-picked circle{stroke:#C9F24D;stroke-width:3}.wow-empty{fill:#fff;font-size:16px;font-weight:700}@media(max-width:860px){.wow{grid-template-columns:1fr}.wow-stat b{font-size:22px}}
 </style><script>
 (() => {
-  const HP = ['#E2D6FF', '#C9F24D', '#FF9CCB', '#7FE3D2', '#FFC27A', '#B5CBFF', '#F0E2FF', '#DDEB8F'];
+  const HP = ['#b9e7cf', '#C9F24D', '#FF9CCB', '#7FE3D2', '#FFC27A', '#B5CBFF', '#cfefde', '#DDEB8F'];
   // 중분류 진하기의 시작 색(같은 대분류 색의 진한 쪽). 보라는 배경과 겹치지 않게 조금 밝게
-  const SP = ['#C4AEFF', '#B5E02F', '#F27DB5', '#4FC4B3', '#F7B661', '#7EA2FF', '#C9A6FF', '#A9BB45'];
+  const SP = ['#6acd9f', '#B5E02F', '#F27DB5', '#4FC4B3', '#F7B661', '#7EA2FF', '#58cb98', '#A9BB45'];
   const W = 560, H = 420, red = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let svg, dots, rings, last = null, unit = 'n';
   // 차시: '2차시' 그대로, '2시간'·'36분'은 1시간=1차시로 환산(최소 1), '2차시 / 3차시'는 앞의 값, 비어 있으면 0

@@ -54,7 +54,7 @@ function requireRecruitAuth(next) {
 }
 function recruitHeader() {
   const head = el('recruitHeader');
-  head.innerHTML = `<a href="./" class="recruit-brand">↖ <img class="logo-img" src="tpicks-3d/assets/tpicks-logo-traced.svg" alt="TPICKS" width="68" height="22"> LABS</a><div>${recruitUser ? `<span class="recruit-email">${esc(recruitUser.email)}</span><button class="btn small" id="recruitLogout">로그아웃</button>${recruitUser.admin ? '<a class="btn small" href="#admin" id="recruitAdminLink">운영자 관리</a>':''}`:'<button class="btn small" id="recruitLogin">관리자 로그인</button>'}</div>`;
+  head.innerHTML = `<a href="https://tpickslab.vercel.app/" class="recruit-brand" aria-label="TPICKS LAB 첫 화면으로"><img class="logo-img" src="img/tpicks-lab-logo.svg" alt="TPICKS LAB" width="130" height="18"></a><div>${recruitUser ? `<span class="recruit-email">${esc(recruitUser.email)}</span><button class="btn small" id="recruitLogout">로그아웃</button>${recruitUser.admin ? '<a class="btn small" href="#admin" id="recruitAdminLink">운영자 관리</a>':''}`:'<button class="btn small" id="recruitLogin">관리자 로그인</button>'}</div>`;
   el('recruitLogin')?.addEventListener('click',()=>showRecruitLogin());
   el('recruitLogout')?.addEventListener('click',async()=>{
     if (recruitBusy) { toast('저장이 끝난 뒤 로그아웃해 주세요.'); return; }
