@@ -7,7 +7,8 @@ const cachedShapes = new Map();
 const inlineCSS = `
   :host { display:block; position:relative; min-height:120px; isolation:isolate; }
   .viewport { position:relative; width:100%; height:100%; min-height:inherit; overflow:hidden; }
-  canvas { position:absolute; inset:0; display:block; width:100%; height:100%; touch-action:pan-y; }
+  canvas { position:absolute; inset:0; display:block; width:100%; height:100%; touch-action:pan-y; cursor:grab; }
+  .held canvas { cursor:grabbing; }
   .fallback { position:absolute; left:14%; top:50%; width:72%; height:auto; transform:translateY(-50%); object-fit:contain; }
   .ready .fallback { opacity:0; pointer-events:none; }
   .pause { position:absolute; bottom:10px; right:12px; color:inherit; background:rgba(127,127,127,.1); border:1px solid currentColor; border-radius:50%; width:32px; height:32px; cursor:pointer; font:14px system-ui; opacity:.55; z-index:2; }
@@ -50,7 +51,7 @@ export async function mountTPICKSLogo(host, options = {}) {
     button.setAttribute('aria-pressed', String(paused));
   };
   updateButton();
-  if (options.controls !== false) viewport.append(button);
+  // 멈춤 버튼은 두지 않는다(2026-11-14). 대신 잡고 끌 수 있다.
   const renderOnce = () => {
     if (renderer && model && !stopped) {
       renderer.render(scene, camera);
@@ -80,7 +81,7 @@ export async function mountTPICKSLogo(host, options = {}) {
   };
   const start = () => {
     lastTime = 0;
-    if (!raf && model && visible && !document.hidden && !stopped) raf = requestAnimationFrame(frame);
+    if (!raf && !held && model && visible && !document.hidden && !stopped) raf = requestAnimationFrame(frame);
   };
   const stopFrames = () => { cancelAnimationFrame(raf); raf = 0; lastTime = 0; };
   const pointerMove = event => {
@@ -90,6 +91,38 @@ export async function mountTPICKSLogo(host, options = {}) {
     pointer.x = THREE.MathUtils.clamp((event.clientX - rect.left) / rect.width * 2 - 1, -1, 1);
     pointer.y = THREE.MathUtils.clamp((event.clientY - rect.top) / rect.height * 2 - 1, -1, 1);
   };
+  // 잡고 끌기: 잡는 순간 움직임을 멈추고 로고가 마우스를 따라온다.
+  // 놓으면 제자리로 돌아오고, 다 돌아오면 로고를 감싼 링크로 간다. 짧게 누르면 링크가 평소대로 바로 열린다.
+  let held = false, startX = 0, startY = 0, moved = 0;
+  const holdMove = event => {
+    if (!held) return;
+    const dx = event.clientX - startX, dy = event.clientY - startY;
+    moved = Math.max(moved, Math.hypot(dx, dy));
+    host.style.transform = `translate(${dx}px,${dy}px)`;
+  };
+  const holdStart = event => {
+    if (event.button !== 0 || event.pointerType === 'touch') return;  // 터치는 끌지 않고 누르면 이동
+    event.preventDefault();
+    held = true; moved = 0; startX = event.clientX; startY = event.clientY;
+    stopFrames();
+    host.style.transition = 'none'; host.style.zIndex = '30'; viewport.classList.add('held');
+  };
+  const holdEnd = () => {
+    if (!held) return;
+    viewport.classList.remove('held');
+    const resume = () => { held = false; host.style.transition = ''; host.style.transform = ''; host.style.zIndex = ''; start(); };
+    if (moved < 6) { resume(); return; }
+    const link = host.closest('a')?.href;
+    let finished = false;
+    const done = () => { if (finished) return; finished = true; host.removeEventListener('transitionend', done); resume(); if (link) location.href = link; };
+    host.addEventListener('transitionend', done);
+    setTimeout(done, 900);  // transitionend가 오지 않아도 이동
+    host.style.transition = motionQuery.matches ? 'transform .01s linear' : 'transform .6s cubic-bezier(.2,.9,.25,1)';
+    host.style.transform = 'translate(0px,0px)';
+  };
+  // 끌었다 놓을 때 생기는 클릭은 막는다(제자리로 돌아온 뒤에 이동)
+  const holdClick = event => { if (moved >= 6) { event.preventDefault(); event.stopPropagation(); moved = 0; } };
+  const noNativeDrag = event => event.preventDefault();
   const pointerLeave = () => { active = false; pointer.x = 0; pointer.y = 0; };
   const visibilityChange = () => { document.hidden ? stopFrames() : start(); };
   const motionChange = () => {
@@ -103,6 +136,12 @@ export async function mountTPICKSLogo(host, options = {}) {
   button.addEventListener('click', toggle);
   viewport.addEventListener('pointermove', pointerMove);
   viewport.addEventListener('pointerleave', pointerLeave);
+  viewport.addEventListener('pointerdown', holdStart);
+  document.addEventListener('pointermove', holdMove);
+  document.addEventListener('pointerup', holdEnd);
+  document.addEventListener('pointercancel', holdEnd);
+  host.addEventListener('click', holdClick, true);
+  host.addEventListener('dragstart', noNativeDrag);
   document.addEventListener('visibilitychange', visibilityChange);
   motionQuery.addEventListener('change', motionChange);
 
@@ -123,6 +162,11 @@ export async function mountTPICKSLogo(host, options = {}) {
       button.removeEventListener('click', toggle);
       viewport.removeEventListener('pointermove', pointerMove);
       viewport.removeEventListener('pointerleave', pointerLeave);
+      document.removeEventListener('pointermove', holdMove);
+      document.removeEventListener('pointerup', holdEnd);
+      document.removeEventListener('pointercancel', holdEnd);
+      host.removeEventListener('click', holdClick, true);
+      host.removeEventListener('dragstart', noNativeDrag);
       document.removeEventListener('visibilitychange', visibilityChange);
       motionQuery.removeEventListener('change', motionChange);
       if (model) disposeModel(model);
