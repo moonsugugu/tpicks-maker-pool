@@ -68,20 +68,23 @@
     reduce.addEventListener('change', () => { reduce.matches ? still() : start(); }, on);
 
     // 잡고 끌기
-    let sx = 0, sy = 0;
+    // dragging: 마우스를 누르고 있는 동안만 true. held: 놓은 뒤 제자리로 돌아가는 동안까지 움직임을 멈춰 둔다.
+    let sx = 0, sy = 0, dragging = false, back = 0;
     img.addEventListener('pointerdown', e => {
       if (e.button !== 0 || e.pointerType === 'touch') return;
       e.preventDefault();
-      held = true; sx = e.clientX; sy = e.clientY; stop();
+      clearTimeout(back);
+      held = true; dragging = true; sx = e.clientX; sy = e.clientY; stop();
       box.classList.add('lo-held'); box.style.transition = 'none';
     });
-    document.addEventListener('pointermove', e => { if (held) box.style.transform = `translate(${e.clientX - sx}px,${e.clientY - sy}px)`; }, on);
+    document.addEventListener('pointermove', e => { if (dragging) box.style.transform = `translate(${e.clientX - sx}px,${e.clientY - sy}px)`; }, on);
     const release = () => {
-      if (!held) return;
+      if (!dragging) return;
+      dragging = false;
       box.style.transition = reduce.matches ? 'none' : 'transform .6s cubic-bezier(.2,.9,.25,1)';
       box.style.transform = '';
       const done = () => { box.classList.remove('lo-held'); box.style.transition = ''; held = false; start(); };
-      reduce.matches ? done() : setTimeout(done, 620);
+      reduce.matches ? done() : (back = setTimeout(done, 620));
     };
     document.addEventListener('pointerup', release, on);
     document.addEventListener('pointercancel', release, on);

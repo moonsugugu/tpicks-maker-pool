@@ -93,9 +93,9 @@ export async function mountTPICKSLogo(host, options = {}) {
   };
   // 잡고 끌기: 잡는 순간 움직임을 멈추고 로고가 마우스를 따라온다.
   // 놓으면 제자리로 돌아오고, 다 돌아오면 로고를 감싼 링크로 간다. 짧게 누르면 링크가 평소대로 바로 열린다.
-  let held = false, startX = 0, startY = 0, moved = 0;
+  let held = false, grabbing = false, startX = 0, startY = 0, moved = 0;  // grabbing: 누르고 있는 동안만
   const holdMove = event => {
-    if (!held) return;
+    if (!grabbing) return;
     const dx = event.clientX - startX, dy = event.clientY - startY;
     moved = Math.max(moved, Math.hypot(dx, dy));
     host.style.transform = `translate(${dx}px,${dy}px)`;
@@ -103,12 +103,13 @@ export async function mountTPICKSLogo(host, options = {}) {
   const holdStart = event => {
     if (event.button !== 0 || event.pointerType === 'touch') return;  // 터치는 끌지 않고 누르면 이동
     event.preventDefault();
-    held = true; moved = 0; startX = event.clientX; startY = event.clientY;
+    held = true; grabbing = true; moved = 0; startX = event.clientX; startY = event.clientY;
     stopFrames();
     host.style.transition = 'none'; host.style.zIndex = '30'; viewport.classList.add('held');
   };
   const holdEnd = () => {
-    if (!held) return;
+    if (!grabbing) return;
+    grabbing = false;  // 놓은 뒤 돌아가는 동안 마우스를 움직여도 다시 끌려가지 않게
     viewport.classList.remove('held');
     const resume = () => { held = false; host.style.transition = ''; host.style.transform = ''; host.style.zIndex = ''; start(); };
     if (moved < 6) { resume(); return; }
