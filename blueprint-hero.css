@@ -71,3 +71,8 @@ body{background-color:var(--bp-paper);background-image:linear-gradient(var(--bp-
   .hero .hero-nav .tnav,.hero .hero-action{min-height:54px}
   .hero .hero-nav .tnav{font-size:14px}
 }
+
+/* 인물 사진 대신 작은 모형(2026-11-14). 높이와 세로 가운데를 오른쪽 입체 TPICKS 로고에 맞춘다 */
+.bp-portrait.lab-object{align-self:center;height:clamp(120px,13vw,172px);margin-top:13px}
+.bp-portrait.lab-object img{inset:0;right:auto;width:100%;height:100%;object-fit:contain;transform:none;-webkit-mask-image:none;mask-image:none;filter:drop-shadow(0 10px 14px rgba(10,10,10,.14))}
+@media (max-width:640px){.bp-portrait.lab-object{height:110px;margin-top:0}}
