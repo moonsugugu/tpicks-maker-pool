@@ -1,5 +1,5 @@
 // 기존 비공개 응답 시트 하나를 사용한다. 인증 정보는 Script Cache에만 보관한다.
-const RECRUIT_VERSION = '2026-11-12.1';
+const RECRUIT_VERSION = '2026-11-22.1';
 const RECRUIT_SHEETS = {
   jobs: ['모집 공고', ['공고 ID', '담당자 이메일', '공개 상태', '등록 요청 ID', '최종 수정', '공고 JSON']],
   requests: ['모집 요청', ['요청 ID', '담당자 이메일', '검토 상태', '최종 수정', '공고 JSON']],
@@ -7,6 +7,8 @@ const RECRUIT_SHEETS = {
 };
 const RECRUIT_LEVELS = ['유치원', '초등', '중등', '고등', '특수'];
 const RECRUIT_TYPES = ['연수 강사', '콘텐츠 제작·집필', '검수·검토', '자문위원'];
+const RECRUIT_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const RECRUIT_IMAGE_FOLDER = '티픽스 모집 공고 상세 이미지';
 
 function recruitError_(message, code) { const e = new Error(message); e.code = code || 'VALIDATION'; throw e; }
 function recruitText_(value, max, label, required) {
@@ -73,7 +75,7 @@ function recruitCheckRevision_(existing, input) {
 }
 function recruitPublicJob_(j) {
   const result = {};
-  ['id','title','company','type','levels','seats','fee','deadline','period','summary','tasks','qualification','process','feeDetail','additionalDetails','fields','questions','published','closedAt','updatedAt','revision'].forEach(k => { if (j[k] !== undefined) result[k] = j[k]; });
+  ['id','title','company','type','levels','seats','fee','deadline','period','summary','tasks','qualification','process','feeDetail','additionalDetails','fields','questions','detailImages','published','closedAt','updatedAt','revision'].forEach(k => { if (j[k] !== undefined) result[k] = j[k]; });
   return result;
 }
 function recruitPublic_() {
@@ -130,7 +132,41 @@ function recruitJobInput_(d) {
   if (!Array.isArray(d.fields) || d.fields.length > 20) recruitError_('희망 분야를 확인해 주세요.');
   result.fields = [...new Set(d.fields.map(f => recruitText_(f,80,'희망 분야',true)))];
   result.questions = recruitQuestions_(d);
+  result.detailImages = recruitImages_(d.detailImages);
   return result;
+}
+// 상세페이지 그림은 Drive 파일 ID만 공고에 저장한다. 순서를 지키고 같은 그림은 한 번만 넣는다.
+function recruitImages_(v) {
+  if (v == null) return [];
+  if (!Array.isArray(v) || v.length > 5) recruitError_('상세페이지 그림은 5장까지 올릴 수 있습니다.');
+  v.forEach(id => { if (typeof id !== 'string' || !/^[A-Za-z0-9_-]{10,100}$/.test(id)) recruitError_('상세페이지 그림 정보가 올바르지 않습니다.'); });
+  return [...new Set(v)];
+}
+function recruitImageFolder_() {
+  const props = PropertiesService.getScriptProperties(), id = props.getProperty('RECRUIT_IMAGE_FOLDER');
+  if (id) { try { const folder = DriveApp.getFolderById(id); if (!folder.isTrashed()) return folder; } catch (_) {} }
+  // ponytail: 잠금 없이 만든다. 폴더가 없을 때 두 사람이 동시에 올리면 폴더가 둘 생길 수 있어 setupRecruitImages로 미리 만든다.
+  const folder = DriveApp.createFolder(RECRUIT_IMAGE_FOLDER);
+  props.setProperty('RECRUIT_IMAGE_FOLDER', folder.getId());
+  return folder;
+}
+function recruitUploadImage_(d, user) {
+  if (RECRUIT_IMAGE_TYPES.indexOf(d.mime) < 0) recruitError_('JPG, PNG, WEBP 그림만 올릴 수 있습니다.');
+  if (typeof d.data !== 'string' || d.data.length > 7000000) recruitError_('그림은 한 장에 5MB 이하로 올려 주세요.');
+  const cache = CacheService.getScriptCache(), countKey = 'recruit:uploads:' + user.email, count = Number(cache.get(countKey) || 0);
+  if (count >= 40) recruitError_('그림을 너무 많이 올렸습니다. 한 시간 뒤에 다시 올려 주세요.');
+  let bytes;
+  try { bytes = Utilities.base64Decode(d.data); } catch (_) { recruitError_('그림 파일을 읽지 못했습니다.'); }
+  if (!bytes.length || bytes.length > 5 * 1024 * 1024) recruitError_('그림은 한 장에 5MB 이하로 올려 주세요.');
+  // 파일 앞부분으로 실제 그림인지 확인한다(이름·형식 표시는 브라우저가 보낸 값이라 믿지 않는다).
+  const b = i => bytes[i] & 255, text = (i, n) => String.fromCharCode.apply(null, Array.from({length:n}, (_, k) => b(i + k)));
+  const real = d.mime === 'image/jpeg' ? b(0) === 0xFF && b(1) === 0xD8 && b(2) === 0xFF : d.mime === 'image/png' ? b(0) === 0x89 && text(1, 3) === 'PNG' : text(0, 4) === 'RIFF' && text(8, 4) === 'WEBP';
+  if (!real) recruitError_('그림 파일을 읽지 못했습니다.');
+  cache.put(countKey, String(count + 1), 3600);
+  const name = String(d.name || '').replace(/[^\w가-힣.\- ]/g, '').slice(0, 80) || '그림';
+  const file = recruitImageFolder_().createFile(Utilities.newBlob(bytes, d.mime, '공고그림-' + recruitNow_().slice(0, 10) + '-' + name));
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  return {id: file.getId()};
 }
 function recruitOwned_(kind, id, user) {
   const record = recruitGet_(kind, id);
@@ -199,6 +235,7 @@ function recruitHandle_(d) {
   const op = d.op;
   if (op === 'snapshot') return {data:recruitSnapshot_(recruitUser_(d.token,true)),version:RECRUIT_VERSION};
   if (op === 'googleLogin') return recruitGoogle_(d.credential);
+  if (op === 'uploadImage') return recruitUploadImage_(d, recruitUser_(d.token));
   const lock = LockService.getScriptLock(); lock.waitLock(20000);
   try {
     const user = recruitUser_(d.token);
@@ -251,6 +288,11 @@ function setupRecruitment() {
     }
     SpreadsheetApp.flush(); Logger.log('전문가 모집 시트 3개와 기존 모집 공고 연결 완료. 예시 공고는 등록하지 않았습니다.');
   } finally { lock.releaseLock(); }
+}
+
+// 편집기에서 한 번 실행한다. 상세 그림 폴더를 만들거나 찾고(이때 Drive 권한을 허용합니다) 폴더 ID를 기록한다.
+function setupRecruitImages() {
+  Logger.log('모집 공고 상세 그림 폴더 ID: ' + recruitImageFolder_().getId());
 }
 
 // 편집기에서만 실행하는 연결 검사. 새 검토 대기 요청을 저장·조회·수정하고 그 검사 행만 정리한다.

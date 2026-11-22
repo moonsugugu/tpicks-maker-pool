@@ -123,15 +123,69 @@ openApply = function(id, appId=null) {
   },{capture:true});
 };
 
+// 상세페이지 그림: 브라우저에서 가로 1400px 이하 JPEG로 줄여 한 장씩 올리고, 공고에는 Drive 파일 ID만 넣습니다.
+const DETAIL_IMAGE_MAX = 5;
+async function shrinkDetailImage(file) {
+  const url = URL.createObjectURL(file), img = new Image();
+  try {
+    img.src = url; await img.decode().catch(() => { throw new Error('그림 파일을 열지 못했습니다: ' + file.name); });
+    const w = img.naturalWidth, h = img.naturalHeight;
+    // 휴대폰 브라우저의 캔버스 한도(약 1,600만 화소)도 넘지 않게 줄입니다.
+    const scale = Math.min(1, 1400 / w, 16000 / h, Math.sqrt(16000000 / (w * h)));
+    const canvas = document.createElement('canvas'); canvas.width = Math.max(1, Math.round(w * scale)); canvas.height = Math.max(1, Math.round(h * scale));
+    const ctx = canvas.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    for (const quality of [0.86, 0.7, 0.55]) {
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', quality));
+      if (blob && blob.size <= 5 * 1024 * 1024) return blob;
+    }
+    throw new Error('그림이 너무 큽니다. 더 작은 그림으로 올려 주세요: ' + file.name);
+  } finally { URL.revokeObjectURL(url); }
+}
+const blobBase64 = blob => new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(String(reader.result).split(',')[1]); reader.onerror = () => reject(new Error('그림 파일을 읽지 못했습니다.')); reader.readAsDataURL(blob); });
+function mountDetailImages(form, before, ids) {
+  if (form.detailImages) return;
+  form.detailImages = (Array.isArray(ids) ? ids : []).filter(id => DETAIL_IMAGE_ID.test(id)).slice(0, DETAIL_IMAGE_MAX);
+  const box = document.createElement('div'); box.className = 'form-group';
+  box.innerHTML = `<label for="detailImageInput">상세페이지 그림 (선택, 최대 ${DETAIL_IMAGE_MAX}장)</label><span class="hint">공고를 열면 이 그림이 올린 순서대로 맨 위에 먼저 보입니다. JPG·PNG·WEBP 그림을 가로 1400px 이하로 줄여 올립니다.</span><input type="file" id="detailImageInput" accept="image/png,image/jpeg,image/webp" multiple><p class="hint" role="status" data-image-status></p><div class="detail-image-list" data-image-list></div>`;
+  before.before(box);
+  const input = box.querySelector('input'), status = box.querySelector('[data-image-status]'), list = box.querySelector('[data-image-list]');
+  const draw = () => {
+    list.innerHTML = form.detailImages.map((id, i) => `<figure><img src="https://lh3.googleusercontent.com/d/${id}=w200" alt="상세 그림 ${i + 1}"><figcaption>${i + 1}</figcaption><button type="button" data-remove-image="${i}" aria-label="상세 그림 ${i + 1} 빼기">×</button></figure>`).join('');
+    list.querySelectorAll('[data-remove-image]').forEach(b => b.onclick = () => { form.detailImages.splice(Number(b.dataset.removeImage), 1); draw(); });
+  };
+  input.onchange = async () => {
+    const files = [...input.files], room = DETAIL_IMAGE_MAX - form.detailImages.length; input.value = '';
+    if (files.length > room) toast(`상세페이지 그림은 ${DETAIL_IMAGE_MAX}장까지 올릴 수 있습니다.${room > 0 ? ' 앞의 ' + room + '장만 올립니다.' : ''}`);
+    const queue = files.slice(0, Math.max(room, 0)); if (!queue.length) return;
+    // 올리는 동안에는 제출하지 못하게 해서, 덜 올라간 그림이 빠진 채 저장되지 않게 합니다.
+    const controls = [input, ...form.querySelectorAll('button:not([type="button"])')]; controls.forEach(c => c.disabled = true);
+    try {
+      for (const [i, file] of queue.entries()) {
+        status.textContent = `그림 올리는 중 (${i + 1}/${queue.length}) · ${file.name}`;
+        if (file.type && !['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) throw new Error('JPG, PNG, WEBP 그림만 올릴 수 있습니다: ' + file.name);
+        const data = await blobBase64(await shrinkDetailImage(file));
+        const result = await recruitCall('uploadImage', {name: file.name.replace(/\.[^.]+$/, '') + '.jpg', mime: 'image/jpeg', data});
+        form.detailImages.push(result.id); draw();
+      }
+      status.textContent = `그림 ${queue.length}장을 올렸습니다.`;
+    } catch (error) {
+      // Apps Script를 새 버전으로 배포하기 전에는 서버가 이 요청을 모릅니다. 그림 없이도 공고는 제출됩니다.
+      status.textContent = /지원하지 않는 요청/.test(error.message) ? '그림 올리기를 아직 준비 중입니다. 운영자에게 알려 주세요. 그림 없이도 공고는 제출할 수 있습니다.' : error.message;
+    } finally { controls.forEach(c => c.disabled = false); }
+  };
+  draw();
+}
+
 const localCompanyForm = handleCompanyForm;
 handleCompanyForm = function() {
   localCompanyForm(); const form=el('companyForm'); if (!form) return;
   form.elements.contact.value=recruitUser.email; form.elements.contact.readOnly=true;
+  mountDetailImages(form,form.elements.agree.closest('label'),db.requests.find(r=>r.id===editingRequestId)?.detailImages);
   form.onsubmit=async e=>{
     e.preventDefault(); if (!form.reportValidity()) return;
     const f=new FormData(form), value=Object.fromEntries(f.entries()), existing=db.requests.find(r=>r.id===editingRequestId);
     value.id=existing?.id || (form.dataset.requestId ||= newRecordId('request')); value.revision=existing?.revision;
-    value.levels=f.getAll('levels'); value.fields=value.fields.split(',').map(s=>s.trim()).filter(Boolean); Object.assign(value,extractQuestionSettings(f,form)); value.agree=f.has('agree');
+    value.levels=f.getAll('levels'); value.fields=value.fields.split(',').map(s=>s.trim()).filter(Boolean); Object.assign(value,extractQuestionSettings(f,form)); value.agree=f.has('agree'); value.detailImages=form.detailImages;
     if (await recruitMutation('saveRequest',{value},'검토 대기로 접수했습니다.')) { editingRequestId=null; navigate('partner'); }
   };
 };
@@ -145,11 +199,12 @@ const localJobEditor = jobEditor;
 jobEditor = function(id) {
   if (!recruitUser?.admin) { toast('운영자만 공고를 편집할 수 있습니다.'); return; }
   localJobEditor(id); const form=el('jobForm'); if (!form) return;
+  mountDetailImages(form,form.elements.published.closest('.form-group'),db.jobs.find(j=>j.id===id)?.detailImages);
   form.onsubmit=async e=>{
     e.preventDefault(); if (!form.reportValidity()) return;
     const f=new FormData(form), value=Object.fromEntries(f.entries()), existing=db.jobs.find(j=>j.id===id);
     value.id=existing?.id || (form.dataset.jobId ||= newRecordId('job')); value.revision=existing?.revision;
-    value.levels=f.getAll('levels'); value.fields=value.fields.split(',').map(s=>s.trim()).filter(Boolean); value.published=f.has('published'); Object.assign(value,extractQuestionSettings(f,form));
+    value.levels=f.getAll('levels'); value.fields=value.fields.split(',').map(s=>s.trim()).filter(Boolean); value.published=f.has('published'); Object.assign(value,extractQuestionSettings(f,form)); value.detailImages=form.detailImages;
     if (await recruitMutation('saveJob',{value},'공고를 저장했습니다.')) { closeModal({force:true}); render(); }
   };
 };

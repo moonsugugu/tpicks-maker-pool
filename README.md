@@ -44,6 +44,10 @@ Apps Script 원본은 `apps-script/Code.gs`입니다. 편집기에 반영한 뒤
 
 배포 코드는 `node tools/build-apps-script.js <임시 파일 절대 경로>`로 `apps-script/Code.gs`와 `apps-script/Recruitment.gs`를 합칩니다. 기존 프로젝트의 Code.gs에 반영하고 운영자 이메일 속성을 설정한 다음 `setupRecruitment`를 한 번 실행한 뒤, 기존 웹 앱 배포를 새 버전으로 갱신합니다. `setupRecruitment`는 재실행해도 기존 공고·지원서를 덮어쓰지 않습니다. 검증 명령: `node tools/test-recruitment.js`, `node tools/test-pool.js`, `node tools/test-collab.js`. 실제 시트 연결 검사는 편집기에서 `testRecruitmentConnection`을 실행하며 검사로 생성한 요청 행만 정리합니다.
 
+상세페이지 그림(2026-11-22): 업체의 공고 등록 요청과 운영자 공고 편집에서 「상세페이지 그림 (선택, 최대 5장)」을 올릴 수 있습니다. 브라우저에서 가로 1400px 이하(세로는 16000px 이하) JPEG로 줄인 뒤 한 장씩 `uploadImage`로 보냅니다. 서버는 로그인한 사용자의 JPG·PNG·WEBP(파일 앞부분으로 확인, 한 장 5MB 이하, 한 사람이 한 시간에 40장까지)만 받아 운영자 구글 드라이브의 「티픽스 모집 공고 상세 이미지」 폴더(Script Properties `RECRUIT_IMAGE_FOLDER`)에 저장하고 "링크가 있는 모든 사용자 보기"로 공유합니다. 공고 JSON에는 Drive 파일 ID만 `detailImages`(최대 5개, 순서 유지)로 저장하며 승인 시 그대로 공고로 옮깁니다. 공고 상세를 열면 그림이 제목보다 먼저, 가로 꽉 차게 위아래로 이어서 보입니다(`lh3.googleusercontent.com/d/<ID>=w1600`, 실패하면 `drive.google.com/thumbnail`로 한 번 바꿈). 운영자의 「지원서 미리보기」에도 같은 그림이 보입니다. 그림이 없는 예전 공고는 예전과 똑같이 보입니다. 미리보기에서 ×로 뺀 그림이나 삭제한 공고의 그림 파일은 드라이브에서 자동으로 지워지지 않으므로, 삭제 요청이 오거나 공고를 지우면 운영자가 위 폴더에서 직접 지웁니다.
+
+상세페이지 그림 배포 순서: ① `node tools/build-apps-script.js <임시 파일 절대 경로>`로 합친 코드를 기존 Apps Script 프로젝트의 Code.gs에 붙여 넣고 저장합니다. ② 편집기에서 `setupRecruitImages`를 한 번 실행하고 구글 드라이브 권한을 허용합니다(실행 기록에 폴더 ID가 나옵니다). ③ 「배포 → 배포 관리 → 수정 → 새 버전」으로 기존 웹 앱 주소를 그대로 둔 채 배포합니다. 새 버전을 배포하기 전에는 그림 올리기가 "지원하지 않는 요청"으로 실패하며, 화면에는 "그림 올리기를 아직 준비 중입니다. 운영자에게 알려 주세요."가 보이고 공고는 그림 없이 제출됩니다.
+
 2026-11-11 운영 반영: 기존 웹 앱 주소의 버전 12에 배포했습니다. 운영 시트의 요청 저장·조회·수정 검사가 통과했고, 익명 공개 API·인증 없는 쓰기 거절·기존 강사풀 17건 응답 보존을 확인했습니다. 실제 메일 발송 검사는 수행하지 않았으며 인증 로직은 가짜 메일을 사용하는 자동·브라우저 검사로 확인했습니다.
 
 로고: `tpicks-3d/`는 TPICKS 3D 로고 패키지에서 사이트 실행에 필요한 파일만 옮긴 것입니다(Three.js r180, MIT). 메인·전문가 모집 첫 화면은 `<tpicks-logo-3d>` 입체 로고를 쓰고, 누르면 티픽스 누리집(https://tpicks.kr/)으로 갑니다. 다섯 페이지의 왼쪽 위 로고는 TPICKS LAB 워드마크 `img/tpicks-lab-logo.svg`이고, 누르면 TPICKS LAB 첫 화면(https://tpickslab.vercel.app/)으로 갑니다(2026-11-13, 예전 `tpicks-logo-traced.svg` + LABS 글자에서 바꿈).
