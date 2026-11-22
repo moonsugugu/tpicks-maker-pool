@@ -128,7 +128,8 @@ const DETAIL_IMAGE_MAX = 5;
 async function shrinkDetailImage(file) {
   const url = URL.createObjectURL(file), img = new Image();
   try {
-    img.src = url; await img.decode().catch(() => { throw new Error('그림 파일을 열지 못했습니다: ' + file.name); });
+    // 어떤 사진이든 브라우저가 열 수 있으면 JPEG로 바꿔 올립니다(못 여는 형식만 안내).
+    img.src = url; await img.decode().catch(() => { throw new Error('이 파일은 열지 못했습니다. 사진(JPG·PNG)으로 저장해 다시 첨부해 주세요: ' + file.name); });
     const w = img.naturalWidth, h = img.naturalHeight;
     // 휴대폰 브라우저의 캔버스 한도(약 1,600만 화소)도 넘지 않게 줄입니다.
     const scale = Math.min(1, 1400 / w, 16000 / h, Math.sqrt(16000000 / (w * h)));
@@ -146,7 +147,7 @@ function mountDetailImages(form, before, ids) {
   if (form.detailImages) return;
   form.detailImages = (Array.isArray(ids) ? ids : []).filter(id => DETAIL_IMAGE_ID.test(id)).slice(0, DETAIL_IMAGE_MAX);
   const box = document.createElement('div'); box.className = 'form-group';
-  box.innerHTML = `<label for="detailImageInput">상세페이지 그림 (선택, 최대 ${DETAIL_IMAGE_MAX}장)</label><span class="hint">공고를 열면 이 그림이 올린 순서대로 맨 위에 먼저 보입니다. JPG·PNG·WEBP 그림을 가로 1400px 이하로 줄여 올립니다.</span><input type="file" id="detailImageInput" accept="image/png,image/jpeg,image/webp" multiple><p class="hint" role="status" data-image-status></p><div class="detail-image-list" data-image-list></div>`;
+  box.innerHTML = `<label for="detailImageInput">사진·상세페이지 그림 첨부 (선택, 최대 ${DETAIL_IMAGE_MAX}장)</label><span class="hint">사진이나 그림을 그대로 첨부하면 됩니다. 공고를 열면 첨부한 순서대로 맨 위에 보입니다.</span><input type="file" id="detailImageInput" accept="image/*" multiple><p class="hint" role="status" data-image-status></p><div class="detail-image-list" data-image-list></div>`;
   before.before(box);
   const input = box.querySelector('input'), status = box.querySelector('[data-image-status]'), list = box.querySelector('[data-image-list]');
   const draw = () => {
@@ -162,7 +163,6 @@ function mountDetailImages(form, before, ids) {
     try {
       for (const [i, file] of queue.entries()) {
         status.textContent = `그림 올리는 중 (${i + 1}/${queue.length}) · ${file.name}`;
-        if (file.type && !['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) throw new Error('JPG, PNG, WEBP 그림만 올릴 수 있습니다: ' + file.name);
         const data = await blobBase64(await shrinkDetailImage(file));
         const result = await recruitCall('uploadImage', {name: file.name.replace(/\.[^.]+$/, '') + '.jpg', mime: 'image/jpeg', data});
         form.detailImages.push(result.id); draw();
